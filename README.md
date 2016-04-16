@@ -22,6 +22,9 @@ At the moment, this game really has no logic or story to it. Obviously, the back
 > Character / Player
 
 >> Base class
+
 >> Simple player logic
+
 >> Player States
+
 >> Extremely basic Animation State Machine
