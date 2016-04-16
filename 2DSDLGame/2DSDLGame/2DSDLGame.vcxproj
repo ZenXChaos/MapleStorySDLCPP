@@ -157,6 +157,7 @@
     <ClInclude Include="color.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="core.h" />
+    <ClInclude Include="mob_framework.h" />
     <ClInclude Include="sprite_framework.h" />
   </ItemGroup>
   <ItemGroup>

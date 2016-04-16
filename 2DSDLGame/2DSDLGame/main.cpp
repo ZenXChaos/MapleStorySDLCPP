@@ -14,13 +14,16 @@ int main(int argc, const char* argv[]) {
 
 	SDL_Window* window;
 	SDL_Surface* surface;
+	SDL_Surface* surface2;
 
 	window = SDL_CreateWindow("Hi", 100, 100, 300, 300, SDL_WINDOW_RESIZABLE);
 	surface = SDL_GetWindowSurface(window);
+	surface2 = SDL_GetWindowSurface(window);
 
 	SDL_Surface* color_surface = surface;
 
 	SDL_FillRect(surface, NULL, COLOR_WHITE);
+	SDL_FillRect(surface2, NULL, COLOR_WHITE);
 
 	bool b[4] = { 0,0,0,0 };
 	SDL_Rect rect;
@@ -37,8 +40,12 @@ int main(int argc, const char* argv[]) {
 	//SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(surface->format, 0x00, 0xff, 0xff));
 
 	PLAYER character(COLOR_RED, 10, 10);
+	MOB mush_mob(COLOR_RED, 200, 200);
+	mush_mob.setImage("mobs\\mush.bmp");
+	mush_mob.SetColorKey(surface);
+
 	character.setImage("character.bmp");
-	character.SetColorKey(surface);
+	character.SetColorKey(surface2);
 
 	Uint32 tick;
 	bool running = true;
@@ -57,6 +64,7 @@ int main(int argc, const char* argv[]) {
 						character.player_state = walk_front;
 
 						character.states.walking = true;
+						mush_mob.setImage("character.bmp");
 						break;
 					case SDLK_LEFT:
 						b[1] = 1;
@@ -84,7 +92,6 @@ int main(int argc, const char* argv[]) {
 					switch (event.key.keysym.sym) {
 					case SDLK_UP:
 						b[0] = 0;
-						character.displayPlayer(frame, surface);
 						if (character.player_state == walk_front) {
 							character.player_state = idle_front;
 						}
@@ -151,9 +158,12 @@ int main(int argc, const char* argv[]) {
 			rect.y++;
 		if (b[3])
 			rect.x++;
+
 		SDL_FillRect(surface, &surface->clip_rect, color);
-						
+		SDL_FillRect(surface2, &surface2->clip_rect, color);
+
 		character.displayPlayer(frame, surface);
+		mush_mob.displayPlayer(frame, surface2);
 		frame += 0.2f * character.animation_scrub;
 		if (frame > 6) {
 			frame = 0;
@@ -162,55 +172,6 @@ int main(int argc, const char* argv[]) {
 		SDL_UpdateWindowSurface(window);
 		limit_framerate(tick);
 	}
-
-	/*SPRITE character_sprite(COLOR_RED, 100, 100);
-	SPRITE character_sprite2(COLOR_GREEN, 200, 200);
-
-	SPRITE_GROUP main_sprites;
-
-	character.setImage("assets\\characters\\01\\standing_01\\0.bmp");
-	main_sprites.add(&character);
-	main_sprites.add(&character_sprite2);
-	main_sprites.remove(character_sprite);
-	main_sprites.draw(surface);
-
-	SDL_UpdateWindowSurface(window);
-
-
-	int last_winpos_x, last_winpos_y;
-
-	if (window == nullptr) {
-		cout << "Failed to to fully initialize SDL!:\n" << SDL_GetError();
-	}
-
-	SDL_Event event;
-
-	bool appOpen = true;
-
-	SDL_Delay(3000);
-
-	character.updateState_Next();
-	character.update();
-	SDL_UpdateWindowSurface(window);
-
-	while (appOpen) {
-
-		tick = SDL_GetTicks();
-
-		while (SDL_PollEvent(&event)) {
-			if (event.type == SDL_QUIT) {
-				appOpen = false;
-				
-			}
-
-			//CAP FPS at MAX_FRAMERATE (varaible `fps`)
-			limit_framerate(tick);
-			
-			SDL_GetWindowPosition(window, &last_winpos_x, &last_winpos_y);
-		}
-
-		SDL_UpdateWindowSurface(window);
-	}*/
 
 	SDL_DestroyWindow(window);
 	return 0;

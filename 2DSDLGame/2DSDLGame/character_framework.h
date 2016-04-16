@@ -20,12 +20,6 @@ public:
 
 class PLAYER : public SPRITE_IMAGE {
 
-
-public:
-	bool moving = false;
-	bool moveFix = false;
-	SDL_Rect player_pos[10];
-	SDL_Rect ppos;
 	SDL_Rect sprites_idle_left[10];
 	SDL_Rect sprites_idle_right[10];
 	SDL_Rect sprites_idle_front[10];
@@ -35,6 +29,12 @@ public:
 	SDL_Rect sprites_walk_back[10];
 	SDL_Rect sprites_walk_left[10];
 	SDL_Rect sprites_walk_right[10];
+
+public:
+	bool moving = false;
+	bool moveFix = false;
+	SDL_Rect player_pos[10];
+	SDL_Rect ppos;
 
 
 	PLAYER_STATES states;
