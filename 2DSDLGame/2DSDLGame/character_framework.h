@@ -32,21 +32,19 @@ public:
 
 	PLAYER_STATES states;
 
-	void addAnimation(SDL_Rect* clip, int row, int cnt)
+	void addAnimation(SDL_Rect* clip, int row, int cnt, int w, int h)
 	{
 		for (int i = 0; i < cnt; i += 1) {
-			clip[i].x = 0 + i * 64;
-			clip[i].y = row * 64;
-			clip[i].w = 64;
-			clip[i].h = 64;
+			clip[i].x = 0 + i * w;
+			clip[i].y = row * h;
+			clip[i].w = w;
+			clip[i].h = 5;
 		}
 	}
 
 
 
 	int player_state_index = 0;
-
-	vector<PLAYER_ANIM*> anims;
 
 	PLAYER(Uint32 color, int x, int y, int sprite_width = 46, int sprite_height = 78) : SPRITE_IMAGE(color, x, y, sprite_width, sprite_height) {
 		//update_properties();
@@ -58,15 +56,15 @@ public:
 		}
 		
 
-		addAnimation(sprites_idle_left, 2, 9);
-		addAnimation(sprites_idle_right, 0, 6);
-		addAnimation(sprites_idle_front, 3, 6);
-		addAnimation(sprites_idle_back, 1, 6);
+		addAnimation(sprites_idle_left, 2, 9, 64, 64);
+		addAnimation(sprites_idle_right, 0, 6, 64, 64);
+		addAnimation(sprites_idle_front, 3, 6, 64, 64);
+		addAnimation(sprites_idle_back, 1, 6, 64, 64);
 
-		addAnimation(sprites_walk_left, 11, 9);
-		addAnimation(sprites_walk_right, 9, 9);
-		addAnimation(sprites_walk_front, 8, 9);
-		addAnimation(sprites_walk_back, 10, 9);
+		addAnimation(sprites_walk_left, 11, 9, 64, 64);
+		addAnimation(sprites_walk_right, 9, 9, 64, 64);
+		addAnimation(sprites_walk_front, 8, 9, 64, 64);
+		addAnimation(sprites_walk_back, 10, 9, 64, 64);
 	}
 
 	void displayPlayer(int frame, SDL_Surface*surface) {
