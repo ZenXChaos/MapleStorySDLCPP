@@ -155,55 +155,7 @@ int main(int argc, const char* argv[]) {
 		SDL_UpdateWindowSurface(window);
 		limit_framerate(tick);
 	}
-
-	/*SPRITE character_sprite(COLOR_RED, 100, 100);
-	SPRITE character_sprite2(COLOR_GREEN, 200, 200);
-
-	SPRITE_GROUP main_sprites;
-
-	character.setImage("assets\\characters\\01\\standing_01\\0.bmp");
-	main_sprites.add(&character);
-	main_sprites.add(&character_sprite2);
-	main_sprites.remove(character_sprite);
-	main_sprites.draw(surface);
-
-	SDL_UpdateWindowSurface(window);
-
-
-	int last_winpos_x, last_winpos_y;
-
-	if (window == nullptr) {
-		cout << "Failed to to fully initialize SDL!:\n" << SDL_GetError();
-	}
-
-	SDL_Event event;
-
-	bool appOpen = true;
-
-	SDL_Delay(3000);
-
-	character.updateState_Next();
-	character.update();
-	SDL_UpdateWindowSurface(window);
-
-	while (appOpen) {
-
-		tick = SDL_GetTicks();
-
-		while (SDL_PollEvent(&event)) {
-			if (event.type == SDL_QUIT) {
-				appOpen = false;
-				
-			}
-
-			//CAP FPS at MAX_FRAMERATE (varaible `fps`)
-			limit_framerate(tick);
-			
-			SDL_GetWindowPosition(window, &last_winpos_x, &last_winpos_y);
-		}
-
-		SDL_UpdateWindowSurface(window);
-	}*/
+	
 
 	SDL_DestroyWindow(window);
 	return 0;
