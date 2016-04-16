@@ -9,20 +9,6 @@ public:
 	string bmp_path;
 };
 
-class PLAYER_ANIMATION_STATE {
-public:
-	string name_state;
-	vector<PLAYER_ANIMATION_DATA>* data = new vector<PLAYER_ANIMATION_DATA>();
-
-	int state_index = 0;
-
-	bool operator==(const PLAYER_ANIMATION_STATE &other) const {
-		return this->name_state == other.name_state;
-	}
-};
-
-class PLAYER_ANIM{};
-
 class PLAYER_STATES {
 public:
 	bool walking = false;
