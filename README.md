@@ -3,6 +3,8 @@
 
 At the moment, this game really has no logic or story to it. Obviously, the back-bones must first be built before adding things such as levels, missions, etc...
 
+![SS](https://raw.githubusercontent.com/ZenXChaos/2DSDLGame/master/SDLGame-SS.gif)
+
 ### Current Features
 
 > Basi Gameplay
