@@ -1,30 +1,19 @@
+
 #include <SDL.h>
 #include <iostream>
 #include <SDL_EVENTS.h>
-
-#define SDL_SRCCOLORKEY 0x00001000
 
 #include "core.h"
 
 
 #undef main
 
-void setrects(SDL_Rect* clip)
-{
-	for (int i = 0; i < 9; i += 1) {
-		clip[i].x = 0 + i * 64;
-		clip[i].y = 2*64;
-		clip[i].w = 64;
-		clip[i].h = 64;
-	}
-}
-
 
 int main(int argc, const char* argv[]) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	SDL_Window* window;
-	SDL_Surface* surface, *image;
+	SDL_Surface* surface;
 
 	window = SDL_CreateWindow("Hi", 100, 100, 300, 300, SDL_WINDOW_RESIZABLE);
 	surface = SDL_GetWindowSurface(window);
@@ -64,38 +53,27 @@ int main(int argc, const char* argv[]) {
 				case SDL_KEYDOWN:
 					switch (event.key.keysym.sym) {
 					case SDLK_UP:
-						for (int i = 0; i < 9; i++) {
-							character.player_pos[i].y--;
-						}
 						b[0] = 1;
-						character.player_state_index = 4;
+						character.player_state = walk_front;
 
 						character.states.walking = true;
 						break;
 					case SDLK_LEFT:
-						for (int i = 0; i < 9; i++) {
-							character.player_pos[i].x--;
-						}
 						b[1] = 1;
-						character.player_state_index = 6;
+						character.player_state = walk_left;
 
 						character.states.walking = true;
 						break;
 					case SDLK_DOWN:
-						for (int i = 0; i < 9; i++) {
-							character.player_pos[i].y++;
-						}
 						b[2] = 1;
-						character.player_state_index = 7;
+						character.player_state = walk_back;
 
 						character.states.walking = true;
 						break;
 					case SDLK_RIGHT:
-						for (int i = 0; i < 9; i++) {
-							character.player_pos[i].x++;
-						}
+
 						b[3] = 1;
-						character.player_state_index = 5;
+						character.player_state = walk_right;
 						break;
 
 					}
@@ -107,34 +85,63 @@ int main(int argc, const char* argv[]) {
 					case SDLK_UP:
 						b[0] = 0;
 						character.displayPlayer(frame, surface);
-						character.player_state_index = 3;
+						if (character.player_state == walk_front) {
+							character.player_state = idle_front;
+						}
 						
 						character.states.walking = false;
 						break;
 					case SDLK_LEFT:
 						b[1] = 0;
 
-						character.player_state_index = 2;
+						if (character.player_state == walk_left) {
+							character.player_state = idle_left;
+						}
 						character.states.walking = false;
 						break;
 					case SDLK_DOWN:
 						b[2] = 0;
 
-						character.player_state_index = 0;
+						character.moveFix = false; 
+						
+						if (character.player_state == walk_back) {
+							character.player_state = idle_back;
+						}
 						character.states.walking = false;
 						break;
 					case SDLK_RIGHT:
 						b[3] = 0;
 
-						character.player_state_index = 1;
+						if (character.player_state == walk_right) {
+							character.player_state = idle_right;
+						}
 						character.states.walking = false;
 						break;
 
 				}
 				break;
 			}
+
 		}
 
+		switch (character.player_state) {
+		case walk_left:
+
+			character.ppos.x--;
+			break;
+		case walk_right:
+
+			character.ppos.x++;
+			break;
+		case walk_back:
+
+			character.ppos.y++;
+			break;
+		case walk_front:
+
+			character.ppos.y--;
+			break;
+		}
 		//logic
 		if (b[0])
 			rect.y--;
@@ -147,7 +154,7 @@ int main(int argc, const char* argv[]) {
 		SDL_FillRect(surface, &surface->clip_rect, color);
 						
 		character.displayPlayer(frame, surface);
-		frame += 0.2;
+		frame += 0.2f * character.animation_scrub;
 		if (frame > 6) {
 			frame = 0;
 		}
@@ -155,7 +162,55 @@ int main(int argc, const char* argv[]) {
 		SDL_UpdateWindowSurface(window);
 		limit_framerate(tick);
 	}
-	
+
+	/*SPRITE character_sprite(COLOR_RED, 100, 100);
+	SPRITE character_sprite2(COLOR_GREEN, 200, 200);
+
+	SPRITE_GROUP main_sprites;
+
+	character.setImage("assets\\characters\\01\\standing_01\\0.bmp");
+	main_sprites.add(&character);
+	main_sprites.add(&character_sprite2);
+	main_sprites.remove(character_sprite);
+	main_sprites.draw(surface);
+
+	SDL_UpdateWindowSurface(window);
+
+
+	int last_winpos_x, last_winpos_y;
+
+	if (window == nullptr) {
+		cout << "Failed to to fully initialize SDL!:\n" << SDL_GetError();
+	}
+
+	SDL_Event event;
+
+	bool appOpen = true;
+
+	SDL_Delay(3000);
+
+	character.updateState_Next();
+	character.update();
+	SDL_UpdateWindowSurface(window);
+
+	while (appOpen) {
+
+		tick = SDL_GetTicks();
+
+		while (SDL_PollEvent(&event)) {
+			if (event.type == SDL_QUIT) {
+				appOpen = false;
+				
+			}
+
+			//CAP FPS at MAX_FRAMERATE (varaible `fps`)
+			limit_framerate(tick);
+			
+			SDL_GetWindowPosition(window, &last_winpos_x, &last_winpos_y);
+		}
+
+		SDL_UpdateWindowSurface(window);
+	}*/
 
 	SDL_DestroyWindow(window);
 	return 0;
