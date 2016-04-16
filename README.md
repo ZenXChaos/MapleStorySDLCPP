@@ -7,7 +7,7 @@ At the moment, this game really has no logic or story to it. Obviously, the back
 
 ### Current Features
 
-> Basi Gameplay
+> Basic Gameplay
 
 >> Movement, Key Events
 
