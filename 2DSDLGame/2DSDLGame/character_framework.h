@@ -38,7 +38,7 @@ public:
 			clip[i].x = 0 + i * w;
 			clip[i].y = row * h;
 			clip[i].w = w;
-			clip[i].h = 5;
+			clip[i].h = h;
 		}
 	}
 
