@@ -72,13 +72,10 @@ public:
 	PLAYER_STATE player_state = idle_front;
 
 	PLAYER(Uint32 color, int x, int y, int sprite_width = 46, int sprite_height = 78) : SPRITE_IMAGE(color, x, y, sprite_width, sprite_height) {
-		//update_properties();
-		for (int i = 0; i < 9; i += 1) {
-			player_pos[i].h = 64;
-			player_pos[i].w = 64;
-			player_pos[i].x = 10;
-			player_pos[i].y = 10;
-		}
+		
+		//Default player position
+		this->ppos.x = 200;
+		this->ppos.y = 10;
 		
 
 		addAnimation(sprites_idle_left, 1, 9, 64, 64);

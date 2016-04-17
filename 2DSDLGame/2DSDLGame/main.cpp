@@ -33,16 +33,16 @@ int main(int argc, const char* argv[]) {
 	rect.w = 20;
 	rect.h = 20;
 	Uint32 color = SDL_MapRGB(surface->format, 0xff, 0xff, 0xff);
-	Uint32 color2 = SDL_MapRGB(surface->format, 0, 0, 0);
+	Uint32 color2 = SDL_MapRGB(surface2->format, 0, 0, 0);
 	//image = SDL_LoadBMP("character.bmp");   // better to check later if image is NULL
 	//SDL_Rect rects[10];
 	//setrects(rects);
 	//SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(surface->format, 0x00, 0xff, 0xff));
 
 	PLAYER character(COLOR_RED, 10, 10);
-	MOB mush_mob(COLOR_RED, 200, 200);
-	mush_mob.setImage("mobs\\mush.bmp");
-	mush_mob.SetColorKey(surface);
+	MOB *shadewraith = new MOB(COLOR_RED, 116, 102, 116, 102);
+	shadewraith->setImage("mobs\\shadewraith\\standing\\left.bmp");
+	shadewraith->SetColorKey(surface);
 
 	character.setImage("character.bmp");
 	character.SetColorKey(surface2);
@@ -64,7 +64,7 @@ int main(int argc, const char* argv[]) {
 						character.player_state = walk_front;
 
 						character.states.walking = true;
-						mush_mob.setImage("character.bmp");
+						//shadewraith.setImage("character.bmp");
 						break;
 					case SDLK_LEFT:
 						b[1] = 1;
@@ -149,22 +149,17 @@ int main(int argc, const char* argv[]) {
 			character.ppos.y--;
 			break;
 		}
-		//logic
-		if (b[0])
-			rect.y--;
-		if (b[1])
-			rect.x--;
-		if (b[2])
-			rect.y++;
-		if (b[3])
-			rect.x++;
+		
+
 
 		SDL_FillRect(surface, &surface->clip_rect, color);
 		SDL_FillRect(surface2, &surface2->clip_rect, color);
 
+		shadewraith->displayPlayer(surface2);
 		character.displayPlayer(frame, surface);
-		mush_mob.displayPlayer(frame, surface2);
+
 		frame += 0.2f * character.animation_scrub;
+
 		if (frame > 6) {
 			frame = 0;
 		}
