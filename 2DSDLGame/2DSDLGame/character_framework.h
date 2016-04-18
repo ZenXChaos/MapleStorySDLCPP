@@ -1,4 +1,5 @@
 #pragma once
+
 enum PLAYER_STATE {
 	walk_left, walk_right,
 	walk_front, walk_back,
@@ -29,6 +30,7 @@ class PLAYER : public SPRITE_IMAGE {
 	SDL_Rect sprites_walk_back[10];
 	SDL_Rect sprites_walk_left[10];
 	SDL_Rect sprites_walk_right[10];
+
 
 public:
 	bool moving = false;
@@ -89,7 +91,21 @@ public:
 		addAnimation(sprites_walk_back, 10, 9, 64, 64);
 	}
 
-	void displayPlayer(float frame, SDL_Surface*surface) {
+	void displayPlayer(float frame, SDL_Surface*surface, SDL_Event &event, SDL2DGame::KeyInput^ KeyboardInput) {
+		if (KeyboardInput->isKeyHeld(event, SDL_SCANCODE_LEFT)) {
+			player_state = walk_left;
+		}
+		else if (KeyboardInput->isKeyHeld(event, SDL_SCANCODE_RIGHT)) {
+
+			player_state = walk_right;
+		}
+		else {
+			if (player_state == walk_left)
+				player_state = idle_left;
+			if (player_state == walk_right)
+				player_state = idle_right;
+		}
+
 		switch (player_state)
 		{
 
@@ -124,6 +140,25 @@ public:
 
 		case walk_back:
 			SDL_BlitSurface(sprite_image, &sprites_walk_back[static_cast<int>(frame)], surface, &ppos);
+			break;
+		}
+
+		switch (player_state) {
+		case walk_left:
+
+			ppos.x--;
+			break;
+		case walk_right:
+
+			ppos.x++;
+			break;
+		case walk_back:
+
+			ppos.y++;
+			break;
+		case walk_front:
+
+			ppos.y--;
 			break;
 		}
 	}

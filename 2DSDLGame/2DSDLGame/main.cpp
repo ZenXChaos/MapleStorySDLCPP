@@ -1,16 +1,24 @@
 
-#include <SDL.h>
-#include <iostream>
-#include <SDL_EVENTS.h>
 
 #include "core.h"
 
 
 #undef main
 
+namespace ZenXChaos {
+	public ref class CHAOS sealed {
+		CHAOS() {
+
+		}
+	};
+}
+
 
 int main(int argc, const char* argv[]) {
+	_CrtSetDbgFlag(_CRTDBG_CHECK_ALWAYS_DF);
 	SDL_Init(SDL_INIT_EVERYTHING);
+
+	SDL2DGame::KeyInput^ KeyboardInput = gcnew SDL2DGame::KeyInput();
 
 	SDL_Window* window;
 	SDL_Surface* surface;
@@ -26,12 +34,7 @@ int main(int argc, const char* argv[]) {
 	SDL_FillRect(surface2, NULL, COLOR_WHITE);
 
 	bool b[4] = { 0,0,0,0 };
-	SDL_Rect rect;
 	float frame = 0;
-	rect.x = 10;
-	rect.y = 10;
-	rect.w = 20;
-	rect.h = 20;
 	Uint32 color = SDL_MapRGB(surface->format, 0xff, 0xff, 0xff);
 	Uint32 color2 = SDL_MapRGB(surface2->format, 0, 0, 0);
 	//image = SDL_LoadBMP("character.bmp");   // better to check later if image is NULL
@@ -40,12 +43,16 @@ int main(int argc, const char* argv[]) {
 	//SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(surface->format, 0x00, 0xff, 0xff));
 
 	PLAYER character(COLOR_RED, 10, 10);
-	MOB *shadewraith = new MOB(COLOR_RED, 116, 102, 116, 102);
-	shadewraith->setImage("mobs\\shadewraith\\standing\\left.bmp");
-	shadewraith->SetColorKey(surface);
+	//MOB shadewraith(COLOR_RED, 116, 102, 116, 102);
+	//shadewraith.setImage("mobs\\shadewraith\\standing\\left.bmp");
+	//shadewraith.SetColorKey(surface2);
 
 	character.setImage("character.bmp");
 	character.SetColorKey(surface2);
+
+
+	SDL2DGame::MOB_SHADEWRAITH^ shaderWraith = gcnew SDL2DGame::MOB_SHADEWRAITH(116,102, surface2);
+
 
 	Uint32 tick;
 	bool running = true;
@@ -58,7 +65,7 @@ int main(int argc, const char* argv[]) {
 					running = false;
 					break;
 				case SDL_KEYDOWN:
-					switch (event.key.keysym.sym) {
+					/*switch (event.key.keysym.sym) {
 					case SDLK_UP:
 						b[0] = 1;
 						character.player_state = walk_front;
@@ -86,9 +93,12 @@ int main(int argc, const char* argv[]) {
 
 					}
 
-					character.states.walking = true;
+					character.states.walking = true;*/
+
+					KeyboardInput->keyDownEvent(event, tick);
 					break;
 				case SDL_KEYUP:
+					/*
 					switch (event.key.keysym.sym) {
 					case SDLK_UP:
 						b[0] = 0;
@@ -126,6 +136,9 @@ int main(int argc, const char* argv[]) {
 						break;
 
 				}
+					*/
+
+					KeyboardInput->keyUpEvent(event, tick);
 				break;
 			}
 
@@ -149,14 +162,14 @@ int main(int argc, const char* argv[]) {
 			character.ppos.y--;
 			break;
 		}
-		
-
 
 		SDL_FillRect(surface, &surface->clip_rect, color);
 		SDL_FillRect(surface2, &surface2->clip_rect, color);
 
-		shadewraith->displayPlayer(surface2);
-		character.displayPlayer(frame, surface);
+		shaderWraith->Draw();
+		//shadewraith.displayPlayer(surface);
+		character.displayPlayer(frame, surface, event, KeyboardInput);
+		
 
 		frame += 0.2f * character.animation_scrub;
 
@@ -168,6 +181,9 @@ int main(int argc, const char* argv[]) {
 		limit_framerate(tick);
 	}
 
+	shaderWraith->Kill();
+	SDL_FreeSurface(surface);
+	SDL_FreeSurface(surface2);
 	SDL_DestroyWindow(window);
 	return 0;
 }

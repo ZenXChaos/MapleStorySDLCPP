@@ -9,10 +9,10 @@ public:
 	int origin_x, origin_y;
 	SPRITE(Uint32 color, int x, int y, int sprite_width = 46, int sprite_height = 78) {
 		//Create Surface
-		sprite_image = SDL_CreateRGBSurface(0, sprite_width, sprite_height, 32, 0, 0, 0, 0);
+		//sprite_image = SDL_CreateRGBSurface(0, sprite_width, sprite_height, 32, 0, 0, 0, 0);
 
 		//FILL Image
-		SDL_FillRect(sprite_image, NULL, color);
+		//SDL_FillRect(sprite_image, NULL, color);
 
 		sprite_rect = sprite_image->clip_rect;
 
