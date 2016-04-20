@@ -1,0 +1,12 @@
+<maps>
+    <map name="lounge">
+        <properties>
+            <MaxMobSpawnCount value="8" />
+            <MobSpawnRate value="10" />
+        </properties>
+        
+        <spawning_mobs>
+            <Mob id="0" />
+        </spawning_mobs>
+    </map>
+</maps>

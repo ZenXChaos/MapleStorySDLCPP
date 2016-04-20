@@ -1,15 +1,23 @@
 #include <stdio.h>
+#include <string>
+
+#include <tinyxml2.h>
 
 #include <SDL.h>
 #include <SDL_image.h>
 #include <map>
 #include <vector>
 
+using namespace tinyxml2;
+using namespace std;
+
 #include "map.h"
-#include <tinyxml2.h>
 #include "player.h"
 
 int main(int argc, char* argv[]) {
+	GAME game;
+	game.loadMobList();
+	//return 1;
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	PLAYER player;
@@ -31,10 +39,6 @@ int main(int argc, char* argv[]) {
 
 	npc_jamie.winSurface = windowSurface;
 
-	
-	MOB_ENTITY shade(windowSurface, "mobs\\shadewraith\\standing\\left.bmp", 6, 696/6, 112, 75, 225, ShadeWraith);
-	shade.playerRect->y -= shade.playerRect->h/2;
-	shade.deltaTime = 0.2f;
 
 	MAP home_map;
 	
@@ -70,13 +74,14 @@ int main(int argc, char* argv[]) {
 
 		SDL_FillRect(windowSurface, &windowSurface->clip_rect, color);
 		home_map.displayMap(windowSurface);
+		game.displayAllMobs(windowSurface, player);
 		player.playAnimation(windowSurface);
-		npc_jamie.scanTarget();
+
 		npc_jamie.setTarget(player);
+		npc_jamie.scanTarget();
 		npc_jamie.collider.findCollision(player.playerRect);
 
 		npc_jamie.playAnimation(windowSurface);
-		shade.playAnimation(windowSurface);
 
 		SDL_UpdateWindowSurface(window);
 

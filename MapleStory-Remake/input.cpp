@@ -1,7 +1,7 @@
 #include <map>
 #include <vector>
 #include <SDL.h>
-
+#include <string>
 
 using namespace std;
 #include "input.h"

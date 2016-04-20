@@ -1,0 +1,10 @@
+<mobs>
+    <mob name="mush" id="0" Health="100">
+        <animations>
+            <anim name="idle_left" sprite="mobs\mush\standing\idle01_left.png" max_frames="2.9" delta="0.05" sprite_width="63" sprite_height="58" />
+            <anim name="idle_right" sprite="mobs\mush\standing\idle01_right.png" max_frames="2.9" delta="0.05" sprite_width="63" sprite_height="58" />
+            
+            <default_state name="idle_left" />
+        </animations>
+    </mob>
+</mobs>

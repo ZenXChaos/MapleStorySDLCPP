@@ -56,17 +56,23 @@ public:
 		return collideY;
 	}
 
-	bool isCollidedXY(SDL_Rect collider_pos) {
+	bool isCollidedXY(SDL_Rect collider_pos, std::string entity_name = "entity", void(*callback_collision_enter)(void) = NULL, void(*callback_collision_exit)(void) = NULL) {
 		if (isCollidedX(collider_pos) == true && isCollidedY(collider_pos) == true) {
-			if (lastCollide == 0) {
-				printf("Collision XY!\n");
+			if (lastCollide != 1) {
+				printf("Collision XY (%s) !\n", entity_name.c_str());
+				if (callback_collision_enter != NULL) {
+					callback_collision_enter();
+				}
 				lastCollide = 1;
 			}
 			return true;
 		}
 		else {
-			if (lastCollide == 1) {
+			if (lastCollide != 0) {
 				printf("CollisionXY Lost!\n");
+				if (callback_collision_exit != NULL) {
+					callback_collision_exit();
+				}
 				lastCollide = 0;
 			}
 
@@ -74,11 +80,12 @@ public:
 		}
 	}
 
-	void findCollision(SDL_Rect *target) {
+	bool findCollision(SDL_Rect *target, std::string entity_name = "entity", void(*callback_collision_enter)(void) = NULL, void(*callback_collision_exit)(void) = NULL) {
 		SDL_Rect trgt = *target;
 
 		isCollidedX(trgt);
 		isCollidedY(trgt);
-		isCollidedXY(trgt);
+
+		return isCollidedXY(trgt, entity_name);
 	}
 };
