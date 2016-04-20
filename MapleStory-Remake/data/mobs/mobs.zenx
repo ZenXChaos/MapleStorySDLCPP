@@ -1,10 +1,21 @@
 <mobs>
     <mob name="mush" id="0" Health="100">
         <animations>
-            <anim name="idle_left" sprite="mobs\mush\standing\idle01_left.png" max_frames="2.9" delta="0.05" sprite_width="63" sprite_height="58" />
-            <anim name="idle_right" sprite="mobs\mush\standing\idle01_right.png" max_frames="2.9" delta="0.05" sprite_width="63" sprite_height="58" />
+            <anim name="idle_left" sprite="mobs\mush\standing\idle01_left.png" max_frames="2.9" delta="0.05" sprite_width="63" sprite_height="58" yfactorup="0" />
+            <anim name="idle_right" sprite="mobs\mush\standing\idle01_right.png" max_frames="2.9" delta="0.05" sprite_width="63" sprite_height="58" yfactorup="0" />
+            <anim name="walk_left" sprite="mobs\mush\walking\walking01_left.png" max_frames="2.9" delta="0.05" sprite_width="64" sprite_height="67" yfactorup="6" />
+            <anim name="walk_right" sprite="mobs\mush\walking\walking01_right.png" max_frames="2.9" delta="0.05" sprite_width="64" sprite_height="67" yfactorup="6" />
+            <anim name="die01_left" sprite="mobs\mush\die\die01_left.png" max_frames="2.9" delta="0.05" sprite_width="65" sprite_height="59" yfactorup="0" />
+            <anim name="die01_right" sprite="mobs\mush\die\die01_right.png" max_frames="2.9" delta="0.05" sprite_width="65" sprite_height="59" yfactorup="0" />
             
             <default_state name="idle_left" />
+            
+            <bind anim="idle_left" state="idle_left" /> 
+            <bind anim="idle_right" state="idle_right" /> 
+            <bind anim="walk01_left" state="walk_left" /> 
+            <bind anim="walk01_right" state="walk_right" /> 
+            <bind anim="die01_left" state="die_left" /> 
+            <bind anim="die01_right" state="die_right" /> 
         </animations>
     </mob>
 </mobs>

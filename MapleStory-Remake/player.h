@@ -73,6 +73,8 @@ public:
 	float max_frames;
 	float current_frame = 0.0f;
 	float delta;
+	int yfactorup = 0;
+	int yfactordown = 0;
 
 	bool active = true;
 
@@ -333,6 +335,9 @@ class MOB_ENTITY : public ENTITY {
 
 	int state_trans = 0;
 
+	float nextRoam = 0.0f;
+	bool roamInTransit = false;
+	SDL_Rect nextTransitLocation;
 public:
 	std::map<std::string, SPRITE_ANIMATION> anims;
 	SPRITE_ANIMATION* current_animation;
@@ -354,6 +359,49 @@ public:
 		current_animation->current_frame = 0;
 		current_animation->active = true;
 
+	}
+
+	void roamAround() {
+		if (roamInTransit == false) {
+			if (nextRoam < 3.0f) {
+
+				nextRoam += 0.02;
+			}
+			else {
+				roamInTransit = true;
+				std::random_device rd;     // only used once to initialise (seed) engine
+				std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+				std::uniform_int_distribution<int> uni(200, 500); // guaranteed unbiased
+
+				int random_integer = uni(rng);
+				nextTransitLocation.x = random_integer;
+				printf("Mob roam: Random x location = %i\n", random_integer);
+			}
+		}
+		else {
+			if (playerRect->x < nextTransitLocation.x) {
+
+				current_animation = &anims["walk_right"];
+				FaceDirection = 1;
+				playerRect->x++;
+			}else if(playerRect->x > nextTransitLocation.x){
+
+				current_animation = &anims["walk_left"];
+				FaceDirection = 0;
+				playerRect->x--;
+			}
+			else{
+				roamInTransit = false;
+				nextRoam = 0.0f;
+
+				if (FaceDirection == 0) {
+					current_animation = &anims["idle_left"];
+				}
+				else {
+					current_animation = &anims["idle_right"];
+				}
+			}
+		}
 	}
 
 	void resetAttackMode() {
@@ -425,10 +473,6 @@ public:
 	}
 };
 
-void test() {
-	int x;
-}
-
 class GAME {
 
 public:
@@ -451,7 +495,10 @@ public:
 				mob_anim->current_frame = 0;
 			}
 
-			SDL_BlitSurface(mob_anim->display_surface, &mob_anim->animRects[static_cast<int>(mob_anim->current_frame)], windowSurface, tmpMob->playerRect);
+			SDL_Rect tmpMobPos;
+			tmpMobPos = *tmpMob->playerRect;
+			tmpMobPos.y = (tmpMob->playerRect->y - mob_anim->yfactorup) + mob_anim->yfactordown;
+			SDL_BlitSurface(mob_anim->display_surface, &mob_anim->animRects[static_cast<int>(mob_anim->current_frame)], windowSurface, &tmpMobPos);
 			mob_anim->current_frame = mob_anim->current_frame + mob_anim->delta;
 
 			tmpMob->setTarget(target);
@@ -461,6 +508,10 @@ public:
 				tmpMob->state = attack;
 			}else{
 				tmpMob->state = idle;
+			}
+
+			if (tmpMob->state == idle || tmpMob->state == walking) {
+				tmpMob->roamAround();
 			}
 		}
 	}
@@ -501,6 +552,7 @@ public:
 				MOBS[mob_name].anims[sprite_anim_name.c_str()].display_surface = IMG_Load(sprite_filepath.c_str());
 				MOBS[mob_name].anims[sprite_anim_name.c_str()].max_frames = sprite_max_frames;
 				MOBS[mob_name].anims[sprite_anim_name.c_str()].delta = sprite_delta;
+				MOBS[mob_name].anims[sprite_anim_name.c_str()].yfactorup = aRoot->IntAttribute("yfactorup");
 
 				if (MOBS[mob_name].anims[sprite_anim_name.c_str()].display_surface == NULL) {
 					printf("SDL Error: %s", SDL_GetError());

@@ -7,6 +7,7 @@
 #include <SDL_image.h>
 #include <map>
 #include <vector>
+#include <random>
 
 using namespace tinyxml2;
 using namespace std;
