@@ -31,7 +31,9 @@ public:
 		/* Filling the surface with red color. */
 		SDL_FillRect(s, NULL, SDL_MapRGBA(s->format, 255, 0, 0, 255));
 
+#ifdef DEBUG_COLLIDER
 		SDL_BlitSurface(s, NULL, windowSurface, &pos);
+#endif
 	}
 
 	bool isCollidedX(SDL_Rect collider_pos){

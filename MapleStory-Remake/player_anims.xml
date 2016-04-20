@@ -1,0 +1,10 @@
+<animations>
+    
+    <anim name="idle_left" sprite="player\idle_left.png" max_frames="5.9" delta="0.05" sprite_width="58" sprite_height="67" />
+    <anim name="idle_right" sprite="player\idle_right.png" max_frames="5.9" delta="0.05" sprite_width="58" sprite_height="67" />
+    
+    <anim name="walk_left" sprite="player\walk01_left.png" max_frames="4.9" delta="0.05" sprite_width="66" sprite_height="67" />
+    <anim name="walk_right" sprite="player\walk01_right.png" max_frames="4.9" delta="0.05" sprite_width="66" sprite_height="67" />
+    
+    <default_state name="idle_left" />
+</animations>

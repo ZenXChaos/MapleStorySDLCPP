@@ -3,6 +3,8 @@
 #include "hitbox.h"
 #include "input.h"
 
+using namespace tinyxml2;
+
 enum PLAYER_STATE {
 	idle = 1, walking = 2
 };
@@ -45,28 +47,6 @@ public:
 	}
 
 
-	void playerMotorize(const SDL_Event & event) {
-		if (this->KeyboardInput->isKeyHeld(event, SDL_SCANCODE_LEFT)) {
-			playerRect->x -= 1;
-			state = walking;
-		}
-		else if (this->KeyboardInput->isKeyHeld(event, SDL_SCANCODE_RIGHT)) {
-			playerRect->x += 1;
-			state = walking;
-		}
-		else if (this->KeyboardInput->isKeyHeld(event, SDL_SCANCODE_DOWN)) {
-			playerRect->y += 1;
-			state = walking;
-		}
-		else if (this->KeyboardInput->isKeyHeld(event, SDL_SCANCODE_UP)) {
-			playerRect->y -= 1;
-			state = walking;
-		}
-		else {
-			state = idle;
-		}
-	}
-
 	ENTITY() {
 		
 	}
@@ -80,26 +60,143 @@ public:
 	}
 };
 
-class PLAYER : public ENTITY {
+class SPRITE_ANIMATION {
 
 public:
-	PLAYER() : ENTITY() {
-		max_frames = 7.0f;
-		playerSurface = SDL_LoadBMP("character.bmp");
+	float max_frames;
+	int current_frame = 0.0f;
+	float delta;
 
-		if (playerSurface == NULL) {
-			printf("SDL Error: %s", SDL_GetError());
+	SDL_Surface* display_surface;
+	SDL_Rect animRects[100];
+
+	SPRITE_ANIMATION() {
+	}
+};
+
+class PLAYER : public ENTITY {
+	std::map<std::string, SPRITE_ANIMATION> anims;
+	SPRITE_ANIMATION* current_animation;
+
+	XMLElement * pRoot;
+
+	int FaceDirection = 0;
+
+	void addAnimation(SPRITE_ANIMATION* animr, int row, int cnt, int w, int h)
+	{
+		for (int i = 0; i < cnt; i += 1) {
+			animr->animRects[i].x = 0 + i * w;
+			animr->animRects[i].y = row * h;
+			animr->animRects[i].w = w;
+			animr->animRects[i].h = h;
+		}
+	}
+
+	void loadAnims(void) {
+		tinyxml2::XMLDocument doc;
+		XMLElement* elem;
+
+		doc.LoadFile("player_anims.xml");
+		
+		pRoot = doc.FirstChild()->FirstChildElement("anim");
+			
+		for (; pRoot != nullptr; pRoot = pRoot->NextSiblingElement("anim")) {
+			std::string sprite_anim_name = pRoot->Attribute("name");
+			std::string sprite_filepath = pRoot->Attribute("sprite");
+			float sprite_delta = pRoot->FloatAttribute("delta");
+			float sprite_max_frames = pRoot->FloatAttribute("max_frames");
+			int sprite_width = pRoot->IntAttribute("sprite_width");
+			int sprite_height = pRoot->IntAttribute("sprite_height");
+
+			anims[sprite_anim_name.c_str()].display_surface = NULL;
+			anims[sprite_anim_name.c_str()].display_surface = IMG_Load(sprite_filepath.c_str());
+			anims[sprite_anim_name.c_str()].max_frames = sprite_max_frames;
+			anims[sprite_anim_name.c_str()].delta = sprite_delta;
+
+			if (anims[sprite_anim_name.c_str()].display_surface == NULL) {
+				printf("SDL Error: %s", SDL_GetError());
+			}
+			else {
+				int tmp_f = static_cast<int>(sprite_max_frames);
+				addAnimation(&anims[sprite_anim_name.c_str()], 0, tmp_f, sprite_width, sprite_height);
+			}
 		}
 
-		playerRect->w = 64;
-		playerRect->h = 64;
+		try {
+			current_animation = &anims[doc.FirstChild()->FirstChildElement("default_state")->Attribute("name")];
+		}
+		catch (...) {
+			printf("Error setting default animation! Assuming idle_left has been added!\n");
+		}
+	}
 
-		addAnimation(animclips, 0, 7, 64, 64);
+	int state_trans = 0;
+public:
 
-		playerSurface->format->Amask = 0xFF000000;
-		playerSurface->format->Ashift = 24;
+	void playerMotorize(const SDL_Event & event) {
+		if (this->KeyboardInput->isKeyHeld(event, SDL_SCANCODE_LEFT)) {
+			playerRect->x -= 1;
+			state = walking;
+			if (state_trans != 1) {
+				current_animation = &anims["walk_left"];
+				state_trans = 1;
+				current_frame = 0;
+			}
+			FaceDirection = 0;
+		}
+		else if (this->KeyboardInput->isKeyHeld(event, SDL_SCANCODE_RIGHT)) {
+			playerRect->x += 1;
+			state = walking;
+			if (state_trans != 2) {
+				current_animation = &anims["walk_right"];
+				state_trans = 2;
+				current_frame = 0;
+			}
+			FaceDirection = 1;
+		}
+		else if (this->KeyboardInput->isKeyHeld(event, SDL_SCANCODE_DOWN)) {
+			//playerRect->y += 1;
+			state = walking;
+		}
+		else if (this->KeyboardInput->isKeyHeld(event, SDL_SCANCODE_UP)) {
+			//playerRect->y -= 1;
+			state = walking;
+		}
+		else {
+			if (state_trans != 0) {
+				if (FaceDirection == 0) {
+					current_animation = &anims["idle_left"];
+				}
+				else {
+					current_animation = &anims["idle_right"];
+				}
+				state = idle;
+			}
+			state_trans = 0;
+		}
 
-		this->deltaTime = 0.1f;
+		if (state == walking) {
+			printf("Player Position Updated: {%i, %i}\n", playerRect->x, playerRect->y);
+
+		}
+	}
+
+	void playAnimation(SDL_Surface* windowSurface) {
+		if (current_frame >= current_animation->max_frames-1) {
+			current_frame = 0;
+		}
+		SDL_BlitSurface(current_animation->display_surface, &current_animation->animRects[static_cast<int>(current_frame)], windowSurface, playerRect);
+
+
+		current_frame += current_animation->delta;
+		current_animation->current_frame = static_cast<int>(current_frame);
+
+	}
+
+	PLAYER() : ENTITY() {
+		loadAnims();
+		playerRect->x = 595;
+		playerRect->y = 214;
 	}
 };
 
@@ -159,8 +256,8 @@ public:
 
 		playerRect->w = 75;
 		playerRect->h = 89;
-		playerRect->x = 200;
-		playerRect->y = 70;
+		playerRect->x = 225;
+		playerRect->y = 197;
 
 		addAnimation(animclips, 0, 10, 75, 89);
 		playerSurface->format->Amask = 0xFe000000;
@@ -172,8 +269,6 @@ public:
 		
 	}
 };
-
-
 
 class MOB : public ENTITY {
 

@@ -1,9 +1,12 @@
 #include <stdio.h>
 
 #include <SDL.h>
+#include <SDL_image.h>
 #include <map>
 #include <vector>
 
+#include "map.h"
+#include <tinyxml2.h>
 #include "player.h"
 
 int main(int argc, char* argv[]) {
@@ -14,7 +17,7 @@ int main(int argc, char* argv[]) {
 	SDL_Window* window = nullptr;
 	SDL_Surface* windowSurface = nullptr;
 
-	window = SDL_CreateWindow("Hi", 100, 100, 300, 300, SDL_WINDOW_RESIZABLE);
+	window = SDL_CreateWindow("Hi", 50, 50, 679, 376, SDL_WINDOW_RESIZABLE);
 	windowSurface = SDL_GetWindowSurface(window);
 
 	Uint32 color = SDL_MapRGB(windowSurface->format, 0xff, 0xff, 0xff);
@@ -29,8 +32,12 @@ int main(int argc, char* argv[]) {
 	npc_jamie.winSurface = windowSurface;
 
 	
-	MOB_ENTITY shade(windowSurface, "mobs\\shadewraith\\standing\\left.bmp", 6, 696/6, 112, 30, 100, ShadeWraith);
+	MOB_ENTITY shade(windowSurface, "mobs\\shadewraith\\standing\\left.bmp", 6, 696/6, 112, 75, 225, ShadeWraith);
+	shade.playerRect->y -= shade.playerRect->h/2;
 	shade.deltaTime = 0.2f;
+
+	MAP home_map;
+	
 	SDL_FillRect(windowSurface, NULL, SDL_MapRGB(windowSurface->format, 255, 255, 255));
 	while (running) {
 		//printf("SDL_Init failed: %s\n", SDL_GetError());
@@ -62,6 +69,7 @@ int main(int argc, char* argv[]) {
 		frame += 0.1f;
 
 		SDL_FillRect(windowSurface, &windowSurface->clip_rect, color);
+		home_map.displayMap(windowSurface);
 		player.playAnimation(windowSurface);
 		npc_jamie.scanTarget();
 		npc_jamie.setTarget(player);
