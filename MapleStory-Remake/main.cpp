@@ -1,3 +1,4 @@
+#pragma warning (disable : 4996)
 #include <stdio.h>
 #include <string>
 
@@ -9,13 +10,34 @@
 #include <vector>
 #include <random>
 
+#include "KEENIO_SDK.h"
+
 using namespace tinyxml2;
 using namespace std;
 
 #include "map.h"
+#include "SPRITE_ANIMATION.h"
 #include "player.h"
+#include "MOB_ENTITY.h"
+#include "NPC.h"
+#include "GAME.h"
+
+void gameRan() {
+	KEENIO_CLIENT* kCLIENT = new KEENIO_CLIENT();
+	kCLIENT->kHTTP.reqURL = "https://api.keen.io/3.0/projects/5717fd9380a7bd63683e73b1/events/startup";
+	kCLIENT->kHTTP.addDefHeaders();
+
+	kCLIENT->kHTTP.addParam("api_key", "");
+	string data[2] = { "app_event","xLAUNCH" };
+	kCLIENT->kHTTP.addDataParam("data", data);
+	kCLIENT->method(KEENIO_HTTP_GET);
+	kCLIENT->request(kCLIENT->kHTTP);
+
+	printf("%s\n",kCLIENT->body.c_str());
+}
 
 int main(int argc, char* argv[]) {
+	gameRan();
 	GAME game;
 	game.loadMobList();
 	//return 1;
@@ -75,7 +97,7 @@ int main(int argc, char* argv[]) {
 
 		SDL_FillRect(windowSurface, &windowSurface->clip_rect, color);
 		home_map.displayMap(windowSurface);
-		game.displayAllMobs(windowSurface, player);
+		game.displayAllMobs(windowSurface, &player);
 		player.playAnimation(windowSurface);
 
 		npc_jamie.setTarget(player);
