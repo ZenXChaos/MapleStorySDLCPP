@@ -15,12 +15,12 @@
 using namespace tinyxml2;
 using namespace std;
 
-#include "map.h"
 #include "SPRITE_ANIMATION.h"
 #include "player.h"
 #include "MOB_ENTITY.h"
 #include "NPC.h"
 #include "GAME.h"
+#include "map.h"
 
 void gameRan() {
 	KEENIO_CLIENT* kCLIENT = new KEENIO_CLIENT();
@@ -38,34 +38,48 @@ void gameRan() {
 
 int main(int argc, char* argv[]) {
 	gameRan();
-	GAME game;
-	game.loadMobList();
 	//return 1;
 	SDL_Init(SDL_INIT_EVERYTHING);
 
-	PLAYER player;
 
 	SDL_Window* window = nullptr;
 	SDL_Surface* windowSurface = nullptr;
 
-	window = SDL_CreateWindow("Hi", 50, 50, 679, 376, SDL_WINDOW_RESIZABLE);
-	windowSurface = SDL_GetWindowSurface(window);
+	SDL_Renderer* gRenderer = NULL;
 
-	Uint32 color = SDL_MapRGB(windowSurface->format, 0xff, 0xff, 0xff);
+	window = SDL_CreateWindow("Hi", 50, 50, 679, 376, SDL_WINDOW_SHOWN);
+	//windowSurface = SDL_GetWindowSurface(window);
+	gRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+	PLAYER player(gRenderer);
+	//Uint32 color = SDL_MapRGB(windowSurface->format, 0xff, 0xff, 0xff);
 	Uint32 tick;
 	bool running = true;
 	float frame = 0.0f;
 
-	std::vector<void*> ent;
+	//std::vector<void*> ent;
 
-	NPC_JAMIE npc_jamie(windowSurface);
+	//NPC_JAMIE npc_jamie(windowSurface);
 
-	npc_jamie.winSurface = windowSurface;
+	//npc_jamie.winSurface = windowSurface;
 
 
-	MAP home_map;
-	
-	SDL_FillRect(windowSurface, NULL, SDL_MapRGB(windowSurface->format, 255, 255, 255));
+
+	//Initialize renderer color
+	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+	//Initialize PNG loading
+	int imgFlags = IMG_INIT_PNG;
+	if (!(IMG_Init(imgFlags) & imgFlags))
+	{
+		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+	}
+
+	MAP home_map(gRenderer);
+	GAME game(gRenderer);
+	game.loadMobList();
+
+	//SDL_FillRect(windowSurface, NULL, SDL_MapRGB(windowSurface->format, 255, 255, 255));
 	while (running) {
 		//printf("SDL_Init failed: %s\n", SDL_GetError());
 
@@ -92,13 +106,9 @@ int main(int argc, char* argv[]) {
 
 			//
 		}
-		player.playerMotorize(event);
-		frame += 0.1f;
+		/*
 
 		SDL_FillRect(windowSurface, &windowSurface->clip_rect, color);
-		home_map.displayMap(windowSurface);
-		game.displayAllMobs(windowSurface, &player);
-		player.playAnimation(windowSurface);
 
 		npc_jamie.setTarget(player);
 		npc_jamie.scanTarget();
@@ -107,6 +117,21 @@ int main(int argc, char* argv[]) {
 		npc_jamie.playAnimation(windowSurface);
 
 		SDL_UpdateWindowSurface(window);
+		*/
+
+		//Clear screen
+		SDL_RenderClear(gRenderer);
+
+		home_map.displayMap(windowSurface);
+		player.playAnimation(windowSurface);
+		player.playerMotorize(event);
+		frame += 0.1f;
+		game.displayAllMobs(windowSurface, &player);
+		//Render texture to screen
+		//SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
+
+		//Update screen
+		SDL_RenderPresent(gRenderer);
 
 		//LIMIT FPS
 		unsigned int fps = 60;
@@ -115,11 +140,11 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	SDL_FreeSurface(npc_jamie.playerSurface);
+	/*SDL_FreeSurface(npc_jamie.playerSurface);
 	npc_jamie.playerSurface = nullptr;
 	SDL_FreeSurface(player.playerSurface);
 	player.playerSurface = nullptr;
 	SDL_DestroyWindow(window);
-	windowSurface = nullptr;
+	windowSurface = nullptr;*/
 	return 1;
 }

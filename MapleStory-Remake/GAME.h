@@ -3,7 +3,7 @@ class GAME {
 public:
 	std::map<std::string, MOB_ENTITY> MOBS;
 	std::map<int, std::string> MOBS_LIST;
-
+	SDL_Renderer* gRenderer = NULL;
 
 	void displayAllMobs(SDL_Surface* windowSurface, PLAYER *target) {
 		for (size_t i = 0; i < MOBS_LIST.size(); i++) {
@@ -23,13 +23,16 @@ public:
 			SDL_Rect tmpMobPos;
 			tmpMobPos = *tmpMob->playerRect;
 			tmpMobPos.y = (tmpMob->playerRect->y - mob_anim->yfactorup) + mob_anim->yfactordown;
-			SDL_BlitSurface(mob_anim->display_surface, &mob_anim->animRects[static_cast<int>(mob_anim->current_frame)], windowSurface, &tmpMobPos);
+			//SDL_BlitSurface(mob_anim->display_surface, &mob_anim->animRects[static_cast<int>(mob_anim->current_frame)], windowSurface, &tmpMobPos);
+			tmpMobPos.h = mob_anim->animRects[static_cast<int>(mob_anim->current_frame)].h;
+			tmpMobPos.w = mob_anim->animRects[static_cast<int>(mob_anim->current_frame)].w;
+			SDL_RenderCopy(gRenderer, mob_anim->sprite, &mob_anim->animRects[static_cast<int>(mob_anim->current_frame)], &tmpMobPos);
 			mob_anim->current_frame = mob_anim->current_frame + mob_anim->delta;
 
 			tmpMob->setTarget(target);
 			tmpMob->scanTarget(tmpMob->MOB_NAME);
 
-			if (tmpMob->collider.findCollision(target->playerRect, tmpMob->MOB_NAME, NULL, NULL) == true) {
+			if (tmpMob->collider.findCollision(target->playerRect, tmpMob->MOB_NAME, NULL, NULL) == true && tmpMob->state != attack) {
 				tmpMob->state = attack;
 				target->KnockBack();
 			}
@@ -76,12 +79,13 @@ public:
 				int sprite_height = aRoot->IntAttribute("sprite_height");
 
 				MOBS[mob_name].anims[sprite_anim_name.c_str()].display_surface = NULL;
+				MOBS[mob_name].anims[sprite_anim_name.c_str()].loadTexture(sprite_filepath.c_str(), gRenderer);
 				MOBS[mob_name].anims[sprite_anim_name.c_str()].display_surface = IMG_Load(sprite_filepath.c_str());
 				MOBS[mob_name].anims[sprite_anim_name.c_str()].max_frames = sprite_max_frames;
 				MOBS[mob_name].anims[sprite_anim_name.c_str()].delta = sprite_delta;
 				MOBS[mob_name].anims[sprite_anim_name.c_str()].yfactorup = aRoot->IntAttribute("yfactorup");
 
-				if (MOBS[mob_name].anims[sprite_anim_name.c_str()].display_surface == NULL) {
+				if (MOBS[mob_name].anims[sprite_anim_name.c_str()].sprite == NULL) {
 					printf("SDL Error: %s", SDL_GetError());
 				}
 				else {
@@ -89,6 +93,8 @@ public:
 					MOBS[mob_name].addAnimation(&MOBS[mob_name].anims[sprite_anim_name.c_str()], 0, tmp_f, sprite_width, sprite_height);
 					MOBS[mob_name].playerRect->y = 220;
 					MOBS[mob_name].playerRect->x = 414;
+					MOBS[mob_name].playerRect->w = sprite_width;
+					MOBS[mob_name].playerRect->h = sprite_height;
 				}
 
 				try {
@@ -102,7 +108,9 @@ public:
 			tinyxml2::XMLElement* anims = pRoot->FirstChildElement("anim");
 		}
 	}
-	GAME() {
-
+	GAME(SDL_Renderer* renderer = NULL) {
+		if (renderer != NULL) {
+			gRenderer = renderer;
+		}
 	}
 };

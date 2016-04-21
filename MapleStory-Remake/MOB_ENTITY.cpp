@@ -15,10 +15,10 @@
 using namespace tinyxml2;
 using namespace std;
 
-#include "map.h"
 #include "SPRITE_ANIMATION.h"
 #include "player.h"
 #include "MOB_ENTITY.h"
 #include "NPC.h"
 #include "GAME.h"
+#include "map.h"
 

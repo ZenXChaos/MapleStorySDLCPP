@@ -70,6 +70,7 @@ public:
 class PLAYER : public ENTITY {
 	std::map<std::string, SPRITE_ANIMATION> anims;
 	SPRITE_ANIMATION* current_animation;
+	SDL_Renderer* gRenderer = NULL;
 
 	XMLElement * pRoot;
 
@@ -101,16 +102,21 @@ class PLAYER : public ENTITY {
 			int sprite_height = pRoot->IntAttribute("sprite_height");
 
 			anims[sprite_anim_name.c_str()].display_surface = NULL;
-			anims[sprite_anim_name.c_str()].display_surface = IMG_Load(sprite_filepath.c_str());
+			//anims[sprite_anim_name.c_str()].display_surface = IMG_Load(sprite_filepath.c_str());
+			anims[sprite_anim_name.c_str()].loadTexture(sprite_filepath.c_str(), gRenderer);
 			anims[sprite_anim_name.c_str()].max_frames = sprite_max_frames;
 			anims[sprite_anim_name.c_str()].delta = sprite_delta;
 
-			if (anims[sprite_anim_name.c_str()].display_surface == NULL) {
+			if (anims[sprite_anim_name.c_str()].sprite == NULL) {
 				printf("SDL Error: %s", SDL_GetError());
 			}
 			else {
 				int tmp_f = static_cast<int>(sprite_max_frames);
 				addAnimation(&anims[sprite_anim_name.c_str()], 0, tmp_f, sprite_width, sprite_height);
+				playerRect->y = 220;
+				playerRect->x = 414;
+				playerRect->w = sprite_width;
+				playerRect->h = sprite_height;
 			}
 		}
 
@@ -137,7 +143,7 @@ public:
 			kbUpState = 1;
 		}
 		kbFactor = 100;
-		kbUpFactor = 20;
+		kbUpFactor = 10;
 	}
 
 	void DamagePlayer() {
@@ -146,12 +152,12 @@ public:
 
 	void playerMotorize(const SDL_Event & event) {
 		if (kbFactor > 0 || kbUpFactor > 0){
-			if (kbUpFactor > 10) {
-				this->playerRect->y-=3;
+			if (kbUpFactor > 5) {
+				this->playerRect->y-=1;
 			}else{
-				this->playerRect->y+=3;
+				this->playerRect->y+=1;
 			}
-			this->playerRect->x -= 100/20;
+			this->playerRect->x -= 100/15;
 			kbFactor-= 100/10;
 			
 			kbUpFactor-= 2;
@@ -215,15 +221,25 @@ public:
 		if (current_frame >= current_animation->max_frames-1) {
 			current_frame = 0;
 		}
-		SDL_BlitSurface(current_animation->display_surface, &current_animation->animRects[static_cast<int>(current_frame)], windowSurface, playerRect);
+		//SDL_BlitSurface(current_animation->display_surface, &current_animation->animRects[static_cast<int>(current_frame)], windowSurface, playerRect);
+		SDL_Rect tmpPlayerPos;
+		tmpPlayerPos = *playerRect;
+		tmpPlayerPos.y = playerRect->y;
+		//SDL_BlitSurface(mob_anim->display_surface, &mob_anim->animRects[static_cast<int>(mob_anim->current_frame)], windowSurface, &tmpMobPos);
+		tmpPlayerPos.h = current_animation->animRects[static_cast<int>(current_animation->current_frame)].h;
+		tmpPlayerPos.w = current_animation->animRects[static_cast<int>(current_animation->current_frame)].w;
 
-
+		SDL_RenderCopy(gRenderer, current_animation->sprite, &current_animation->animRects[static_cast<int>(current_animation->current_frame)], &tmpPlayerPos);
+		
 		current_frame += current_animation->delta;
 		current_animation->current_frame = current_frame;
 
 	}
 
-	PLAYER() : ENTITY() {
+	PLAYER(SDL_Renderer* renderer = NULL) : ENTITY() {
+		if (renderer != NULL) {
+			gRenderer = renderer;
+		}
 		loadAnims();
 		playerRect->x = 595;
 		playerRect->y = 214;
