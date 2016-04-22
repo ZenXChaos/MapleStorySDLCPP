@@ -1,5 +1,6 @@
 # MapleStory-Remake
-MapleStory remake in C++
+
+Using C++ SDL and MapleStory as a base template -- this project is an MMORPG built from the ground up.
 
 ### Features
 
@@ -11,15 +12,23 @@ MapleStory remake in C++
 
 >> Movement
 
+>> Knockback
+
 > Animation
 
 > 2D Collision (HitBoxes)
 
+> Spawn Manager
+
+> C++ Analytics SDK (KeenIO)
+
 ### What's next?
 
-> Maps
+> Better collision management // Hitbox manager
 
-> AI
+> Physics
+
+> Kombat
 
 > Game Logic
 
