@@ -8,6 +8,8 @@ Using C++ SDL and MapleStory as a base template -- this project is an MMORPG bui
 
 > MOB
 
+>> MOB Roam around
+
 > Player
 
 >> Movement
