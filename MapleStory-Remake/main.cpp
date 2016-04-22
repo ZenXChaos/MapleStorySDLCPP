@@ -5,6 +5,7 @@
 #include <tinyxml2.h>
 
 #include <SDL.h>
+#include <SDL_thread.h>
 #include <SDL_image.h>
 #include <map>
 #include <vector>
@@ -18,7 +19,9 @@ using namespace std;
 #include "SPRITE_ANIMATION.h"
 #include "player.h"
 #include "MOB_ENTITY.h"
+#include "hitbox2.h"
 #include "NPC.h"
+#include "spawn.h"
 #include "GAME.h"
 #include "map.h"
 
@@ -36,6 +39,19 @@ void gameRan() {
 	printf("%s\n",kCLIENT->body.c_str());
 }
 
+	bool pause = false;
+GAME* game;
+int spawn_manage(void* data) {
+	int startTime = SDL_GetTicks();
+	while (1) {
+		while (!pause) {
+			spawnmgr.manage();
+		}
+	}
+
+	return 1;
+}
+
 int main(int argc, char* argv[]) {
 	gameRan();
 	//return 1;
@@ -51,9 +67,12 @@ int main(int argc, char* argv[]) {
 	//windowSurface = SDL_GetWindowSurface(window);
 	gRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
+	game = new GAME(gRenderer);
 	PLAYER player(gRenderer);
+
 	//Uint32 color = SDL_MapRGB(windowSurface->format, 0xff, 0xff, 0xff);
 	Uint32 tick;
+	bool pauseReset = true;
 	bool running = true;
 	float frame = 0.0f;
 
@@ -76,9 +95,11 @@ int main(int argc, char* argv[]) {
 	}
 
 	MAP home_map(gRenderer);
-	GAME game(gRenderer);
-	game.loadMobList();
+	
+	game->loadMobList();
 
+	AUTOHITBOX hbox(player.playerRect);
+	hbox.bindBoxToRect(static_cast<void*>(&player));
 	//SDL_FillRect(windowSurface, NULL, SDL_MapRGB(windowSurface->format, 255, 255, 255));
 	while (running) {
 		//printf("SDL_Init failed: %s\n", SDL_GetError());
@@ -95,21 +116,25 @@ int main(int argc, char* argv[]) {
 
 				player.KeyboardInput->keyDownEvent(event, tick);
 				
+				if (player.KeyboardInput->isKeyHeld(event, SDL_SCANCODE_ESCAPE) == true) {
+					pause = !pause;
 
+					SDL_Delay(100);
+				}
 				break;
 			case SDL_KEYUP:
-
 				player.KeyboardInput->keyUpEvent(event, tick);
+				
 				//player.playerMotorize(event);
 				break;
 			}
 
 			//
 		}
+
+		//SDL_FillRect(windowSurface, &windowSurface->clip_rect, SDL_MapRGB(windowSurface->format, 255, 0, 0));
+
 		/*
-
-		SDL_FillRect(windowSurface, &windowSurface->clip_rect, color);
-
 		npc_jamie.setTarget(player);
 		npc_jamie.scanTarget();
 		npc_jamie.collider.findCollision(player.playerRect);
@@ -123,10 +148,11 @@ int main(int argc, char* argv[]) {
 		SDL_RenderClear(gRenderer);
 
 		home_map.displayMap(windowSurface);
+		hbox.showHitbox(gRenderer);
 		player.playAnimation(windowSurface);
 		player.playerMotorize(event);
 		frame += 0.1f;
-		game.displayAllMobs(windowSurface, &player);
+		game->displayAllMobs(&player, pause);;
 		//Render texture to screen
 		//SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
 

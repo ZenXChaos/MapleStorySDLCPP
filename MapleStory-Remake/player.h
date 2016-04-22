@@ -9,6 +9,10 @@ public:
 	int Health = 0;
 	int Armour = 0;
 	int Mana = 0;
+	float eop = 0.0f;
+
+	Uint32 LifeTime = 0;
+	Uint32 Birth = 0;
 };
 
 enum PLAYER_STATE {
@@ -52,7 +56,6 @@ public:
 		current_frame += deltaTime;
 		
 	}
-
 
 	ENTITY() {
 		
@@ -133,13 +136,18 @@ class PLAYER : public ENTITY {
 	int kbFactor = 0;
 	int kbUpFactor = 0;
 	int kbUpState = 0;
+	float kbRecover = 0.0f;
 	SDL_Rect kbTmpPos;
 public:
 
 	void KnockBack() {
+		if (kbRecover > 0.0f) {
+			return;
+		}
 		if (kbUpState == 0) {
 			for (kbTmpPos.y = 0; kbTmpPos.y < playerRect->y; kbTmpPos.y++) {
 			}
+			kbRecover = 5.0f;
 			kbUpState = 1;
 		}
 		kbFactor = 100;
@@ -151,6 +159,12 @@ public:
 	}
 
 	void playerMotorize(const SDL_Event & event) {
+		if (kbRecover > 0) {
+			kbRecover -= current_animation->delta;
+		}
+		else {
+			kbRecover = 0;
+		}
 		if (kbFactor > 0 || kbUpFactor > 0){
 			if (kbUpFactor > 5) {
 				this->playerRect->y-=1;

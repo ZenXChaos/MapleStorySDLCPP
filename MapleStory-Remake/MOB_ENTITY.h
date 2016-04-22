@@ -56,6 +56,7 @@ class MOB_ENTITY : public ENTITY {
 	bool roamInTransit = false;
 	SDL_Rect nextTransitLocation;
 public:
+	SDL_Rect playerRect;
 	std::map<std::string, SPRITE_ANIMATION> anims;
 	SPRITE_ANIMATION* current_animation;
 	std::string MOB_NAME;
@@ -96,17 +97,17 @@ public:
 			}
 		}
 		else {
-			if (playerRect->x < nextTransitLocation.x) {
+			if (playerRect.x < nextTransitLocation.x) {
 
 				current_animation = &anims["walk_right"];
 				FaceDirection = 1;
-				playerRect->x++;
+				playerRect.x++;
 			}
-			else if (playerRect->x > nextTransitLocation.x) {
+			else if (playerRect.x > nextTransitLocation.x) {
 
 				current_animation = &anims["walk_left"];
 				FaceDirection = 0;
-				playerRect->x--;
+				playerRect.x--;
 			}
 			else {
 				roamInTransit = false;
@@ -149,14 +150,14 @@ public:
 	}
 
 	bool targetIsRightOf() {
-		return (target->playerRect->x > this->playerRect->x);
+		return (target->playerRect->x > this->playerRect.x);
 	}
 
 	bool targetIsLeftOf() {
-		return (target->playerRect->x < this->playerRect->x);
+		return (target->playerRect->x < this->playerRect.x);
 	}
 	void scanTarget(std::string entity_name = "entity") {
-		collider.setCollider(*playerRect, 1, 2, winSurface);
+		collider.setCollider(playerRect, 1, 2, winSurface);
 
 		if (targetIsLeftOf() == true) {
 			if (lastPositionOf != 1) {

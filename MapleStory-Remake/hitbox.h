@@ -1,3 +1,4 @@
+#define DEBUG_COLLIDER
 class HITBOX {
 
 	int lastCollide = 0;
@@ -20,20 +21,6 @@ public:
 		spacingy = spacingy*2;
 		pos.x = x1  + (pos.w/2);
 		pos.y -= spacingy;
-
-		//colliderFrame->clip_rect = pos;
-		/* Declaring the surface. */
-		SDL_Surface *s;
-
-		/* Creating the surface. */
-		s = SDL_CreateRGBSurface(0, spacingx*2 + pos.w, pos.h+(spacingy*2), 32, 0, 0, 0, 0);
-
-		/* Filling the surface with red color. */
-		SDL_FillRect(s, NULL, SDL_MapRGBA(s->format, 255, 0, 0, 255));
-
-#ifdef DEBUG_COLLIDER
-		SDL_BlitSurface(s, NULL, windowSurface, &pos);
-#endif
 	}
 
 	bool isCollidedX(SDL_Rect collider_pos){

@@ -144,11 +144,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="hitbox.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MOB_ENTITY.cpp" />
-    <ClCompile Include="player.cpp" />
+    <ClCompile Include="physics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -156,12 +154,15 @@
   <ItemGroup>
     <ClInclude Include="GAME.h" />
     <ClInclude Include="hitbox.h" />
+    <ClInclude Include="hitbox2.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="KEENIO_SDK.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="MOB_ENTITY.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="physics.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="spawn.h" />
     <ClInclude Include="SPRITE_ANIMATION.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
