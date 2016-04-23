@@ -1,4 +1,6 @@
 #pragma warning (disable : 4996)
+#define DEBUG_MOBHITBOX 1
+
 #include <stdio.h>
 #include <string>
 
@@ -40,12 +42,16 @@ void gameRan() {
 }
 
 	bool pause = false;
-GAME* game;
+	GAME* game;
+
+	AUTOHITBOX* hbox = new AUTOHITBOX();
+
 int spawn_manage(void* data) {
 	int startTime = SDL_GetTicks();
 	while (1) {
-		while (!pause) {
-			spawnmgr.manage();
+		while (!pause){ 
+
+			spawnmgr.manage(hbox);
 		}
 	}
 
@@ -98,8 +104,7 @@ int main(int argc, char* argv[]) {
 	
 	game->loadMobList();
 
-	AUTOHITBOX hbox(player.playerRect);
-	hbox.bindBoxToRect(static_cast<void*>(&player));
+	hbox->bindBoxToRect(static_cast<void*>(&player), 9999);
 	//SDL_FillRect(windowSurface, NULL, SDL_MapRGB(windowSurface->format, 255, 255, 255));
 	while (running) {
 		//printf("SDL_Init failed: %s\n", SDL_GetError());
@@ -148,16 +153,19 @@ int main(int argc, char* argv[]) {
 		SDL_RenderClear(gRenderer);
 
 		home_map.displayMap(windowSurface);
-		hbox.showHitbox(gRenderer);
+#ifdef DEBUG_MOBHITBOX
+		hbox->showHitbox(gRenderer);
+#endif
 		player.playAnimation(windowSurface);
 		player.playerMotorize(event);
 		frame += 0.1f;
-		game->displayAllMobs(&player, pause);;
+		game->displayAllMobs(&player, hbox, pause);
 		//Render texture to screen
 		//SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
 
 		//Update screen
 		SDL_RenderPresent(gRenderer);
+		hbox->checkCollision();
 
 		//LIMIT FPS
 		unsigned int fps = 60;
