@@ -25,10 +25,13 @@ public:
 
 	}
 
+	bool busy = false;
+
 	void bindBoxToRect(void* obj, int hid) {
+		while (busy) {}
 		PLAYER* p;
 		MOB_ENTITY* me;
-
+		busy = true;
 		try {
 			p = static_cast<PLAYER*>(obj);
 			p->state = p->state;
@@ -62,6 +65,7 @@ public:
 			printf("Is not of type MOB_ENTITY");
 		}
 
+		busy = false;
 		return;
 	}
 
@@ -74,7 +78,7 @@ public:
 			bindedRect = rectBinds[i].rect;
 			fillRect.x = bindedRect.x - spacingX;
 			fillRect.y = bindedRect.y - spacingY;
-			fillRect.w = bindedRect.w + spacingX;
+			fillRect.w = bindedRect.w + spacingX*2;
 			fillRect.h = bindedRect.h + spacingY;
 
 			SDL_SetRenderDrawColor(gRenderer, 0xFF, 0x00, 0x00, 0xFF);
@@ -84,7 +88,7 @@ public:
 	}
 
 	bool isCollidedX(SDL_Rect collider_pos, SDL_Rect collider_pos2) {
-		if (collider_pos.x > collider_pos2.x - (collider_pos.w / 4) && collider_pos.x < (collider_pos2.x+ collider_pos2.w) + (collider_pos.w / 4)) {
+		if (collider_pos.x > collider_pos2.x  && collider_pos.x < (collider_pos2.x+ collider_pos2.w)) {
 			return true;
 		}
 
@@ -109,42 +113,46 @@ public:
 	}
 
 
-	void checkCollision() {
-		for (size_t i = 0; i < rectBinds.size(); i++) {
-			for (size_t ii = 0; ii < rectBinds.size(); ii++) {
+	void checkCollision(PLAYER* pp, std::map<int, _HITBOX> _rectBinds) {
+		for (size_t i = 0; i < _rectBinds.size(); i++) {
+			for (size_t ii = 0; ii < _rectBinds.size(); ii++) {
 				if (i != ii) {
 					SDL_Rect pos1;
 					SDL_Rect pos2;
 
-					pos1 = rectBinds[ii].rect;
-					pos2 = rectBinds[i].rect;
+					pos1 = _rectBinds[ii].rect;
+					pos2 = _rectBinds[i].rect;
+
+					pos1.x += spacingX;
+					pos1.y += spacingY;
 
 					if (isCollidedXY(pos1, pos2) == true) {
 						//printf("Colliding! New Collision Engine!");
-						if (rectBinds[i].currentCollisions[rectBinds[ii].HITBOX_ID] == false) {
-							if (rectBinds[i].entity_type == 0) {
-								PLAYER* p = static_cast<PLAYER*>(rectBinds[ii].obj);
-								if (p != nullptr) {
+						if (_rectBinds[i].currentCollisions[_rectBinds[ii].HITBOX_ID] == false) {
+							if (_rectBinds[i].entity_type == 0) {
+
+								if (pp != nullptr) {
 									char tmpString[255] = "";
-									sprintf(tmpString, "ENTITY %i WITH ENTITY %i", rectBinds[i].HITBOX_ID, rectBinds[ii].HITBOX_ID);
-									p->sendMessage(tmpString, p);
+									sprintf(tmpString, "ENTITY %i WITH ENTITY %i", _rectBinds[i].HITBOX_ID, _rectBinds[ii].HITBOX_ID);
+									pp->sendMessage("hit", _rectBinds[ii].HITBOX_ID);
 								}
 							}
-							else if (rectBinds[ii].entity_type == 1) {
-								MOB_ENTITY* me = static_cast<MOB_ENTITY*>(rectBinds[ii].obj);
+							else if (_rectBinds[ii].entity_type == 1) {
+								
+								MOB_ENTITY* me = static_cast<MOB_ENTITY*>(_rectBinds[ii].obj);
 								if (me != nullptr) {
 									char tmpString[255] = "";
-									sprintf(tmpString, "ENTITY %i WITH ENTITY %i", rectBinds[i].HITBOX_ID, rectBinds[ii].HITBOX_ID);
-									me->sendMessage(tmpString, me);
+									sprintf(tmpString, "ENTITY %i WITH ENTITY %i", _rectBinds[i].HITBOX_ID, _rectBinds[ii].HITBOX_ID);
+									me->sendMessage(tmpString, _rectBinds[ii].HITBOX_ID);
 								}
 							}
 							
 						}
-						rectBinds[ii].currentCollisions[rectBinds[i].HITBOX_ID] = true;
+						_rectBinds[ii].currentCollisions[_rectBinds[i].HITBOX_ID] = true;
 					}
 					else
 					{
-						rectBinds[ii].currentCollisions[rectBinds[i].HITBOX_ID] = false;
+						_rectBinds[ii].currentCollisions[_rectBinds[i].HITBOX_ID] = false;
 
 					}
 				}

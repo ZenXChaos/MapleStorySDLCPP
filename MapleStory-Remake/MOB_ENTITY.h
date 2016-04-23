@@ -44,10 +44,6 @@ public:
 	float deltaTime = 0.0f;
 	SDL_Surface* winSurface;
 
-	void sendMessage(std::string message, void* sender) {
-		printf("Collision message received: %s\n", message.c_str());
-	}
-
 	void playAnimation(SDL_Surface* windowSurface) {
 		if (current_frame >= max_frames - 1) {
 			current_frame = 0;
@@ -91,6 +87,13 @@ public:
 	std::string MOB_NAME;
 	int MOB_ID, ENTITY_ID=0;
 	ENTITY_LIFE Life;
+
+	std::map<std::string, int> messages;
+
+	void sendMessage(std::string message, int entityid) {
+
+		this->messages[message] = entityid;
+	}
 
 	void extended_state_handler() {
 		if (state == attack) {

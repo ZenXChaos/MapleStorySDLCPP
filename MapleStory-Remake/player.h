@@ -11,23 +11,26 @@ public:
 
 
 class PLAYER : public ENTITY {
-	std::map<std::string, SPRITE_ANIMATION> anims;
 	SPRITE_ANIMATION* current_animation;
 	SDL_Renderer* gRenderer = NULL;
 
 	XMLElement * pRoot;
 
 	int FaceDirection = 0;
-
 	int state_trans = 0;
 	int attack_statetrans = 0;
-
 	int kbFactor = 0;
 	int kbUpFactor = 0;
 	int kbUpState = 0;
+	
 	float kbRecover = 0.0f;
+	
 	SDL_Rect kbTmpPos;
+	
 	std::vector<MOB_ENTITY>* spawned;
+	int spawnedTmpSize = 0;
+
+	std::map<std::string, SPRITE_ANIMATION> anims;
 	std::map<int, MOB_ENTITY>* mobs_recognized = new std::map<int, MOB_ENTITY>();
 	std::map<int, int>* mobs_recognizedMAP = new std::map<int, int>();
 	std::map<int, int>* mob_distances = new std::map<int, int>();
@@ -90,9 +93,26 @@ class PLAYER : public ENTITY {
 		}
 	}
 
+	std::map<std::string, int>* msgs = new std::map<std::string, int>();
 public:
 
 	SKILL* sk;
+
+	void sendMessage(std::string message, int entityid) {
+		int cnt = this->msgs->size();
+		(*this->msgs)[message]= entityid;
+	}
+
+	bool getMessage(std::string message) {
+
+		if ((*this->msgs)[message] >= 0) {
+
+			(*this->msgs)[message] = -1;
+			return true;
+		}
+
+		return false;
+	}
 
 	int identifyClosestMob() {
 		int current_eid = -1;
@@ -101,25 +121,27 @@ public:
 			if ((*mob_distances)[i] < dist || dist < 0) {
 				dist = (*mob_distances)[i];
 				
-				if ((*mob_distances_direction)[i] == FaceDirection) {
+				//if ((*mob_distances_direction)[i] == FaceDirection) {
 					current_eid = (*mobs_recognizedMAP)[i];
 					closestMobIndex = i;
-				}
+				//}
 			}
 		}
+
 
 		return current_eid;
 	}
 
 	void identifyMobs() {
 		int spawnedcount = static_cast<int>(spawned->size());
-		//mobs_recognizedMAP->clear();
-		for (size_t i = 0; i < spawned->size(); i++) {
+		mobs_recognizedMAP->clear();
+		for (size_t i = 0; i < spawnedTmpSize; i++) {
 			MOB_ENTITY* me = &spawned->at(i);
 			if(me != NULL) {
-				int mobx = spawned->at(i).ENTITY_ID;
-				(*mobs_recognized)[spawned->at(i).ENTITY_ID] = spawned->at(i);
-				(*mobs_recognizedMAP)[i] = mobx;
+				int mobx = me->ENTITY_ID;
+				//(*mobs_recognized)[me->ENTITY_ID] = *me;
+				int cnt = mobs_recognizedMAP->size();
+				(*mobs_recognizedMAP)[cnt] =  mobx;
 			}
 			
 			if (spawned->at(i).playerRect.x > playerRect.x) {
@@ -154,6 +176,11 @@ public:
 	}
 
 	void playerMotorize(const SDL_Event & event) {
+		if (getMessage("hit") == true) {
+			printf("\nKnock back message\n");
+			KnockBack();
+		}
+		spawnedTmpSize = spawned->size();
 		if (kbRecover > 0) {
 			kbRecover -= current_animation->delta;
 		}

@@ -28,6 +28,7 @@ public:
 			mobe = &spawned.at(spawned.size()-1);
 			
 			hbox->bindBoxToRect(static_cast<void*>(mobe), spawned.size()-1);
+			hbox->spacingX = 5;
 			
 		}
 

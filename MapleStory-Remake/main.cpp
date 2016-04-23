@@ -51,7 +51,9 @@ void gameRan() {
 	AUTOHITBOX* hbox = new AUTOHITBOX();
 	PLAYER* player = nullptr;
 
+	float lastCollisionCheck = 3.0f;
 int spawn_manage(void* data) {
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);
 	int startTime = SDL_GetTicks();
 	while (1) {
 		while (!pause){ 
@@ -59,11 +61,10 @@ int spawn_manage(void* data) {
 			spawnmgr.manage(hbox);
 
 			if (player != nullptr) {
-				hbox->checkCollision();
 				if (hbox->rectBinds.size() > 0) {
+					hbox->checkCollision(player, hbox->rectBinds);
 					hbox->rectBinds[0].rect = player->playerRect;
-					hbox->rectBinds[0].obj = static_cast<void*>(&player);
-					player->identifyMobs();
+					//hbox->rectBinds[0].obj = static_cast<void*>(&player);
 				}
 			}
 		}
@@ -73,7 +74,7 @@ int spawn_manage(void* data) {
 }
 
 int main(int argc, char* argv[]) {
-	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);
 	gameRan();
 	//return 1;
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -184,6 +185,7 @@ int main(int argc, char* argv[]) {
 		//hbox->rectBinds[0].rect = player.playerRect;
 		//hbox->rectBinds[0].obj = static_cast<void*>(&player);
 
+		player->identifyMobs();
 		//LIMIT FPS
 		unsigned int fps = 60;
 		if ((1000 / fps) > SDL_GetTicks() - tick) {

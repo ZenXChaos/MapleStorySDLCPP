@@ -146,6 +146,6 @@ public:
 		spawnmgr.MOBS = &MOBS;
 		spawnmgr.MOBS_LIST = &MOBS_LIST;
 
-		SDL_CreateThread(spawn_manage, "LazyThread", NULL);
+		SDL_CreateThread(spawn_manage, "spawnmgr", NULL);
 	}
 };
