@@ -41,7 +41,7 @@ public:
 	PLAYER_STATE state = idle;
 	KeyInput* KeyboardInput = new KeyInput();
 	SDL_Surface* playerSurface = nullptr;
-	SDL_Rect* playerRect = new SDL_Rect();
+	SDL_Rect playerRect;
 	HITBOX collider;
 	float deltaTime = 0.0f;
 	SDL_Surface* winSurface;
@@ -50,7 +50,7 @@ public:
 		if (current_frame >= max_frames - 1) {
 			current_frame = 0;
 		}
-		SDL_BlitSurface(playerSurface, &animclips[static_cast<int>(current_frame)], windowSurface, playerRect);
+		SDL_BlitSurface(playerSurface, &animclips[static_cast<int>(current_frame)], windowSurface, &playerRect);
 		
 
 		current_frame += deltaTime;
@@ -116,10 +116,10 @@ class PLAYER : public ENTITY {
 			else {
 				int tmp_f = static_cast<int>(sprite_max_frames);
 				addAnimation(&anims[sprite_anim_name.c_str()], 0, tmp_f, sprite_width, sprite_height);
-				playerRect->y = 220;
-				playerRect->x = 414;
-				playerRect->w = sprite_width;
-				playerRect->h = sprite_height;
+				playerRect.y = 220;
+				playerRect.x = 414;
+				playerRect.w = sprite_width;
+				playerRect.h = sprite_height;
 			}
 		}
 
@@ -145,7 +145,7 @@ public:
 			return;
 		}
 		if (kbUpState == 0) {
-			for (kbTmpPos.y = 0; kbTmpPos.y < playerRect->y; kbTmpPos.y++) {
+			for (kbTmpPos.y = 0; kbTmpPos.y < playerRect.y; kbTmpPos.y++) {
 			}
 			kbRecover = 5.0f;
 			kbUpState = 1;
@@ -167,11 +167,11 @@ public:
 		}
 		if (kbFactor > 0 || kbUpFactor > 0){
 			if (kbUpFactor > 5) {
-				this->playerRect->y-=1;
+				this->playerRect.y-=1;
 			}else{
-				this->playerRect->y+=1;
+				this->playerRect.y+=1;
 			}
-			this->playerRect->x -= 100/15;
+			this->playerRect.x -= 100/15;
 			kbFactor-= 100/10;
 			
 			kbUpFactor-= 2;
@@ -180,10 +180,10 @@ public:
 		else {
 			if (kbUpState == 1) {
 				kbUpState = 0;
-				playerRect->y = kbTmpPos.y;
+				playerRect.y = kbTmpPos.y;
 			}
 			if (this->KeyboardInput->isKeyHeld(event, SDL_SCANCODE_LEFT)) {
-				playerRect->x -= 2;
+				playerRect.x -= 2;
 				state = walking;
 				if (state_trans != 1) {
 					current_animation = &anims["walk_left"];
@@ -193,7 +193,7 @@ public:
 				FaceDirection = 0;
 			}
 			else if (this->KeyboardInput->isKeyHeld(event, SDL_SCANCODE_RIGHT)) {
-				playerRect->x += 2;
+				playerRect.x += 2;
 				state = walking;
 				if (state_trans != 2) {
 					current_animation = &anims["walk_right"];
@@ -237,8 +237,8 @@ public:
 		}
 		//SDL_BlitSurface(current_animation->display_surface, &current_animation->animRects[static_cast<int>(current_frame)], windowSurface, playerRect);
 		SDL_Rect tmpPlayerPos;
-		tmpPlayerPos = *playerRect;
-		tmpPlayerPos.y = playerRect->y;
+		tmpPlayerPos = playerRect;
+		tmpPlayerPos.y = playerRect.y;
 		//SDL_BlitSurface(mob_anim->display_surface, &mob_anim->animRects[static_cast<int>(mob_anim->current_frame)], windowSurface, &tmpMobPos);
 		tmpPlayerPos.h = current_animation->animRects[static_cast<int>(current_animation->current_frame)].h;
 		tmpPlayerPos.w = current_animation->animRects[static_cast<int>(current_animation->current_frame)].w;
@@ -255,7 +255,7 @@ public:
 			gRenderer = renderer;
 		}
 		loadAnims();
-		playerRect->x = 595;
-		playerRect->y = 214;
+		playerRect.x = 595;
+		playerRect.y = 214;
 	}
 };

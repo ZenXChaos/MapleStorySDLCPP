@@ -14,14 +14,19 @@ public:
 	size_t tmpSize=0;
 	bool busy = false;
 
-	void manage() {
+	void manage(AUTOHITBOX* hbox) {
 		indexTime = SDL_GetTicks() / 1000;
 
-		if (lastSpawn >= spawnEvery && maxmobspawn > spawned.size()) {
+		if (lastSpawn >= spawnEvery && static_cast<Uint32>(maxmobspawn) > spawned.size()) {
 			//indexTime = 0;
 			busy = true;
 			indexTime2 = indexTime;
 			spawnMob(MOBS->at("mush"));
+			MOB_ENTITY* mobe;
+			mobe = &spawned.at(spawned.size()-1);
+			
+			hbox->bindBoxToRect(static_cast<void*>(mobe), spawned.size()-1);
+			
 		}
 
 		lastSpawn = indexTime - indexTime2;
@@ -34,7 +39,10 @@ public:
 		memcpy(static_cast<void*>(&mob), static_cast<void*>(&MOBS->at(mob_name)), sizeof(MOB_ENTITY));
 		mob.current_animation = &mob.anims["idle_left"];
 		*/
+		mob.ENTITY_ID = spawned.size();
 		spawned.insert(spawned.end(), mob);
+		
+
 		SDL_Delay(1000);
 		busy = false;
 		tmpSize++;

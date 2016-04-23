@@ -6,14 +6,21 @@ public:
 	std::map<int, std::string> MOBS_LIST;
 	SDL_Renderer* gRenderer = NULL;
 
-	void displayAllMobs(PLAYER *target, bool pause = 0) {
+	void displayAllMobs(PLAYER *target, AUTOHITBOX* ahb, bool pause = 0) {
 		float cFrame = 0.0f;
 		for (size_t i = 0; i < spawnmgr.tmpSize; i++) {
+
 
 			MOB_ENTITY* tmpMob = &spawnmgr.spawned.at(i);
 			SPRITE_ANIMATION *mob_anim;
 			mob_anim = tmpMob->current_animation;
 			cFrame = mob_anim->current_frame;
+
+			for (size_t a = 1; a < ahb->rectBinds.size(); a++) {
+				if (ahb->rectBinds.at(a).HITBOX_ID == tmpMob->ENTITY_ID) {
+					ahb->rectBinds[a].rect = tmpMob->playerRect;
+				}
+			}
 
 			if (pause == true) {
 				cFrame = 0;
@@ -50,7 +57,7 @@ public:
 			tmpMob->setTarget(target);
 			tmpMob->scanTarget(tmpMob->MOB_NAME);
 
-			if (tmpMob->collider.findCollision(target->playerRect, tmpMob->MOB_NAME, NULL, NULL) == true && tmpMob->state != attack && cFrame > 0.0f) {
+			if (tmpMob->collider.findCollision(&target->playerRect, tmpMob->MOB_NAME, NULL, NULL) == true && tmpMob->state != attack && cFrame > 0.0f) {
 				if (tmpMob->state != attack) {
 					target->KnockBack();
 				}

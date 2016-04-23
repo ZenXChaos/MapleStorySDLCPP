@@ -60,7 +60,7 @@ public:
 	std::map<std::string, SPRITE_ANIMATION> anims;
 	SPRITE_ANIMATION* current_animation;
 	std::string MOB_NAME;
-	int MOB_ID;
+	int MOB_ID, ENTITY_ID=0;
 	ENTITY_LIFE Life;
 	PLAYER* target;
 
@@ -150,11 +150,11 @@ public:
 	}
 
 	bool targetIsRightOf() {
-		return (target->playerRect->x > this->playerRect.x);
+		return (target->playerRect.x > this->playerRect.x);
 	}
 
 	bool targetIsLeftOf() {
-		return (target->playerRect->x < this->playerRect.x);
+		return (target->playerRect.x < this->playerRect.x);
 	}
 	void scanTarget(std::string entity_name = "entity") {
 		collider.setCollider(playerRect, 1, 2, winSurface);

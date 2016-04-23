@@ -10,18 +10,18 @@ class NPC_JAMIE : public NPC {
 	PLAYER target;
 
 	bool targetIsRightOf() {
-		return (target.playerRect->x > this->playerRect->x);
+		return (target.playerRect.x > this->playerRect.x);
 	}
 
 	bool targetIsLeftOf() {
-		return (target.playerRect->x < this->playerRect->x);
+		return (target.playerRect.x < this->playerRect.x);
 	}
 
 	int lastPositionOf = 0;
 public:
 	SDL_Surface* winSurface;
 	void scanTarget() {
-		collider.setCollider(*playerRect, 1, 2, winSurface);
+		collider.setCollider(playerRect, 1, 2, winSurface);
 
 		if (targetIsLeftOf() == true) {
 			if (lastPositionOf != 1) {
@@ -53,10 +53,10 @@ public:
 			winSurface = windowSurfaceRef;
 		}
 
-		playerRect->w = 75;
-		playerRect->h = 89;
-		playerRect->x = 225;
-		playerRect->y = 197;
+		playerRect.w = 75;
+		playerRect.h = 89;
+		playerRect.x = 225;
+		playerRect.y = 197;
 
 		addAnimation(animclips, 0, 10, 75, 89);
 		playerSurface->format->Amask = 0xFe000000;
