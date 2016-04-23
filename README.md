@@ -16,6 +16,8 @@ Using C++ SDL and MapleStory as a base template -- this project is an MMORPG bui
 
 >> Knockback
 
+>> Skills
+
 > Animation
 
 > 2D Collision (HitBoxes)
@@ -36,6 +38,7 @@ Using C++ SDL and MapleStory as a base template -- this project is an MMORPG bui
 
 > Game Logic
 
+![SS](https://raw.githubusercontent.com/ZenXChaos/MapleStorySDLCPP/master/SS2.gif)
 ![SS](https://raw.githubusercontent.com/ZenXChaos/MapleStorySDLCPP/master/SS.gif)
 
 PS: The freezing in the screen-shot is me pausing the game :D
