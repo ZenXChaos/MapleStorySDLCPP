@@ -45,6 +45,7 @@ void gameRan() {
 	GAME* game;
 
 	AUTOHITBOX* hbox = new AUTOHITBOX();
+	PLAYER* player = nullptr;
 
 int spawn_manage(void* data) {
 	int startTime = SDL_GetTicks();
@@ -52,6 +53,12 @@ int spawn_manage(void* data) {
 		while (!pause){ 
 
 			spawnmgr.manage(hbox);
+
+			if (player != nullptr) {
+				hbox->checkCollision();
+				hbox->rectBinds[0].rect = player->playerRect;
+				hbox->rectBinds[0].obj = static_cast<void*>(&player);
+			}
 		}
 	}
 
@@ -74,7 +81,7 @@ int main(int argc, char* argv[]) {
 	gRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	game = new GAME(gRenderer);
-	PLAYER player(gRenderer);
+	player = new PLAYER(gRenderer);
 
 	//Uint32 color = SDL_MapRGB(windowSurface->format, 0xff, 0xff, 0xff);
 	Uint32 tick;
@@ -104,7 +111,7 @@ int main(int argc, char* argv[]) {
 	
 	game->loadMobList();
 
-	hbox->bindBoxToRect(static_cast<void*>(&player), 9999);
+	hbox->bindBoxToRect(static_cast<void*>(&player), 999);
 	//SDL_FillRect(windowSurface, NULL, SDL_MapRGB(windowSurface->format, 255, 255, 255));
 	while (running) {
 		//printf("SDL_Init failed: %s\n", SDL_GetError());
@@ -119,16 +126,16 @@ int main(int argc, char* argv[]) {
 				break;
 			case SDL_KEYDOWN:
 
-				player.KeyboardInput->keyDownEvent(event, tick);
+				player->KeyboardInput->keyDownEvent(event, tick);
 				
-				if (player.KeyboardInput->isKeyHeld(event, SDL_SCANCODE_ESCAPE) == true) {
+				if (player->KeyboardInput->isKeyHeld(event, SDL_SCANCODE_ESCAPE) == true) {
 					pause = !pause;
 
 					SDL_Delay(100);
 				}
 				break;
 			case SDL_KEYUP:
-				player.KeyboardInput->keyUpEvent(event, tick);
+				player->KeyboardInput->keyUpEvent(event, tick);
 				
 				//player.playerMotorize(event);
 				break;
@@ -156,16 +163,17 @@ int main(int argc, char* argv[]) {
 #ifdef DEBUG_MOBHITBOX
 		hbox->showHitbox(gRenderer);
 #endif
-		player.playAnimation(windowSurface);
-		player.playerMotorize(event);
+		player->playAnimation(windowSurface);
+		player->playerMotorize(event);
 		frame += 0.1f;
-		game->displayAllMobs(&player, hbox, pause);
+		game->displayAllMobs(player, hbox, pause);
 		//Render texture to screen
 		//SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
 
 		//Update screen
 		SDL_RenderPresent(gRenderer);
-		hbox->checkCollision();
+		//hbox->rectBinds[0].rect = player.playerRect;
+		//hbox->rectBinds[0].obj = static_cast<void*>(&player);
 
 		//LIMIT FPS
 		unsigned int fps = 60;

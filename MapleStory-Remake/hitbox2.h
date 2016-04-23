@@ -5,6 +5,9 @@ public:
 	SDL_Rect rect;
 	int entity_type;
 	int HITBOX_ID=0;
+
+
+	std::map<int, bool> currentCollisions;
 };
 
 class AUTOHITBOX {
@@ -37,6 +40,7 @@ public:
 				hb.obj = obj;
 				hb.rect = p->playerRect;
 				rectBinds[rectBinds.size()] = hb;
+				rectBinds[rectBinds.size() - 1].HITBOX_ID = hid;
 			}
 		}
 		catch (...) {
@@ -116,7 +120,7 @@ public:
 						void* obj = rectBinds[ii].obj;
 						pos1 = rectBinds[ii].rect;
 					}
-					else if (rectBinds[ii].entity_type == 1) {
+					else {
 						void* obj = rectBinds[ii].obj;
 						pos1 = rectBinds[ii].rect;
 					}
@@ -126,13 +130,38 @@ public:
 						void* obj = rectBinds[i].obj;
 						pos2 = rectBinds[i].rect;
 					}
-					else if (rectBinds[i].entity_type == 1) {
+					else {
 						void* obj = rectBinds[i].obj;
 						pos2 = rectBinds[i].rect;
 					}
 
 					if (isCollidedXY(pos1, pos2) == true) {
-						printf("Colliding! New Collision Engine!");
+						//printf("Colliding! New Collision Engine!");
+						if (rectBinds[i].currentCollisions[rectBinds[ii].HITBOX_ID] == false) {
+							if (rectBinds[i].entity_type == 0) {
+								PLAYER* p = static_cast<PLAYER*>(rectBinds[ii].obj);
+								if (p != nullptr) {
+									char tmpString[255] = "";
+									sprintf(tmpString, "ENTITY %i WITH ENTITY %i", rectBinds[i].HITBOX_ID, rectBinds[ii].HITBOX_ID);
+									p->sendMessage(tmpString, p);
+								}
+							}
+							else if (rectBinds[ii].entity_type == 1) {
+								MOB_ENTITY* me = static_cast<MOB_ENTITY*>(rectBinds[ii].obj);
+								if (me != nullptr) {
+									char tmpString[255] = "";
+									sprintf(tmpString, "ENTITY %i WITH ENTITY %i", rectBinds[i].HITBOX_ID, rectBinds[ii].HITBOX_ID);
+									me->sendMessage(tmpString, me);
+								}
+							}
+							
+						}
+						rectBinds[ii].currentCollisions[rectBinds[i].HITBOX_ID] = true;
+					}
+					else
+					{
+						rectBinds[ii].currentCollisions[rectBinds[i].HITBOX_ID] = false;
+
 					}
 				}
 			}

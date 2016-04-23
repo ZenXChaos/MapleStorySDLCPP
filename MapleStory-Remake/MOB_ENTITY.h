@@ -101,6 +101,7 @@ public:
 
 				current_animation = &anims["walk_right"];
 				FaceDirection = 1;
+
 				playerRect.x++;
 			}
 			else if (playerRect.x > nextTransitLocation.x) {

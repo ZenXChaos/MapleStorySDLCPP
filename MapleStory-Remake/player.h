@@ -26,6 +26,7 @@ protected:
 	float max_frames = 0;
 	float current_frame = 0.0f;
 
+
 	void addAnimation(SDL_Rect* clip, int row, int cnt, int w, int h)
 	{
 		for (int i = 0; i < cnt-1; i += 1) {
@@ -45,6 +46,10 @@ public:
 	HITBOX collider;
 	float deltaTime = 0.0f;
 	SDL_Surface* winSurface;
+
+	void sendMessage(std::string message, void* sender) {
+		printf("Collision message received: %s\n", message.c_str());
+	}
 
 	void playAnimation(SDL_Surface* windowSurface) {
 		if (current_frame >= max_frames - 1) {
@@ -78,6 +83,7 @@ class PLAYER : public ENTITY {
 	XMLElement * pRoot;
 
 	int FaceDirection = 0;
+
 
 	void addAnimation(SPRITE_ANIMATION* animr, int row, int cnt, int w, int h)
 	{

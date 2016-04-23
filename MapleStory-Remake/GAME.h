@@ -19,6 +19,7 @@ public:
 			for (size_t a = 1; a < ahb->rectBinds.size(); a++) {
 				if (ahb->rectBinds.at(a).HITBOX_ID == tmpMob->ENTITY_ID) {
 					ahb->rectBinds[a].rect = tmpMob->playerRect;
+					ahb->rectBinds[a].obj = static_cast<void*>(tmpMob);
 				}
 			}
 
