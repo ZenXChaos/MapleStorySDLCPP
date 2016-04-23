@@ -13,6 +13,7 @@ public:
 		animation.addAnimation(0, 10, 167, 297);
 		animation.delta = 0.2f;
 		animation.max_frames = 9.9f;
+		animation.current_frame = -1.0f;
 		pos.w = 167;
 		pos.h = 297;
 

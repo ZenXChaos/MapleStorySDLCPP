@@ -1,3 +1,4 @@
+
 class SPAWN_MANAGER {
 
 	Uint32 lastSpawn = 0;
@@ -15,6 +16,7 @@ public:
 	bool busy = false;
 
 	void manage(AUTOHITBOX* hbox) {
+
 		indexTime = SDL_GetTicks() / 1000;
 
 		if (lastSpawn >= spawnEvery && static_cast<Uint32>(maxmobspawn) > spawned.size()) {

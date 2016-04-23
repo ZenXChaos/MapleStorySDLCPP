@@ -1,5 +1,3 @@
-#pragma once
-
 #include "hitbox.h"
 
 class ENTITY_LOGIC {
@@ -9,6 +7,8 @@ public:
 
 	}
 };
+
+
 
 class PLAYER : public ENTITY {
 	std::map<std::string, SPRITE_ANIMATION> anims;
@@ -28,6 +28,14 @@ class PLAYER : public ENTITY {
 	float kbRecover = 0.0f;
 	SDL_Rect kbTmpPos;
 	std::vector<MOB_ENTITY>* spawned;
+	std::map<int, MOB_ENTITY>* mobs_recognized = new std::map<int, MOB_ENTITY>();
+	std::map<int, int>* mobs_recognizedMAP = new std::map<int, int>();
+	std::map<int, int>* mob_distances = new std::map<int, int>();
+	std::map<int, int>* mob_distances_direction = new std::map<int, int>();
+
+	int closestMob=-1;
+	int closestMobIndex=-1;
+
 	void addAnimation(SPRITE_ANIMATION* animr, int row, int cnt, int w, int h)
 	{
 		for (int i = 0; i < cnt; i += 1) {
@@ -85,6 +93,48 @@ class PLAYER : public ENTITY {
 public:
 
 	SKILL* sk;
+
+	int identifyClosestMob() {
+		int current_eid = -1;
+		int dist = -1;
+		for (size_t i = 0; i < spawned->size(); i++) {
+			if ((*mob_distances)[i] < dist || dist < 0) {
+				dist = (*mob_distances)[i];
+				
+				if ((*mob_distances_direction)[i] == FaceDirection) {
+					current_eid = (*mobs_recognizedMAP)[i];
+					closestMobIndex = i;
+				}
+			}
+		}
+
+		return current_eid;
+	}
+
+	void identifyMobs() {
+		int spawnedcount = static_cast<int>(spawned->size());
+		//mobs_recognizedMAP->clear();
+		for (size_t i = 0; i < spawned->size(); i++) {
+			MOB_ENTITY* me = &spawned->at(i);
+			if(me != NULL) {
+				int mobx = spawned->at(i).ENTITY_ID;
+				(*mobs_recognized)[spawned->at(i).ENTITY_ID] = spawned->at(i);
+				(*mobs_recognizedMAP)[i] = mobx;
+			}
+			
+			if (spawned->at(i).playerRect.x > playerRect.x) {
+				(*mob_distances)[i] = spawned->at(i).playerRect.x - playerRect.x;
+				(*mob_distances_direction)[i] = 1;
+			}
+			else {
+				(*mob_distances)[i] = playerRect.x - spawned->at(i).playerRect.x;
+				(*mob_distances_direction)[i] = 0;
+			}
+		}
+
+		closestMob = this->identifyClosestMob();
+	}
+
 	void KnockBack() {
 		if (kbRecover > 0.0f) {
 			return;
@@ -157,7 +207,7 @@ public:
 			}
 			else if (this->KeyboardInput->isKeyHeld(event, SDL_SCANCODE_C)) {
 				//playerRect->y -= 1;
-				if (state != attack && spawned->size()>0) {
+				if (state != attack && spawned->size()>0 && closestMob>0) {
 					sk->animation.current_frame = 0;
 					attack_statetrans = 0;
 					state = attack;
@@ -175,8 +225,8 @@ public:
 					std::uniform_int_distribution<int> uni(0, spawned->size()-1); // guaranteed unbiased
 
 					int random_integer = uni(rng);
-					sk->pos.x = spawned->at(random_integer).playerRect.x-30;
-					sk->pos.y = spawned->at(random_integer).playerRect.y-183;
+					sk->pos.x = spawned->at(this->closestMobIndex).playerRect.x-30;
+					sk->pos.y = spawned->at(this->closestMobIndex).playerRect.y-183;
 					
 				}
 			}
@@ -199,6 +249,7 @@ public:
 			printf("Player Position Updated: {%i, %i}\n", playerRect->x, playerRect->y);
 #endif
 		}
+
 	}
 
 	void playAnimation() {
@@ -234,7 +285,6 @@ public:
 
 		current_frame += current_animation->delta;
 		current_animation->current_frame = current_frame;
-
 	}
 
 	PLAYER(SDL_Renderer* renderer = NULL, std::vector<MOB_ENTITY>* spwnd = NULL) : ENTITY() {

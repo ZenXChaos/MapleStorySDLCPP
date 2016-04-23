@@ -1,4 +1,6 @@
 #pragma warning (disable : 4996)
+
+
 #define DEBUG_MOBHITBOX 1
 
 #include <stdio.h>
@@ -61,6 +63,7 @@ int spawn_manage(void* data) {
 				if (hbox->rectBinds.size() > 0) {
 					hbox->rectBinds[0].rect = player->playerRect;
 					hbox->rectBinds[0].obj = static_cast<void*>(&player);
+					player->identifyMobs();
 				}
 			}
 		}
@@ -70,6 +73,7 @@ int spawn_manage(void* data) {
 }
 
 int main(int argc, char* argv[]) {
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);
 	gameRan();
 	//return 1;
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -115,7 +119,7 @@ int main(int argc, char* argv[]) {
 	
 	game->loadMobList();
 
-	hbox->bindBoxToRect(static_cast<void*>(&player), 999);
+	hbox->bindBoxToRect(static_cast<void*>(player), 999);
 	//SDL_FillRect(windowSurface, NULL, SDL_MapRGB(windowSurface->format, 255, 255, 255));
 	while (running) {
 		//printf("SDL_Init failed: %s\n", SDL_GetError());
