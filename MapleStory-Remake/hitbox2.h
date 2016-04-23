@@ -116,24 +116,8 @@ public:
 					SDL_Rect pos1;
 					SDL_Rect pos2;
 
-					if (rectBinds[ii].entity_type == 0) {
-						void* obj = rectBinds[ii].obj;
-						pos1 = rectBinds[ii].rect;
-					}
-					else {
-						void* obj = rectBinds[ii].obj;
-						pos1 = rectBinds[ii].rect;
-					}
-
-
-					if (rectBinds[i].entity_type == 0) {
-						void* obj = rectBinds[i].obj;
-						pos2 = rectBinds[i].rect;
-					}
-					else {
-						void* obj = rectBinds[i].obj;
-						pos2 = rectBinds[i].rect;
-					}
+					pos1 = rectBinds[ii].rect;
+					pos2 = rectBinds[i].rect;
 
 					if (isCollidedXY(pos1, pos2) == true) {
 						//printf("Colliding! New Collision Engine!");

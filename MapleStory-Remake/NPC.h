@@ -21,7 +21,6 @@ class NPC_JAMIE : public NPC {
 public:
 	SDL_Surface* winSurface;
 	void scanTarget() {
-		collider.setCollider(playerRect, 1, 2, winSurface);
 
 		if (targetIsLeftOf() == true) {
 			if (lastPositionOf != 1) {

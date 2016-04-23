@@ -55,19 +55,6 @@ public:
 				mob_anim->current_frame = mob_anim->current_frame + mob_anim->delta;
 			}
 
-			tmpMob->setTarget(target);
-			tmpMob->scanTarget(tmpMob->MOB_NAME);
-
-			if (tmpMob->collider.findCollision(&target->playerRect, tmpMob->MOB_NAME, NULL, NULL) == true && tmpMob->state != attack && cFrame > 0.0f) {
-				if (tmpMob->state != attack) {
-					target->KnockBack();
-				}
-				tmpMob->state = attack;
-
-			}
-			else {
-				tmpMob->state = idle;
-			}
 
 			if ((tmpMob->state == idle || tmpMob->state == walking) && cFrame > 0.0f) {
 				tmpMob->roamAround();
@@ -133,7 +120,7 @@ public:
 				}
 				else {
 					int tmp_f = static_cast<int>(sprite_max_frames);
-					MOBS[mob_name].addAnimation(&MOBS[mob_name].anims[sprite_anim_name.c_str()], 0, tmp_f, sprite_width, sprite_height);
+					MOBS[mob_name].anims[sprite_anim_name.c_str()].addAnimation(0, tmp_f, sprite_width, sprite_height);
 					MOBS[mob_name].playerRect.y = 220;
 					MOBS[mob_name].playerRect.x = 414;
 					MOBS[mob_name].playerRect.w = sprite_width;

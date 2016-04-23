@@ -1,3 +1,69 @@
+
+
+class ENTITY_LIFE {
+
+public:
+	int Health = 0;
+	int Armour = 0;
+	int Mana = 0;
+	float eop = 0.0f;
+
+	Uint32 LifeTime = 0;
+	Uint32 Birth = 0;
+};
+
+
+enum PLAYER_STATE {
+	idle = 1, walking = 2, attack = 3
+};
+
+class ENTITY {
+
+protected:
+	SDL_Rect animclips[10];
+	float max_frames = 0;
+	float current_frame = 0.0f;
+
+
+	void addAnimation(SDL_Rect* clip, int row, int cnt, int w, int h)
+	{
+		for (int i = 0; i < cnt - 1; i += 1) {
+			clip[i].x = 0 + i * w;
+			clip[i].y = row * h;
+			clip[i].w = w;
+			clip[i].h = h;
+		}
+	}
+
+public:
+
+	PLAYER_STATE state = idle;
+	KeyInput* KeyboardInput = new KeyInput();
+	SDL_Surface* playerSurface = nullptr;
+	SDL_Rect playerRect;
+	float deltaTime = 0.0f;
+	SDL_Surface* winSurface;
+
+	void sendMessage(std::string message, void* sender) {
+		printf("Collision message received: %s\n", message.c_str());
+	}
+
+	void playAnimation(SDL_Surface* windowSurface) {
+		if (current_frame >= max_frames - 1) {
+			current_frame = 0;
+		}
+		SDL_BlitSurface(playerSurface, &animclips[static_cast<int>(current_frame)], windowSurface, &playerRect);
+
+
+		current_frame += deltaTime;
+
+	}
+
+	ENTITY() {
+
+	}
+};
+
 class MOB : public ENTITY {
 
 public:
@@ -13,43 +79,6 @@ class MOB_ENTITY : public ENTITY {
 	int FaceDirection = 0;
 
 
-	void loadAnims(void) {
-		tinyxml2::XMLDocument doc;
-
-		doc.LoadFile("player_anims.xml");
-
-		pRoot = doc.FirstChild()->FirstChildElement("anim");
-
-		for (; pRoot != nullptr; pRoot = pRoot->NextSiblingElement("anim")) {
-			std::string sprite_anim_name = pRoot->Attribute("name");
-			std::string sprite_filepath = pRoot->Attribute("sprite");
-			float sprite_delta = pRoot->FloatAttribute("delta");
-			float sprite_max_frames = pRoot->FloatAttribute("max_frames");
-			int sprite_width = pRoot->IntAttribute("sprite_width");
-			int sprite_height = pRoot->IntAttribute("sprite_height");
-
-			anims[sprite_anim_name.c_str()].display_surface = NULL;
-			anims[sprite_anim_name.c_str()].display_surface = IMG_Load(sprite_filepath.c_str());
-			anims[sprite_anim_name.c_str()].max_frames = sprite_max_frames;
-			anims[sprite_anim_name.c_str()].delta = sprite_delta;
-
-			if (anims[sprite_anim_name.c_str()].display_surface == NULL) {
-				printf("SDL Error: %s", SDL_GetError());
-			}
-			else {
-				int tmp_f = static_cast<int>(sprite_max_frames);
-				addAnimation(&anims[sprite_anim_name.c_str()], 0, tmp_f, sprite_width, sprite_height);
-			}
-		}
-
-		try {
-			current_animation = &anims[doc.FirstChild()->FirstChildElement("default_state")->Attribute("name")];
-		}
-		catch (...) {
-			printf("Error setting default animation! Assuming idle_left has been added!\n");
-		}
-	}
-
 	int state_trans = 0;
 
 	float nextRoam = 0.0f;
@@ -62,7 +91,6 @@ public:
 	std::string MOB_NAME;
 	int MOB_ID, ENTITY_ID=0;
 	ENTITY_LIFE Life;
-	PLAYER* target;
 
 	void extended_state_handler() {
 		if (state == attack) {
@@ -150,40 +178,6 @@ public:
 
 	}
 
-	bool targetIsRightOf() {
-		return (target->playerRect.x > this->playerRect.x);
-	}
-
-	bool targetIsLeftOf() {
-		return (target->playerRect.x < this->playerRect.x);
-	}
-	void scanTarget(std::string entity_name = "entity") {
-		collider.setCollider(playerRect, 1, 2, winSurface);
-
-		if (targetIsLeftOf() == true) {
-			if (lastPositionOf != 1) {
-				printf("Left of target (%s)!\n", entity_name.c_str());
-				if (state == idle) {
-					current_animation = &anims["idle_left"];
-				}
-
-				lastPositionOf = 1;
-			}
-		}
-		else {
-			if (lastPositionOf != 0) {
-				printf("Right of target (%s)!\n", entity_name.c_str());
-				if (state == idle) {
-					current_animation = &anims["idle_right"];
-				}
-				lastPositionOf = 0;
-			}
-		}
-	}
-
-	void setTarget(PLAYER* pl) {
-		target = pl;
-	}
 	int lastPositionOf = 0;
 
 	MOB_ENTITY() : ENTITY() {

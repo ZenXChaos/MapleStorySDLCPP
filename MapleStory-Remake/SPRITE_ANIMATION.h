@@ -15,6 +15,16 @@ public:
 	SDL_Texture* sprite;
 	SDL_Rect animRects[100];
 
+	void addAnimation(int row, int cnt, int w, int h)
+	{
+		for (int i = 0; i < cnt; i += 1) {
+			this->animRects[i].x = 0 + i * w;
+			this->animRects[i].y = row * h;
+			this->animRects[i].w = w;
+			this->animRects[i].h = h;
+		}
+	}
+
 	SDL_Texture* loadTexture(std::string path, SDL_Renderer* gRenderer)
 	{
 		//The final texture

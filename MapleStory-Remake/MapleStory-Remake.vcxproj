@@ -162,6 +162,7 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="physics.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="skillbook.h" />
     <ClInclude Include="spawn.h" />
     <ClInclude Include="SPRITE_ANIMATION.h" />
   </ItemGroup>

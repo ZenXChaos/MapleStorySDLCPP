@@ -18,9 +18,11 @@
 using namespace tinyxml2;
 using namespace std;
 
+#include "input.h"
 #include "SPRITE_ANIMATION.h"
-#include "player.h"
+#include "skillbook.h"
 #include "MOB_ENTITY.h"
+#include "player.h"
 #include "hitbox2.h"
 #include "NPC.h"
 #include "spawn.h"
@@ -56,8 +58,10 @@ int spawn_manage(void* data) {
 
 			if (player != nullptr) {
 				hbox->checkCollision();
-				hbox->rectBinds[0].rect = player->playerRect;
-				hbox->rectBinds[0].obj = static_cast<void*>(&player);
+				if (hbox->rectBinds.size() > 0) {
+					hbox->rectBinds[0].rect = player->playerRect;
+					hbox->rectBinds[0].obj = static_cast<void*>(&player);
+				}
 			}
 		}
 	}
@@ -81,7 +85,7 @@ int main(int argc, char* argv[]) {
 	gRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	game = new GAME(gRenderer);
-	player = new PLAYER(gRenderer);
+	player = new PLAYER(gRenderer, &spawnmgr.spawned);
 
 	//Uint32 color = SDL_MapRGB(windowSurface->format, 0xff, 0xff, 0xff);
 	Uint32 tick;
@@ -163,10 +167,11 @@ int main(int argc, char* argv[]) {
 #ifdef DEBUG_MOBHITBOX
 		hbox->showHitbox(gRenderer);
 #endif
-		player->playAnimation(windowSurface);
+
+		game->displayAllMobs(player, hbox, pause);
+		player->playAnimation();
 		player->playerMotorize(event);
 		frame += 0.1f;
-		game->displayAllMobs(player, hbox, pause);
 		//Render texture to screen
 		//SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
 

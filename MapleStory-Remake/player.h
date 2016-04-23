@@ -1,71 +1,6 @@
 #pragma once
 
 #include "hitbox.h"
-#include "input.h"
-
-class ENTITY_LIFE {
-
-public:
-	int Health = 0;
-	int Armour = 0;
-	int Mana = 0;
-	float eop = 0.0f;
-
-	Uint32 LifeTime = 0;
-	Uint32 Birth = 0;
-};
-
-enum PLAYER_STATE {
-	idle = 1, walking = 2, attack = 3
-};
-
-class ENTITY {
-	
-protected:
-	SDL_Rect animclips[10];
-	float max_frames = 0;
-	float current_frame = 0.0f;
-
-
-	void addAnimation(SDL_Rect* clip, int row, int cnt, int w, int h)
-	{
-		for (int i = 0; i < cnt-1; i += 1) {
-			clip[i].x = 0 + i * w;
-			clip[i].y = row * h;
-			clip[i].w = w;
-			clip[i].h = h;
-		}
-	}
-
-public:
-
-	PLAYER_STATE state = idle;
-	KeyInput* KeyboardInput = new KeyInput();
-	SDL_Surface* playerSurface = nullptr;
-	SDL_Rect playerRect;
-	HITBOX collider;
-	float deltaTime = 0.0f;
-	SDL_Surface* winSurface;
-
-	void sendMessage(std::string message, void* sender) {
-		printf("Collision message received: %s\n", message.c_str());
-	}
-
-	void playAnimation(SDL_Surface* windowSurface) {
-		if (current_frame >= max_frames - 1) {
-			current_frame = 0;
-		}
-		SDL_BlitSurface(playerSurface, &animclips[static_cast<int>(current_frame)], windowSurface, &playerRect);
-		
-
-		current_frame += deltaTime;
-		
-	}
-
-	ENTITY() {
-		
-	}
-};
 
 class ENTITY_LOGIC {
 	ENTITY entity;
@@ -84,7 +19,15 @@ class PLAYER : public ENTITY {
 
 	int FaceDirection = 0;
 
+	int state_trans = 0;
+	int attack_statetrans = 0;
 
+	int kbFactor = 0;
+	int kbUpFactor = 0;
+	int kbUpState = 0;
+	float kbRecover = 0.0f;
+	SDL_Rect kbTmpPos;
+	std::vector<MOB_ENTITY>* spawned;
 	void addAnimation(SPRITE_ANIMATION* animr, int row, int cnt, int w, int h)
 	{
 		for (int i = 0; i < cnt; i += 1) {
@@ -115,6 +58,8 @@ class PLAYER : public ENTITY {
 			anims[sprite_anim_name.c_str()].loadTexture(sprite_filepath.c_str(), gRenderer);
 			anims[sprite_anim_name.c_str()].max_frames = sprite_max_frames;
 			anims[sprite_anim_name.c_str()].delta = sprite_delta;
+			anims[sprite_anim_name.c_str()].yfactorup = pRoot->IntAttribute("yfactorup");
+			anims[sprite_anim_name.c_str()].yfactordown = pRoot->IntAttribute("yfactordown");
 
 			if (anims[sprite_anim_name.c_str()].sprite == NULL) {
 				printf("SDL Error: %s", SDL_GetError());
@@ -137,15 +82,9 @@ class PLAYER : public ENTITY {
 		}
 	}
 
-	int state_trans = 0;
-
-	int kbFactor = 0;
-	int kbUpFactor = 0;
-	int kbUpState = 0;
-	float kbRecover = 0.0f;
-	SDL_Rect kbTmpPos;
 public:
 
+	SKILL* sk;
 	void KnockBack() {
 		if (kbRecover > 0.0f) {
 			return;
@@ -216,6 +155,31 @@ public:
 				//playerRect->y -= 1;
 				state = walking;
 			}
+			else if (this->KeyboardInput->isKeyHeld(event, SDL_SCANCODE_C)) {
+				//playerRect->y -= 1;
+				if (state != attack && spawned->size()>0) {
+					sk->animation.current_frame = 0;
+					attack_statetrans = 0;
+					state = attack;
+					if (FaceDirection == 0) {
+						current_animation = &anims["attack01"];
+					}
+					else {
+
+						current_animation = &anims["attack01_right"];
+					}
+					current_animation->current_frame = 0;
+					current_frame = 0;
+					std::random_device rd;     // only used once to initialise (seed) engine
+					std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+					std::uniform_int_distribution<int> uni(0, spawned->size()-1); // guaranteed unbiased
+
+					int random_integer = uni(rng);
+					sk->pos.x = spawned->at(random_integer).playerRect.x-30;
+					sk->pos.y = spawned->at(random_integer).playerRect.y-183;
+					
+				}
+			}
 			else {
 				if (state_trans != 0) {
 					if (FaceDirection == 0) {
@@ -237,29 +201,48 @@ public:
 		}
 	}
 
-	void playAnimation(SDL_Surface* windowSurface) {
+	void playAnimation() {
 		if (current_frame >= current_animation->max_frames-1) {
 			current_frame = 0;
+			if (state == attack) {
+				if (FaceDirection == 0) {
+					current_animation = &anims["idle_left"];
+				}else{
+					current_animation = &anims["idle_right"];
+				}
+				state = idle;
+			}
+		}
+		if (sk->animation.current_frame >= sk->animation.max_frames - 1) {
+			sk->animation.current_frame = -1;
 		}
 		//SDL_BlitSurface(current_animation->display_surface, &current_animation->animRects[static_cast<int>(current_frame)], windowSurface, playerRect);
 		SDL_Rect tmpPlayerPos;
 		tmpPlayerPos = playerRect;
-		tmpPlayerPos.y = playerRect.y;
+		tmpPlayerPos.y = playerRect.y + current_animation->yfactordown - current_animation->yfactorup;
 		//SDL_BlitSurface(mob_anim->display_surface, &mob_anim->animRects[static_cast<int>(mob_anim->current_frame)], windowSurface, &tmpMobPos);
 		tmpPlayerPos.h = current_animation->animRects[static_cast<int>(current_animation->current_frame)].h;
 		tmpPlayerPos.w = current_animation->animRects[static_cast<int>(current_animation->current_frame)].w;
 
+
 		SDL_RenderCopy(gRenderer, current_animation->sprite, &current_animation->animRects[static_cast<int>(current_animation->current_frame)], &tmpPlayerPos);
 		
+		if (sk->animation.current_frame >= 0) {
+			SDL_RenderCopy(gRenderer, sk->animation.sprite, &sk->animation.animRects[static_cast<int>(sk->animation.current_frame)], &sk->pos);
+			sk->animation.current_frame += sk->animation.delta;
+		}
+
 		current_frame += current_animation->delta;
 		current_animation->current_frame = current_frame;
 
 	}
 
-	PLAYER(SDL_Renderer* renderer = NULL) : ENTITY() {
+	PLAYER(SDL_Renderer* renderer = NULL, std::vector<MOB_ENTITY>* spwnd = NULL) : ENTITY() {
 		if (renderer != NULL) {
 			gRenderer = renderer;
 		}
+		this->spawned = spwnd;
+		sk = new SKILL(gRenderer);
 		loadAnims();
 		playerRect.x = 595;
 		playerRect.y = 214;
