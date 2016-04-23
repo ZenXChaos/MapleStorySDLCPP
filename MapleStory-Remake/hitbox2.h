@@ -114,47 +114,47 @@ public:
 
 
 	void checkCollision(PLAYER* pp, std::map<int, _HITBOX> _rectBinds) {
-		for (size_t i = 0; i < _rectBinds.size(); i++) {
-			for (size_t ii = 0; ii < _rectBinds.size(); ii++) {
-				if (i != ii) {
-					SDL_Rect pos1;
-					SDL_Rect pos2;
+		int i = 0;
+		for (size_t ii = 1; ii < _rectBinds.size(); ii++) {
+			if (i != ii) {
+				SDL_Rect pos1;
+				SDL_Rect pos2;
 
-					pos1 = _rectBinds[ii].rect;
-					pos2 = _rectBinds[i].rect;
+				pos1 = _rectBinds[ii].rect;
+				pos2 = _rectBinds[i].rect;
 
-					pos1.x += spacingX;
-					pos1.y += spacingY;
+				pos1.x += spacingX;
+				pos1.y += spacingY;
 
-					if (isCollidedXY(pos1, pos2) == true) {
-						//printf("Colliding! New Collision Engine!");
-						if (_rectBinds[i].currentCollisions[_rectBinds[ii].HITBOX_ID] == false) {
-							if (_rectBinds[i].entity_type == 0) {
+				if (isCollidedXY(pos1, pos2) == true) {
+					//printf("Colliding! New Collision Engine!");
+					if (_rectBinds[i].currentCollisions[_rectBinds[ii].HITBOX_ID] == false) {
+						if (_rectBinds[i].entity_type == 0) {
 
-								if (pp != nullptr) {
-									char tmpString[255] = "";
-									sprintf(tmpString, "ENTITY %i WITH ENTITY %i", _rectBinds[i].HITBOX_ID, _rectBinds[ii].HITBOX_ID);
-									pp->sendMessage("hit", _rectBinds[ii].HITBOX_ID);
-								}
+							if (pp != nullptr) {
+								char tmpString[255] = "";
+								sprintf(tmpString, "ENTITY %i WITH ENTITY %i", _rectBinds[i].HITBOX_ID, _rectBinds[ii].HITBOX_ID);
+								pp->sendMessage("hit", _rectBinds[ii].HITBOX_ID);
 							}
-							else if (_rectBinds[ii].entity_type == 1) {
+						}/*
+						else if (_rectBinds[ii].entity_type == 1) {
 								
-								MOB_ENTITY* me = static_cast<MOB_ENTITY*>(_rectBinds[ii].obj);
-								if (me != nullptr) {
-									char tmpString[255] = "";
-									sprintf(tmpString, "ENTITY %i WITH ENTITY %i", _rectBinds[i].HITBOX_ID, _rectBinds[ii].HITBOX_ID);
-									me->sendMessage(tmpString, _rectBinds[ii].HITBOX_ID);
-								}
+							MOB_ENTITY* me = static_cast<MOB_ENTITY*>(_rectBinds[ii].obj);
+							if (me != nullptr) {
+								char tmpString[255] = "";
+								sprintf(tmpString, "ENTITY %i WITH ENTITY %i", _rectBinds[i].HITBOX_ID, _rectBinds[ii].HITBOX_ID);
+								//me->sendMessage(tmpString, _rectBinds[ii].HITBOX_ID);
 							}
-							
 						}
-						_rectBinds[ii].currentCollisions[_rectBinds[i].HITBOX_ID] = true;
+						*/
+							
 					}
-					else
-					{
-						_rectBinds[ii].currentCollisions[_rectBinds[i].HITBOX_ID] = false;
+					_rectBinds[ii].currentCollisions[_rectBinds[i].HITBOX_ID] = true;
+				}
+				else
+				{
+					_rectBinds[ii].currentCollisions[_rectBinds[i].HITBOX_ID] = false;
 
-					}
 				}
 			}
 		}

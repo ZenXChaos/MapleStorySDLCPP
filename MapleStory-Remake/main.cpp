@@ -56,13 +56,19 @@ int spawn_manage(void* data) {
 	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);
 	int startTime = SDL_GetTicks();
 	while (1) {
+		int lastCollideCheck = 0;
 		while (!pause){ 
 
 			spawnmgr.manage(hbox);
 
 			if (player != nullptr) {
 				if (hbox->rectBinds.size() > 0) {
-					hbox->checkCollision(player, hbox->rectBinds);
+					if (lastCollideCheck < 5) {
+						hbox->checkCollision(player, hbox->rectBinds);
+						lastCollideCheck = 0;
+					}else{
+						lastCollideCheck++;
+					}
 					hbox->rectBinds[0].rect = player->playerRect;
 					//hbox->rectBinds[0].obj = static_cast<void*>(&player);
 				}
