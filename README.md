@@ -30,6 +30,10 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 
 ---
 
+![SS](https://raw.githubusercontent.com/ZenXChaos/MapleStorySDLCPP/master/SS.gif)
+
+![SS2](https://raw.githubusercontent.com/ZenXChaos/MapleStorySDLCPP/master/SS2.gif)
+
 ##### Loading Mobs
 
 Mob data is stored at `data\mobs\mobs.zenx`. Each `mob` node contains all data related to a specific mob.
