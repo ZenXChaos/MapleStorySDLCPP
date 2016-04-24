@@ -1,53 +1,60 @@
-# MapleStory-Remake
+#### MapleSDL :: Creating a MapleStory based MMORPG for learning purposes.
 
-Using C++ SDL and MapleStory as a base template -- this project is an MMORPG built from the ground up.
+Disclaimer: All content has been downloaded from MapleSimulator, and is perfectly fine to user for learning and fan-based use. All assets are property of Nexon and it's partners. No commercial use of the `art`, please!
 
 ### Features
 
-> NPC
-
-> MOB
-
->> MOB Roam around
-
-> Player
-
->> Movement
-
->> Knockback
-
->> Skills
+* Art
 
 > Animation
 
-> 2D Collision (HitBoxes)
+* Mobs
+
+> Basic AI
+
+> State Machine
+
+> Roaming
+
+> Dynamic loading ( xml; .zenx files )
+
+* Player
+
+> Movement
+
+* Game Logic
+
+> Dynamic content loading
 
 > Spawn Manager
 
-> Pause Game
+---
 
-> C++ Analytics SDK (KeenIO)
+##### Loading Mobs
 
-### What's next?
+Mob data is stored at `data\mobs\mobs.zenx`. Each `mob` node contains all data related to a specific mob.
 
-> Better collision management // Hitbox manager
+The following attributes are required for binding an animation sprite sheet.
 
-> Physics
+> name="walk" // Animation name
 
-> Kombat
+> sprite="mobs\mush\walking\walking01_left.png" // Spritesheet file location : Starting at root of folder
 
-> Game Logic
+> max_frames="3" // Number of animations the spritesheet has
 
-![SS](https://raw.githubusercontent.com/ZenXChaos/MapleStorySDLCPP/master/SS2.gif)
-![SS](https://raw.githubusercontent.com/ZenXChaos/MapleStorySDLCPP/master/SS.gif)
+> delta="0.1" // How fast to animate the sprite?
 
-### Loading Mobs
+> sprite_width="100" // Width of individual sprites
 
-Mob data is stored in file `data\mobs\mobs.zenx`(XML Format).
-Just change the values accordingly.
+> sprite_height="100" // Heigh of individual sprites
+
+> yfactorup="0" //Shift sprite up by 0 on each frame
+
+Sprites should all be on one row. Multi-row spritesheets are not supported at this time.
 
 
-PS: The freezing in the screen-shot is me pausing the game :D
+This project is very active, and contributions are welcome! (:
 
-DISCLAIMER: NO CONTENT HAS BEEN EXTRACTED FROM Maple Global. ALL SPRITES ARE FROM `BannedStory`, AND CONTAINS SPRITES ONLY FROM SERVERS SUCH AS KMS, JMS, CMS, TMS -- WHICH ARE PERFECTLY LEGAL. http://www.maplesimulator.com/programs/bannedstory
-I OWN NONE OF THE SPRITES, ONLY THE FULL SOURCE CODE [@ZenXChaos](https://twitter.com/zenxchaos).
+[Follow me on Twitter](https://twitter.com/ZenXChaos)
+
+[Follow UberSnipDev on Twitter](https://twitter.com/UberSnipDev)
