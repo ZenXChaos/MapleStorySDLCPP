@@ -1,7 +1,3 @@
-/*This source code copyrighted by Lazy Foo' Productions (2004-2013)
-and may not be redistributed without written permission.*/
-//Version: 018
-
 #include "LUtil.h"
 #include <IL/il.h>
 #include <IL/ilu.h>
@@ -30,7 +26,7 @@ bool initGL()
     }
 
     //Set the viewport
-    glViewport( 0.f, 0.f, SCREEN_WIDTH, SCREEN_HEIGHT );
+    glViewport( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT );
 
     //Initialize Projection Matrix
     glMatrixMode( GL_PROJECTION );

@@ -1,7 +1,3 @@
-/*This source code copyrighted by Lazy Foo' Productions (2004-2013)
-and may not be redistributed without written permission.*/
-//Version: 011
-
 #include "LTexture.h"
 #include <IL/il.h>
 #include <IL/ilu.h>
@@ -396,8 +392,8 @@ void LTexture::render( GLfloat x, GLfloat y, LFRect* clip )
         GLfloat texRight = (GLfloat)mImageWidth / (GLfloat)mTextureWidth;
 
         //Vertex coordinates
-        GLfloat quadWidth = mImageWidth;
-        GLfloat quadHeight = mImageHeight;
+        GLfloat quadWidth = static_cast<GLfloat>(mImageWidth);
+        GLfloat quadHeight = static_cast<GLfloat>(mImageHeight);
 
         //Handle clipping
         if( clip != NULL )

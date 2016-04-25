@@ -1,9 +1,7 @@
-/*This source code copyrighted by Lazy Foo' Productions (2004-2013)
-and may not be redistributed without written permission.*/
-//Version: 012
-
 #ifndef LUTIL_H
 #define LUTIL_H
+
+
 
 #include "LOpenGL.h"
 #include <stdio.h>
