@@ -380,7 +380,7 @@ void LTexture::setPixel32( GLuint x, GLuint y, GLuint pixel )
     mPixels[ y * mTextureWidth + x ] = pixel;
 }
 
-void LTexture::render( GLfloat x, GLfloat y, LFRect* clip )
+void LTexture::render( GLfloat x, GLfloat y, GLint direction, LFRect* clip )
 {
     //If the texture exists
     if( mTextureID != 0 )
@@ -411,6 +411,11 @@ void LTexture::render( GLfloat x, GLfloat y, LFRect* clip )
 
         //Move to rendering point
         glTranslatef( x, y, 0.f );
+
+		if (direction == 1) {
+			glRotatef(180, 0, 180, 0);
+			glTranslatef(-quadWidth, y, 0.f);
+		}
 
         //Set vertex data
         LVertexData2D vData[ 4 ];
@@ -538,11 +543,12 @@ void LTexture::freeVBO()
     }
 }
 
-void AnimatedVBO::Animate() {
+void AnimatedVBO::Animate(GLfloat x, GLfloat y, GLint direction) {
 	if (static_cast<int>(this->current_frame) > this->max_frames-1) {
 		this->current_frame = 0;
 	}
-	this->textures[static_cast<int>(current_frame)].render((640 - this->textures[static_cast<int>(current_frame)].imageWidth()) / 2.f, (480 - this->textures[static_cast<int>(current_frame)].imageHeight()) / 2.f);
+
+	this->textures[static_cast<int>(current_frame)].render(x,y, direction);
 
 
 

@@ -47,7 +47,7 @@ Side Effects:
  -None
 */
 
-void update();
+void update(int val);
 /*
 Pre Condition:
  -None

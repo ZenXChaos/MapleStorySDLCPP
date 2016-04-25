@@ -163,7 +163,7 @@ class LTexture
          -None
         */
 
-        void render( GLfloat x, GLfloat y, LFRect* clip = NULL );
+        void render( GLfloat x, GLfloat y, GLint direction, LFRect* clip = NULL );
         /*
         Pre Condition:
          -A valid OpenGL context
@@ -285,7 +285,7 @@ class AnimatedVBO {
 public:
 
 	std::map<int, LTexture> textures;
-	void Animate();
+	void Animate(GLfloat x, GLfloat y, GLint direction);
 	void AddSprite(std::string filename, float d);
 
 };

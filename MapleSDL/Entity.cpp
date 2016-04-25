@@ -170,6 +170,7 @@ void Entity::WalkAway(SDL_Rect frompos) {
 }
 
 void Entity::Walk(FlipDirection direction) {
+	Direction = direction;
 	if (this->State == Attacking) {
 		return;
 	}
@@ -195,6 +196,5 @@ void Entity::Walk(FlipDirection direction) {
 		this->FaceDirection = SDL_FLIP_NONE;
 	}
 
-	Direction = direction;
 
 }

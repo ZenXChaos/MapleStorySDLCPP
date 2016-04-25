@@ -1,0 +1,24 @@
+<mobs>
+    <mob name="mush">
+        <AnimatedVBO delta="0.1">
+            <Sprite file="idle\move_0" />
+            <Sprite file="idle\move_1" />
+            <Sprite file="idle\move_2" />
+        </AnimatedVBO>
+        
+        <Entity>
+            <Name value="Mush" />
+            <Life>
+                <Health value="100" />
+            </Life>
+            
+            <Kombat>
+                <Weakness value="Love"/>
+                
+                <Skills>
+                
+                </Skills>
+            </Kombat>
+        </Entity>
+    </mob>
+</mobs>

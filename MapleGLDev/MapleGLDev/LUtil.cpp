@@ -6,7 +6,11 @@
 //VBO rendered texture
 LTexture gVBOTexture;
 LTexture gVBOTexture2;
+
 AnimatedVBO mushmob;
+AnimatedVBO mushmobwalk;
+
+int tick = 0;
 
 bool initGL()
 {
@@ -86,19 +90,22 @@ bool loadMedia()
 		printf("Unable to load OpenGL texture!\n");
 		return false;
 	}
-	mushmob.AddSprite("mobs\\mush\\move_0.png", 0.1f);
-	mushmob.AddSprite("mobs\\mush\\move_1.png", 0.1f);
-	mushmob.AddSprite("mobs\\mush\\move_2.png", 0.1f);
+	mushmob.AddSprite("mobs\\mush\\idle\\stand_0.png", 0.1f);
+	mushmob.AddSprite("mobs\\mush\\idle\\stand_1.png", 0.1f);
+
+	mushmobwalk.AddSprite("mobs\\mush\\walk\\move_0.png", 0.1f);
+	mushmobwalk.AddSprite("mobs\\mush\\walk\\move_1.png", 0.1f);
+	mushmobwalk.AddSprite("mobs\\mush\\walk\\move_2.png", 0.1f);
 
     return true;
 }
 
-void update()
+void update(int val)
 {
-
+	tick++;
 }
 
-extern void GameRun();
+extern void GameRun(int val);
 
 void render()
 {
@@ -111,7 +118,7 @@ void render()
     //Render textured quad using VBOs
 	//gVBOTexture.render( ( SCREEN_WIDTH - gVBOTexture.imageWidth() ) / 2.f, ( SCREEN_HEIGHT - gVBOTexture.imageHeight() ) / 2.f );
 	//gVBOTexture2.render((SCREEN_WIDTH - gVBOTexture.imageWidth()) / 2.f, (SCREEN_HEIGHT - gVBOTexture.imageHeight()) / 2.f);
-	GameRun();
+	GameRun(tick);
     //Update screen
     glutSwapBuffers();
 }

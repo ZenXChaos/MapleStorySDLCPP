@@ -20,17 +20,17 @@ void Entity::Draw() {
 	switch (this->State) {
 	case Idle:
 		//this->animations->at("idle").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
-		this->animations->at("idle").Animate();
+		this->animations->at("idle").Animate(pos.x, pos.y, this->Direction);
 		break;
 
 	case Walking:
 		//this->animations->at("walk").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
-		this->animations->at("walk").Animate();
+		this->animations->at("walk").Animate(pos.x, pos.y, this->Direction);
 		break;
 
 	case Attacking:
 		//this->animations->at("attack").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
-		this->animations->at("attack").Animate();
+		this->animations->at("attack").Animate(pos.x, pos.y, this->Direction);
 		break;
 	}
 }
@@ -127,6 +127,9 @@ void Entity::Roam() {
 	}
 }
 
+void Entity::Tick() {
+	this->tick ++;
+}
 void Entity::AI() {
 	//tick = SDL_GetTicks();
 	if (!chasing) {

@@ -18,8 +18,8 @@ class Entity {
 
 	LFRect nextTransitLocation = { 0,0,0,0 };
 	GLint roamDelayIndex = 0;
-	GLint tick;
-	GLint birth;
+	GLint tick = 0;
+	GLint birth = 0;
 
 	LFRect* currFrameData = new LFRect();
 
@@ -35,9 +35,10 @@ public:
 	void Station();
 	void Roam();
 	void AI();
+	void Tick();
 
 	GLint age() {
-		return (this->tick - this->birth) / 1000;
+		return (this->tick - this->birth)/100;
 	}
 
 	GLfloat GetHeight();

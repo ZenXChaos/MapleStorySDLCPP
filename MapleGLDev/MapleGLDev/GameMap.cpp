@@ -19,5 +19,5 @@ void GameMap::InitMap(std::string initMapFile, LFRect pos) {
 }
 
 void GameMap::DrawMap(LFRect pos) {
-	this->mapSprite.Animate();
+	this->mapSprite.Animate(pos.x, pos.y, 0);
 }

@@ -56,7 +56,7 @@ int main( int argc, char* args[] )
 void runMainLoop( int val )
 {
     //Frame logic
-    update();
+    update(val);
     render();
 
     //Run frame one more time
