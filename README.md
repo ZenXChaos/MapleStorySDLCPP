@@ -1,6 +1,6 @@
 #### MapleSDL :: Creating a MapleStory based MMORPG for learning purposes.
 
-Disclaimer: All content has been downloaded from MapleSimulator, and is perfectly fine to user for learning and fan-based use. All assets are property of Nexon and it's partners. No commercial use of the `art`, please!
+Disclaimer: All content has been downloaded from MapleSimulator, and is perfectly fine to use for learning and fan-based use. Only GMS discourages using it's assets, and therefor, no GMS assets are included in this project. All assets are property of Nexon and it's partners. No commercial use of the `art`, please! All sprites have been downloaded from https://maplesimulator.com/
 
 [Wiki Documentation](https://github.com/ZenXChaos/MapleStorySDLCPP/wiki)
 
