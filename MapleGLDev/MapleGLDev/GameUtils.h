@@ -12,6 +12,20 @@ public:
 		return uni(rng);
 	}
 
+	static std::string UniqID() {
+		std::string del = "abcdefghijklmnopqrstuvwxyz";
+
+		std::string fString = "";
+		for (size_t i = 0; i < del.size(); i++) {
+			std::random_device rd;     // only used once to initialise (seed) engine
+			std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+			std::uniform_int_distribution<int> uni(0, del.size() - 1); // guaranteed unbiased
+			fString += del[uni(rng)];
+		}
+
+		return fString;
+	}
+
 	static int RandomIntegerRange(int min, int max) {
 		std::random_device rd;     // only used once to initialise (seed) engine
 		std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)

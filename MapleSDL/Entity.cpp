@@ -18,15 +18,15 @@ using namespace std;
 void Entity::Draw() {
 	switch (this->State) {
 	case Idle:
-		this->animations->at("idle").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
+		this->animations.at("idle").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
 		break;
 
 	case Walking:
-		this->animations->at("walk").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
+		this->animations.at("walk").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
 		break;
 
 	case Attacking:
-		this->animations->at("attack").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
+		this->animations.at("attack").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
 		break;
 	}
 }
@@ -63,10 +63,10 @@ void Entity::Roam() {
 			fillRect.y = this->pos.y;
 			fillRect.w = this->currFrameData->w;
 			fillRect.h = this->currFrameData->h;
-			/*SDL_SetRenderDrawColor(this->animations->at("idle").getRenderer(), 0xFF, 0xF2, 0x00, 0xFF);
+			/*SDL_SetRenderDrawColor(this->animations.at("idle").getRenderer(), 0xFF, 0xF2, 0x00, 0xFF);
 			//SDL_RenderFillRect(gRenderer, &fillRect);
-			SDL_RenderDrawRect(this->animations->at("idle").getRenderer(), &fillRect);
-			SDL_SetRenderDrawColor(this->animations->at("idle").getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+			SDL_RenderDrawRect(this->animations.at("idle").getRenderer(), &fillRect);
+			SDL_SetRenderDrawColor(this->animations.at("idle").getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 			*/
 			if (this->pos.x < nextTransitLocation.x) {
 				for (int i = this->pos.x + ((this->currFrameData->w / 2) + (this->currFrameData->w / 4)); i < nextTransitLocation.x-5; i += 12) {
@@ -75,11 +75,11 @@ void Entity::Roam() {
 					tmpPos.x = i;
 					tmpPos.w = 10;
 					tmpPos.h = 10;
-					SDL_SetRenderDrawColor(this->animations->at("idle").getRenderer(), 0xFF, 0x00, 0x00, 0xFF);
-					SDL_RenderDrawRect(this->animations->at("idle").getRenderer(), &tmpPos);
-					SDL_RenderFillRect(this->animations->at("idle").getRenderer(), &tmpPos);
-					SDL_RenderDrawRect(this->animations->at("idle").getRenderer(), &fillRect);
-					SDL_SetRenderDrawColor(this->animations->at("idle").getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+					SDL_SetRenderDrawColor(this->animations.at("idle").getRenderer(), 0xFF, 0x00, 0x00, 0xFF);
+					SDL_RenderDrawRect(this->animations.at("idle").getRenderer(), &tmpPos);
+					SDL_RenderFillRect(this->animations.at("idle").getRenderer(), &tmpPos);
+					SDL_RenderDrawRect(this->animations.at("idle").getRenderer(), &fillRect);
+					SDL_SetRenderDrawColor(this->animations.at("idle").getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 				}
 			}
 			else {
@@ -89,11 +89,11 @@ void Entity::Roam() {
 					tmpPos.x = i;
 					tmpPos.w = 10;
 					tmpPos.h = 10;
-					SDL_SetRenderDrawColor(this->animations->at("idle").getRenderer(), 0xFF, 0x00, 0x00, 0xFF);
-					SDL_RenderDrawRect(this->animations->at("idle").getRenderer(), &tmpPos);
-					SDL_RenderFillRect(this->animations->at("idle").getRenderer(), &tmpPos);
-					SDL_RenderDrawRect(this->animations->at("idle").getRenderer(), &fillRect);
-					SDL_SetRenderDrawColor(this->animations->at("idle").getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+					SDL_SetRenderDrawColor(this->animations.at("idle").getRenderer(), 0xFF, 0x00, 0x00, 0xFF);
+					SDL_RenderDrawRect(this->animations.at("idle").getRenderer(), &tmpPos);
+					SDL_RenderFillRect(this->animations.at("idle").getRenderer(), &tmpPos);
+					SDL_RenderDrawRect(this->animations.at("idle").getRenderer(), &fillRect);
+					SDL_SetRenderDrawColor(this->animations.at("idle").getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 				}
 			}
 #endif

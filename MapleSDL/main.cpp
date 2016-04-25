@@ -8,6 +8,7 @@
 
 using namespace std;
 
+#include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
 #include "Entity.h"
@@ -49,7 +50,7 @@ int main(int argc, char* argv) {
 	Entity entity;
 	
 	game.LoadMobList(gRenderer);
-	game.LoadPlayerAnims(gRenderer, entity.animations);
+	game.LoadPlayerAnims(gRenderer, &entity);
 	game.InitSpawnManager();
 
 

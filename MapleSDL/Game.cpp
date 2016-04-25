@@ -11,6 +11,7 @@
 
 using namespace std;
 
+#include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
 #include "Entity.h"
@@ -32,7 +33,7 @@ void GAME::LoadMobList(SDL_Renderer* gRenderer){
 		int mob_init_mana = pRoot->IntAttribute("Mana");
 		
 		Entity mob;
-		MobList->insert(std::pair<std::string, Entity>(mob_name, mob));
+		(*MobList)[mob_name] = mob;
 
 		tinyxml2::XMLElement* aRoot = pRoot->FirstChildElement("animations")->FirstChildElement("anim");
 
@@ -47,12 +48,12 @@ void GAME::LoadMobList(SDL_Renderer* gRenderer){
 			int sprite_x_factor = aRoot->IntAttribute("xfactordown") - aRoot->IntAttribute("xfactorup");
 
 			AnimatedSprite as;
-			this->MobList->at(mob_name).animations->insert(std::pair<std::string, AnimatedSprite>(sprite_anim_name, as));
-			this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).LoadTexture(sprite_filepath.c_str(), gRenderer);
-			this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).BuildAnimation(0, sprite_max_frames, sprite_width, sprite_height, sprite_delta);
-			this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).yfactor = sprite_y_factor;
-			this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).xfactor = sprite_x_factor;
-			if (MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).texture == nullptr) {
+			this->MobList->at(mob_name).animations.insert(std::pair<std::string, AnimatedSprite>(sprite_anim_name, as));
+			this->MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).LoadTexture(sprite_filepath.c_str(), gRenderer);
+			this->MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).BuildAnimation(0, sprite_max_frames, sprite_width, sprite_height, sprite_delta);
+			this->MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).yfactor = sprite_y_factor;
+			this->MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).xfactor = sprite_x_factor;
+			if (MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).texture == nullptr) {
 				printf("SDL Error: %s", SDL_GetError());
 			}
 			
@@ -101,12 +102,13 @@ Entity* GAME::IdentifyMob(int mobid) {
 
 void GAME::ManageMobPool() {
 	for (size_t i = 0; i < spawn_manager.spawned.size(); i++) {
+
 		spawn_manager.spawned[i].Draw();
 		spawn_manager.spawned[i].AI();
 	}
 }
 
-void GAME::LoadPlayerAnims(SDL_Renderer* gRenderer, std::map<std::string, AnimatedSprite>* animlist) {
+void GAME::LoadPlayerAnims(SDL_Renderer* gRenderer, Entity* ent) {
 	tinyxml2::XMLElement* pRoot;
 	tinyxml2::XMLDocument doc;
 
@@ -124,15 +126,15 @@ void GAME::LoadPlayerAnims(SDL_Renderer* gRenderer, std::map<std::string, Animat
 		int sprite_height = pRoot->IntAttribute("sprite_height");
 
 		AnimatedSprite as;
-		animlist->insert(std::pair<std::string, AnimatedSprite>(sprite_anim_name, as));
-		animlist->at(sprite_anim_name.c_str()).LoadTexture(sprite_filepath.c_str(), gRenderer);
+		ent->animations[sprite_anim_name] = as;
+		ent->animations[sprite_anim_name].LoadTexture(sprite_filepath.c_str(), gRenderer);
 		
-		if (animlist->at(sprite_anim_name.c_str()).texture == NULL) {
+		if (ent->animations[sprite_anim_name].texture == NULL) {
 			printf("SDL Error: %s\n", SDL_GetError());
 		}
 		else {
 			int tmp_f = static_cast<int>(sprite_max_frames);
-			animlist->at(sprite_anim_name.c_str()).BuildAnimation(0, sprite_max_frames, sprite_width, sprite_height, sprite_delta);
+			ent->animations[sprite_anim_name].BuildAnimation(0, sprite_max_frames, sprite_width, sprite_height, sprite_delta);
 			printf("Animation built and loaded: %s\n", sprite_anim_name.c_str());
 		}
 	}

@@ -14,6 +14,7 @@
 
 using namespace std;
 
+#include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "Entity.h"
 #include "SpawnManager.h"
@@ -26,8 +27,8 @@ Entity mobmush;
 
 void InitGameMGR() {
 
-	mobmush.animations->insert(std::pair<std::string, AnimatedVBO>("idle", mushmob));
-	mobmush.animations->insert(std::pair<std::string, AnimatedVBO>("walk", mushmobwalk));
+	mobmush.animations.insert(std::pair<std::string, AnimatedVBO>("idle", mushmob));
+	mobmush.animations.insert(std::pair<std::string, AnimatedVBO>("walk", mushmobwalk));
 }
 
 void GameRun(int val) {
@@ -66,8 +67,8 @@ void GAME::LoadMobList() {
 			//int sprite_x_factor = aRoot->IntAttribute("xfactordown") - aRoot->IntAttribute("xfactorup");
 
 			AnimatedVBO avbo;
-			this->MobList->at(mob_name).animations->insert(std::pair<std::string, AnimatedVBO>(sprite_anim_name, avbo));
-			this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).AddSprite(sprite_filepath, sprite_delta);
+			this->MobList->at(mob_name).animations[sprite_anim_name] = avbo;
+			this->MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).AddSprite(sprite_filepath, sprite_delta);
 			//this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).BuildAnimation(0, sprite_max_frames, sprite_width, sprite_height, sprite_delta);
 			//this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).yfactor = sprite_y_factor;
 			//this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).xfactor = sprite_x_factor;

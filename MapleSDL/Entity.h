@@ -26,7 +26,7 @@ class Entity {
 public:
 	Uint32 roamDelay = 3;
 	FlipDirection Direction = Left;
-	std::map<std::string, AnimatedSprite>* animations= new std::map<std::string, AnimatedSprite>();
+	std::map<std::string, AnimatedSprite> animations;
 
 	void Draw();
 	void Walk(FlipDirection direction);
@@ -35,6 +35,8 @@ public:
 	void Station();
 	void Roam();
 	void AI();
+
+	std::string uniq_id;
 
 	Uint32 age() {
 		return (this->tick - this->birth)/1000;
@@ -48,5 +50,6 @@ public:
 	Entity(){
 		this->FaceDirection = SDL_FLIP_HORIZONTAL;
 		this->birth = SDL_GetTicks();
+		this->uniq_id = GameUtils::UniqID() + GameUtils::UniqID();
 	}
 };

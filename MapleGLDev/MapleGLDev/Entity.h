@@ -4,7 +4,6 @@ enum EntityState {
 
 class Entity {
 	LFRect pos;
-	//SDL_RendererFlip FaceDirection = SDL_FLIP_NONE;
 	EntityState State;
 
 	int walkSpeed = 0;
@@ -26,7 +25,7 @@ class Entity {
 public:
 	GLint roamDelay = 3;
 	FlipDirection Direction = FlipDirection::Left;
-	std::map<std::string, AnimatedVBO>* animations = new std::map<std::string, AnimatedVBO>();
+	std::map<std::string, AnimatedVBO> animations ;
 
 	void Draw();
 	void Walk(FlipDirection direction);
@@ -36,6 +35,8 @@ public:
 	void Roam();
 	void AI();
 	void Tick();
+
+	std::string uniq_id = "";
 
 	GLint age() {
 		return (this->tick - this->birth)/100;
@@ -49,5 +50,6 @@ public:
 	Entity() {
 		//this->FaceDirection = SDL_FLIP_HORIZONTAL;
 		//this->birth = SDL_GetTicks();
+		this->uniq_id = GameUtils::UniqID() + GameUtils::UniqID();
 	}
 };

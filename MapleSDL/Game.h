@@ -10,7 +10,7 @@ public:
 	Entity* IdentifyMob(std::string mobname);
 	Entity* IdentifyMob(int mobid);
 	void LoadMobList(SDL_Renderer* gRenderer);
-	void LoadPlayerAnims(SDL_Renderer* gRenderer, std::map<std::string, AnimatedSprite>* animlist);
+	void LoadPlayerAnims(SDL_Renderer* gRenderer, Entity* ent);
 	void InitSpawnManager();
 	void ManageMobPool();
 };

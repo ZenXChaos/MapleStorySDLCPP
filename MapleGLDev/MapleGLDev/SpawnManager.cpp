@@ -11,6 +11,7 @@
 
 using namespace std;
 
+#include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "Entity.h"
 #include "SpawnManager.h"
