@@ -2,6 +2,8 @@
 
 Disclaimer: All content has been downloaded from MapleSimulator, and is perfectly fine to user for learning and fan-based use. All assets are property of Nexon and it's partners. No commercial use of the `art`, please!
 
+[Wiki Documentation](https://github.com/ZenXChaos/MapleStorySDLCPP/wiki)
+
 ### Features
 
 * Art
