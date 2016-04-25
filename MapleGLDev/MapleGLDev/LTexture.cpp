@@ -167,7 +167,7 @@ bool LTexture::loadTextureFromFileWithColorKey( std::string path, GLubyte r, GLu
 
     //Go through pixels
     GLuint size = mTextureWidth * mTextureHeight;
-    for( int i = 0; i < size; ++i )
+    for( int i = 0; i < static_cast<int>(size); ++i )
     {
         //Get pixel colors
         GLubyte* colors = (GLubyte*)&mPixels[ i ];
