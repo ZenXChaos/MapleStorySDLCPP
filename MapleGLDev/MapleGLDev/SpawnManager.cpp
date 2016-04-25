@@ -1,23 +1,21 @@
-#include <SDL.h>
-#include <SDL_image.h>
+#include "LUtil.h"
+#include <IL/il.h>
+#include <IL/ilu.h>
+#include "LTexture.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
 #include <map>
 #include <vector>
-#include <tinyxml2.h>
-
-#pragma comment(lib, "tinyxml2.lib")
 
 using namespace std;
 
 #include "RelativeSpace.h"
-#include "AnimatedSprite.h"
 #include "Entity.h"
 #include "SpawnManager.h"
-#include "Game.h"
 
-void SpawnManager::ManagePool(Uint32 tick) {
+void SpawnManager::ManagePool(GLint tick) {
 	this->lastSpawn = (tick/1000) - lastSpawnIndex;
 	if (static_cast<size_t>(this->lastSpawn) > this->SpawnEvery && this->spawned.size() < this->maxSpawn) {
 		this->lastSpawnIndex = (tick/1000);

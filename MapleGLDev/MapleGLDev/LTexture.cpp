@@ -549,7 +549,7 @@ void AnimatedVBO::Animate() {
 	this->current_frame += this->delta;
 }
 
-void AnimatedVBO::AddAnimation(std::string filename, float d = 0.1f) {
+void AnimatedVBO::AddSprite(std::string filename, float d = 0.1f) {
 	this->delta = 0.1f;
 	this->textures[this->textures.size()];
 

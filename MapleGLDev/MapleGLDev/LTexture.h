@@ -286,7 +286,7 @@ public:
 
 	std::map<int, LTexture> textures;
 	void Animate();
-	void AddAnimation(std::string filename, float d);
+	void AddSprite(std::string filename, float d);
 
 };
 

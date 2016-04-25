@@ -127,12 +127,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="LTexture.cpp" />
     <ClCompile Include="LUtil.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SpawnManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameUtils.h" />
     <ClInclude Include="LFRect.h" />
     <ClInclude Include="LOpenGL.h" />
@@ -142,6 +147,7 @@
     <ClInclude Include="LVertexData2D.h" />
     <ClInclude Include="LVertexPos2D.h" />
     <ClInclude Include="RelativeSpace.h" />
+    <ClInclude Include="SpawnManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

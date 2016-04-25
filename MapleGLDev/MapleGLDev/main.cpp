@@ -10,6 +10,8 @@ Side Effects:
  -Sets glutTimerFunc
 */
 
+extern void InitGameMGR();
+
 int main( int argc, char* args[] )
 {
     //Initialize FreeGLUT
@@ -36,6 +38,8 @@ int main( int argc, char* args[] )
         printf( "Unable to load media!\n" );
         return 2;
     }
+
+	InitGameMGR();
 
     //Set rendering function
     glutDisplayFunc( render );
