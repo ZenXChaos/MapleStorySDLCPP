@@ -18,6 +18,9 @@ using namespace std;
 #define DEBUG_MOBTRANSIT_RAYCAST 0
 
 void Entity::Draw() {
+	if (this->alive == false) {
+		return;
+	}
 	switch (this->State) {
 	case Idle:
 		this->animations.at("idle").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
@@ -37,6 +40,11 @@ void Entity::Draw() {
 	case Recovery:
 		this->animations.at("hit").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
 		currentAnimation = &this->animations.at("hit");
+		break;
+
+	case Death:
+		this->animations.at("die").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
+		currentAnimation = &this->animations.at("die");
 		break;
 	}
 }
@@ -93,7 +101,7 @@ void Entity::Roam() {
 					tmpPos.x = i;
 					tmpPos.w = 10;
 					tmpPos.h = 10;
-					SDL_SetRenderDrawColor(this->animations.at("idle").getRenderer(), 0xFF, 0x00, 0x00, 0xFF);
+					SDL_SetRenderDrawColor(this->animations.at("idle").getRenderer(), nextTransitLocation.x, nextTransitLocation.x*2, nextTransitLocation.x, 0xFF);
 					SDL_RenderDrawRect(this->animations.at("idle").getRenderer(), &tmpPos);
 					SDL_RenderFillRect(this->animations.at("idle").getRenderer(), &tmpPos);
 					SDL_RenderDrawRect(this->animations.at("idle").getRenderer(), &fillRect);
@@ -107,7 +115,7 @@ void Entity::Roam() {
 					tmpPos.x = i;
 					tmpPos.w = 10;
 					tmpPos.h = 10;
-					SDL_SetRenderDrawColor(this->animations.at("idle").getRenderer(), 0xFF, 0x00, 0x00, 0xFF);
+					SDL_SetRenderDrawColor(this->animations.at("idle").getRenderer(), nextTransitLocation.x, nextTransitLocation.x*2, nextTransitLocation.x, 0xFF);
 					SDL_RenderDrawRect(this->animations.at("idle").getRenderer(), &tmpPos);
 					SDL_RenderFillRect(this->animations.at("idle").getRenderer(), &tmpPos);
 					SDL_RenderDrawRect(this->animations.at("idle").getRenderer(), &fillRect);
@@ -142,28 +150,40 @@ void Entity::Roam() {
 
 void Entity::AI() {
 	tick = SDL_GetTicks();
-	switch (this->State) {
-	case EntityState::Recovery:
-		if (this->recoveryIndex > 0.0f) {
-			recoveryIndex -= currentAnimation->getDelta();
+	if (this->State != EntityState::Death) {
+		switch (this->State) {
+		case EntityState::Recovery:
+			if (this->recoveryIndex > 0.0f) {
+				recoveryIndex -= currentAnimation->getDelta();
+			}
+			else {
+				this->State = Idle;
+			}
+
+			break;
+
+		case EntityState::Death:
+			if (this->currentAnimation->percentComplete() >= 90) {
+				this->Kill();
+			}
+			break;
+		}
+		if (this->State == EntityState::Recovery) {
+
 		}
 		else {
-			this->State = Idle;
-		}
-
-		break			;
-	}
-	if (this->State == EntityState::Recovery) {
-
-	}
-	else {
-		if (!chasing) {
-			if (State == Idle || roaming) {
-				Roam();
+			if (!chasing) {
+				if (State == Idle || roaming) {
+					Roam();
+				}
 			}
 		}
 	}
-
+	else {
+		if (this->currentAnimation->percentComplete() >= 95 || this->currentAnimation->isFinishedPlaying() == true&& this->alive == true) {
+			this->alive = false;
+		}
+	}
 	
 }
 
@@ -262,6 +282,14 @@ void Player::IdentifyMobs() {
 void Entity::TakeHit() {
 	this->State = EntityState::Recovery;
 	this->recoveryIndex = 3.0f;
+}
+
+void Entity::PrepKill() {
+	this->State = EntityState::Death;
+}
+
+void Entity::Kill() {
+	this->alive = false;
 }
 
 void Player::ManageState() {

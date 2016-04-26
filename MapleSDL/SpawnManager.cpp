@@ -32,4 +32,7 @@ void SpawnManager::ManagePool(Uint32 tick) {
 		this->spawned.insert(this->spawned.end(), *tmpMob);
 		this->spawned.at(this->spawned.size() - 1).SetPositionY(210);
 	}
+	else if (this->spawned.size() >= this->maxSpawn) {
+		this->lastSpawnIndex = (tick / 1000);
+	}
 }

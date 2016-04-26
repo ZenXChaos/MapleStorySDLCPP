@@ -2,7 +2,13 @@
 #define ENTITY_H
 
 enum EntityState {
-	Idle=0, Walking=1, Attacking=3, Recovery=4
+	Idle=0, Walking=1, Attacking=3, Recovery=4, Death=5
+};
+
+class EntityLife {
+
+public:
+	int Health = 100;
 };
 
 class Entity {
@@ -34,9 +40,13 @@ public:
 	EntityState State;
 	MessageDispatch dispatch_message;
 
+	EntityLife Life;
+
 	Uint32 roamDelay = 3;
 	FlipDirection Direction = Left;
 	std::map<std::string, AnimatedSprite> animations;
+
+	bool alive = true;
 
 	void Draw();
 	void Walk(FlipDirection direction);
@@ -46,6 +56,8 @@ public:
 	void Roam();
 	void AI();
 	void TakeHit();
+	void Kill();
+	void PrepKill();
 
 	std::string uniq_id;
 

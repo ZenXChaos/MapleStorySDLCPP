@@ -67,7 +67,7 @@ void AnimatedSprite::Animate(SDL_Rect pos, double angle, SDL_Point* center, SDL_
 	this->current_frame += this->delta;
 	this->animFinished = false;
 
-	if (this->current_frame > this->max_frames - 1) {
+	if (this->current_frame > this->max_frames-1) {
 		this->current_frame = 0;
 		this->animFinished = true;
 	}

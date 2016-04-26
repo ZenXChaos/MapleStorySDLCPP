@@ -115,9 +115,15 @@ Entity* Game::IdentifyMob(int mobid) {
 
 void Game::ManageMobPool() {
 	for (size_t i = 0; i < spawn_manager.spawned.size(); i++) {
+		if (this->spawn_manager.spawned[i].alive == false) {
 
-		spawn_manager.spawned[i].Draw();
-		spawn_manager.spawned[i].AI();
+			this->spawn_manager.spawned.erase(this->spawn_manager.spawned.begin()+i);
+			break;
+		}
+		else {
+			spawn_manager.spawned[i].AI();
+			spawn_manager.spawned[i].Draw();
+		}
 	}
 
 	gameWorld->Step(1.0f, 56, 80);
