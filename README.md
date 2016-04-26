@@ -1,6 +1,6 @@
 #### MapleSDL :: Creating a MapleStory based MMORPG for learning purposes.
 
-Disclaimer: All content has been downloaded from MapleSimulator, and is perfectly fine to use for learning and fan-based use. Only GMS discourages using it's assets, and therefor, no GMS assets are included in this project. All assets are property of Nexon and it's partners. No commercial use of the `art`, please! All sprites have been downloaded from https://maplesimulator.com/
+Disclaimer: All content has been downloaded from MapleSimulator, and is perfectly fine to use for learning and fan-based use. Only GMS discourages using it's assets, and therefor, no GMS assets are included in this project. All assets are property of Nexon and it's partners. No commercial use of the `art`, please! All sprites have been downloaded from https://maplesimulator.com/. Please be mindful that this project is NOT a private server, and does not act like so in any form. This project does not even follow MapleStory's plot -- and does not require it to be installed. MapleStory just happens to be the most open with their art, and I happen to be a long time mega-fan of MapleStory. Again, this is for learning how to construct your own MMORPG. (:
 
 [Wiki Documentation](https://github.com/ZenXChaos/MapleStorySDLCPP/wiki)
 
