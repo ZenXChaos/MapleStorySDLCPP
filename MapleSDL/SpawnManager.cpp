@@ -6,11 +6,13 @@
 #include <map>
 #include <vector>
 #include <tinyxml2.h>
+#include <Box2D\Box2D.h>
 
 #pragma comment(lib, "tinyxml2.lib")
 
 using namespace std;
 
+#include "Box.h"
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"

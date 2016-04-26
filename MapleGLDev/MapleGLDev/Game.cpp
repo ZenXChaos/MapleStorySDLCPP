@@ -37,7 +37,7 @@ void GameRun(int val) {
 	mobmush.Draw();
 }
 
-void GAME::LoadMobList() {
+void Game::LoadMobList() {
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLElement* pRoot;
 	doc.LoadFile("data\\mobs\\mobs.zenx");
@@ -90,7 +90,7 @@ void GAME::LoadMobList() {
 	}
 }
 
-Entity* GAME::IdentifyMob(std::string mobname) {
+Entity* Game::IdentifyMob(std::string mobname) {
 	std::map<std::string, Entity> moblist = *MobList;
 	std::map<std::string, int>::iterator it = MOBS_MAPPINGSTRING.find(mobname);
 	if (it != MOBS_MAPPINGSTRING.end()) {
@@ -101,12 +101,12 @@ Entity* GAME::IdentifyMob(std::string mobname) {
 	return nullptr;
 }
 
-void GAME::InitSpawnManager() {
+void Game::InitSpawnManager() {
 	//Initialize spawn_manager mob list with list from Game.
 	spawn_manager.MobList = new std::map<std::string, Entity>(*this->MobList);
 }
 
-Entity* GAME::IdentifyMob(int mobid) {
+Entity* Game::IdentifyMob(int mobid) {
 	std::map<std::string, Entity> moblist = *MobList;
 	std::map<int, std::string>::iterator it = MOBS_MAPPING.find(mobid);
 	if (it != MOBS_MAPPING.end()) {
@@ -119,14 +119,14 @@ Entity* GAME::IdentifyMob(int mobid) {
 	return nullptr;
 }
 
-void GAME::ManageMobPool() {
+void Game::ManageMobPool() {
 	for (size_t i = 0; i < spawn_manager.spawned.size(); i++) {
 		spawn_manager.spawned[i].Draw();
 		spawn_manager.spawned[i].AI();
 	}
 }
 
-void GAME::LoadPlayerAnims(std::map<std::string, AnimatedVBO>* animlist) {
+void Game::LoadPlayerAnims(std::map<std::string, AnimatedVBO>* animlist) {
 	tinyxml2::XMLElement* pRoot;
 	tinyxml2::XMLDocument doc;
 

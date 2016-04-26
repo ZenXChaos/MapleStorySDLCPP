@@ -5,9 +5,11 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <Box2D\Box2D.h>
 
 using namespace std;
 
+#include "Box.h"
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
@@ -18,6 +20,7 @@ using namespace std;
 #include "Game.h"
 
 #undef main
+
 int main(int argc, char* argv) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -46,7 +49,7 @@ int main(int argc, char* argv) {
 		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
 	}
 
-	GAME game;
+	Game game;
 	Entity entity;
 	
 	game.LoadMobList(gRenderer);

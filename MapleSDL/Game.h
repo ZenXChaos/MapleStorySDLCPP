@@ -1,9 +1,10 @@
-class GAME {
+class Game {
 
 	std::map<std::string, Entity>* MobList = new std::map<std::string, Entity>();
 	std::map<std::string, Entity> MOBS_LIST;
 	std::map<int, std::string> MOBS_MAPPING;
 	std::map<std::string, int> MOBS_MAPPINGSTRING;
+	SDL_Renderer* mainRenderer;
 public:
 	SpawnManager spawn_manager;
 
@@ -13,4 +14,25 @@ public:
 	void LoadPlayerAnims(SDL_Renderer* gRenderer, Entity* ent);
 	void InitSpawnManager();
 	void ManageMobPool();
+
+	b2World* gameWorld;
+
+	Box tmpBox;
+	Game() {
+		b2Vec2 gravity(0.0f, 9.81f);
+		this->gameWorld = new b2World(gravity);
+
+		b2BodyDef ground;
+		ground.position.Set(0, 500);
+
+		b2Body* groundBody;
+		groundBody = gameWorld->CreateBody(&ground);
+
+		b2PolygonShape groundBox;
+		groundBox.SetAsBox(50.0f, 10.0f);
+		groundBody->CreateFixture(&groundBox, 0.0f);
+
+		tmpBox.Init(gameWorld, { 1, 1 }, { 1.0, 1.0f });
+
+	}
 };

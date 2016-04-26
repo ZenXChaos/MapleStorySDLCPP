@@ -1,4 +1,4 @@
-class GAME {
+class Game {
 
 	std::map<std::string, Entity>* MobList = new std::map<std::string, Entity>();
 	std::map<std::string, Entity> MOBS_LIST;

@@ -74,7 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\MapleGLDev\freeglut\include;$(SolutionDir)\MapleGLDev\glew-1.11.0\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\MapleGLDev\freeglut\include;$(SolutionDir)\MapleGLDev\glew-1.11.0\include;$(SolutionDir)\MapleSDL\B2D</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\MapleGLDev\freeglut\lib;$(SolutionDir)\MapleGLDev\glew-1.11.0\lib;</AdditionalLibraryDirectories>
@@ -100,7 +100,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\MapleGLDev\freeglut\include;$(SolutionDir)\MapleGLDev\glew-1.11.0\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\MapleGLDev\freeglut\include;$(SolutionDir)\MapleGLDev\glew-1.11.0\include;$(SolutionDir)\MapleSDL\B2D</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
