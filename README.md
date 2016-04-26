@@ -6,6 +6,10 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 
 ### Features
 
+* Physics
+ 
+> Box2D (Experimental)
+
 * Art
 
 > Animation
@@ -24,11 +28,27 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 
 > Movement
 
+> Attacking
+
+> State Machine
+
 * Game Logic
+
+> Basic Map
 
 > Dynamic content loading
 
 > Spawn Manager
+
+> MessageDispatching (Player to Mob) entity communication.
+
+---
+
+#### Controls
+
+Movement : Left / Right Arrow Keys
+
+Attack: C
 
 ---
 
