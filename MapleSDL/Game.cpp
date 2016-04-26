@@ -12,6 +12,7 @@
 
 using namespace std;
 
+#include "Input.h"
 #include "MessageDispatch.h"
 #include "GameUtils.h"
 #include "RelativeSpace.h"
@@ -20,6 +21,14 @@ using namespace std;
 #include "SpawnManager.h"
 #include "Box.h"
 #include "Game.h"
+
+void Game::SetMainPlayer(Player* mp) {
+	this->mainPlayer = mp;
+}
+
+Player* Game::GetMainPlayer() {
+	return this->mainPlayer;
+}
 
 void Game::LoadMobList(SDL_Renderer* gRenderer){
 	this->mainRenderer = gRenderer;
@@ -114,8 +123,8 @@ void Game::ManageMobPool() {
 	gameWorld->Step(1.0f, 56, 80);
 
 	SDL_Rect testBox2D;
-	testBox2D.x = this->tmpBox.getBody()->GetPosition().x;
-	testBox2D.y = this->tmpBox.getBody()->GetPosition().y;
+	testBox2D.x = static_cast<int>(this->tmpBox.getBody()->GetPosition().x);
+	testBox2D.y = static_cast<int>(this->tmpBox.getBody()->GetPosition().y);
 	testBox2D.w = 20;
 	testBox2D.h = 20;
 
@@ -125,11 +134,10 @@ void Game::ManageMobPool() {
 	SDL_RenderDrawRect(this->mainRenderer, &testBox2D);
 	SDL_SetRenderDrawColor(this->mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
-	printf("Box Pos y = %f\n", this->tmpBox.getBody()->GetPosition().y);
-	printf("Box Pos x = %f\n", this->tmpBox.getBody()->GetPosition().x);
+	mainPlayer->IdentifyMobs();
 }
 
-void Game::LoadPlayerAnims(SDL_Renderer* gRenderer, Entity* ent) {
+void Game::LoadPlayerAnims(SDL_Renderer* gRenderer, Player* ent) {
 	tinyxml2::XMLElement* pRoot;
 	tinyxml2::XMLDocument doc;
 

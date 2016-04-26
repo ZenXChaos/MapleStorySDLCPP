@@ -12,6 +12,7 @@
 
 using namespace std;
 
+#include "Input.h"
 #include "MessageDispatch.h"
 #include "Box.h"
 #include "GameUtils.h"

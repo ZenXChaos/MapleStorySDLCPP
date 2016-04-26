@@ -5,15 +5,19 @@ class Game {
 	std::map<int, std::string> MOBS_MAPPING;
 	std::map<std::string, int> MOBS_MAPPINGSTRING;
 	SDL_Renderer* mainRenderer;
+
+	Player* mainPlayer;
 public:
 	SpawnManager spawn_manager;
 
 	Entity* IdentifyMob(std::string mobname);
 	Entity* IdentifyMob(int mobid);
 	void LoadMobList(SDL_Renderer* gRenderer);
-	void LoadPlayerAnims(SDL_Renderer* gRenderer, Entity* ent);
+	void LoadPlayerAnims(SDL_Renderer* gRenderer, Player* ent);
 	void InitSpawnManager();
 	void ManageMobPool();
+	void SetMainPlayer(Player* mp);
+	Player* GetMainPlayer();
 
 	b2World* gameWorld;
 

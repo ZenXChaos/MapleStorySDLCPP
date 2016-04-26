@@ -9,13 +9,13 @@
 
 using namespace std;
 
+#include "Input.h"
 #include "MessageDispatch.h"
 #include "Box.h"
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
 #include "Entity.h"
-#include "Input.h"
 #include "SpawnManager.h"
 #include "GameMap.h"
 #include "Game.h"
@@ -52,8 +52,10 @@ int main(int argc, char* argv) {
 	}
 
 	Game game;
-	Entity entity;
+	Input PlayerInput;
+	Player entity(&game.spawn_manager.spawned, &PlayerInput);
 	
+	game.SetMainPlayer(&entity);
 	game.LoadMobList(gRenderer);
 	game.LoadPlayerAnims(gRenderer, &entity);
 	game.InitSpawnManager();
@@ -62,7 +64,6 @@ int main(int argc, char* argv) {
 	//IDENFITY A MOB
 	//Entity mush = *game.IdentifyMob("mush");
 
-	Input PlayerInput;
 
 	GameMap map;
 	SDL_Rect mapPos;
@@ -104,6 +105,7 @@ int main(int argc, char* argv) {
 		}
 
 		map.DrawMap(mapPos);
+		entity.ManageState();
 		entity.Draw();
 		game.ManageMobPool();
 

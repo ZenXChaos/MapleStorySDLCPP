@@ -6,18 +6,21 @@ enum EntityState {
 };
 
 class Entity {
+protected:
 	SDL_Rect pos;
 	SDL_RendererFlip FaceDirection = SDL_FLIP_NONE;
-	EntityState State;
 
 	int walkSpeed = 0;
 	int maxWalkSpeed = 1;
 	int walkSpeedAccel = 1;
 	int minRoamTransit = 100;
 
+	float recoveryIndex = 0;
+
 	bool usesAccel;
 	bool roaming = false;
 	bool chasing = false;
+	bool attacking = false;
 
 	SDL_Rect nextTransitLocation = { 0,0,0,0 };
 	Uint32 roamDelayIndex = 0;
@@ -25,8 +28,10 @@ class Entity {
 	Uint32 birth;
 
 	SDL_Rect* currFrameData = new SDL_Rect();
+	AnimatedSprite* currentAnimation;
 
 public:
+	EntityState State;
 	MessageDispatch dispatch_message;
 
 	Uint32 roamDelay = 3;
@@ -35,11 +40,12 @@ public:
 
 	void Draw();
 	void Walk(FlipDirection direction);
-	void Entity::WalkAway(SDL_Rect topos);
-	void Entity::WalkTowards(SDL_Rect topos);
+	void WalkAway(SDL_Rect topos);
+	void WalkTowards(SDL_Rect topos);
 	void Station();
 	void Roam();
 	void AI();
+	void TakeHit();
 
 	std::string uniq_id;
 
@@ -51,6 +57,8 @@ public:
 	int GetWidth();
 	void SetPositionX(int y);
 	void SetPositionY(int y);
+	int GetPositionX();
+	int GetPositionY();
 
 	void test(void) {
 		printf("%i", this->chasing);
@@ -63,6 +71,25 @@ public:
 		this->birth = SDL_GetTicks();
 		this->uniq_id = GameUtils::UniqID() + GameUtils::UniqID();
 		//this->dispatch_message.RegisterMessage("Hit", &IsHit, this);
+	}
+};
+
+class Player : public Entity {
+	int attackRange=100;
+
+	Entity* closestMob = nullptr;
+	Input* playerInput;
+public:
+
+	std::vector<Entity>* spawned;
+	std::vector<Entity*> inRange;
+
+	void IdentifyMobs();
+	void ManageState();
+
+	Player(std::vector<Entity>* sp, Input* pi) : Entity(){
+		spawned = sp;
+		playerInput = pi;
 	}
 };
 

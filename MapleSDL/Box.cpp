@@ -9,13 +9,13 @@
 
 using namespace std;
 
+#include "Input.h"
 #include "MessageDispatch.h"
 #include "Box.h"
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
 #include "Entity.h"
-#include "Input.h"
 #include "SpawnManager.h"
 #include "GameMap.h"
 #include "Game.h"

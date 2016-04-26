@@ -1,3 +1,5 @@
 void IsHit(Entity *e) {
-	printf("Is hit!\n");
+	if (GameUtils::RandomIntegerRange(0, 10) <= 5) {
+		e->TakeHit();
+	}
 }

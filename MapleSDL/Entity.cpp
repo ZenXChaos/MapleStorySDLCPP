@@ -8,6 +8,7 @@
 
 using namespace std;
 
+#include "Input.h"
 #include "MessageDispatch.h"
 #include "GameUtils.h"
 #include "RelativeSpace.h"
@@ -20,14 +21,22 @@ void Entity::Draw() {
 	switch (this->State) {
 	case Idle:
 		this->animations.at("idle").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
+		currentAnimation = &this->animations.at("idle");
 		break;
 
 	case Walking:
 		this->animations.at("walk").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
+		currentAnimation = &this->animations.at("walk");
 		break;
 
 	case Attacking:
 		this->animations.at("attack").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
+		currentAnimation = &this->animations.at("attack");
+		break;
+
+	case Recovery:
+		this->animations.at("hit").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
+		currentAnimation = &this->animations.at("hit");
 		break;
 	}
 }
@@ -38,6 +47,14 @@ void Entity::SetPositionY(int y) {
 
 void Entity::SetPositionX(int x) {
 	this->pos.x = x;
+}
+
+int Entity::GetPositionY() {
+	return this->pos.y;
+}
+
+int Entity::GetPositionX() {
+	return this->pos.x;
 }
 
 int Entity::GetWidth() {
@@ -125,11 +142,29 @@ void Entity::Roam() {
 
 void Entity::AI() {
 	tick = SDL_GetTicks();
-	if (!chasing) {
-		if (State == Idle || roaming) {
-			Roam();
+	switch (this->State) {
+	case EntityState::Recovery:
+		if (this->recoveryIndex > 0.0f) {
+			recoveryIndex -= currentAnimation->getDelta();
+		}
+		else {
+			this->State = Idle;
+		}
+
+		break			;
+	}
+	if (this->State == EntityState::Recovery) {
+
+	}
+	else {
+		if (!chasing) {
+			if (State == Idle || roaming) {
+				Roam();
+			}
 		}
 	}
+
+	
 }
 
 void Entity::WalkTowards(SDL_Rect topos) {
@@ -198,4 +233,54 @@ void Entity::Walk(FlipDirection direction) {
 	}
 
 
+}
+
+void Player::IdentifyMobs() {
+	this->closestMob = nullptr;
+	this->inRange.clear();
+	
+	int dist = -1;
+	size_t i = 0;
+	for (std::vector<Entity>::iterator mob = spawned->begin();mob != spawned->end();mob++) {
+		if (mob->GetPositionX() > this->pos.x) {
+			int mobd = mob->GetPositionX() - this->pos.x;
+			if (mob->GetPositionX() - this->pos.x <= this->attackRange) {
+				this->closestMob = &this->spawned->at(i);
+				dist = mob->GetPositionX() - this->pos.x;
+			}
+		}else{
+			if (this->pos.x - mob->GetPositionX() <= this->attackRange) {
+				this->closestMob = &this->spawned->at(i);
+				dist = this->pos.x - mob->GetPositionX();
+			}
+		}
+
+		i++;
+	}
+}
+
+void Entity::TakeHit() {
+	this->State = EntityState::Recovery;
+	this->recoveryIndex = 3.0f;
+}
+
+void Player::ManageState() {
+	if (this->State == EntityState::Attacking) {
+		if (this->currentAnimation->isFinishedPlaying()) {
+			this->State = EntityState::Idle;
+			this->attacking = false;
+		}else{
+			float pdone = this->currentAnimation->percentComplete();
+			if (this->currentAnimation->percentComplete() >= 50.0f && attacking == false) {
+				if (this->closestMob != nullptr) {
+					this->closestMob->dispatch_message.RegisterMessage("IsHit", &IsHit, this->closestMob);
+					this->attacking = true;
+				}
+			}
+		}
+	}
+
+	if (playerInput->IsKeyPressed(SDL_SCANCODE_C) && this->State != EntityState::Attacking) {
+		this->State = EntityState::Attacking;
+	}
 }

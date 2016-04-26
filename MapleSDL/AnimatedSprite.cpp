@@ -65,10 +65,14 @@ void AnimatedSprite::Animate(SDL_Rect pos, double angle, SDL_Point* center, SDL_
 
 	//SDL_RenderCopy(this->renderer, this->texture, &this->animclips[static_cast<int>(this->current_frame)], &pos);
 	this->current_frame += this->delta;
+	this->animFinished = false;
 
 	if (this->current_frame > this->max_frames - 1) {
 		this->current_frame = 0;
+		this->animFinished = true;
 	}
+
+	this->percentDone = (this->current_frame/this->max_frames)*100;
 }
 
 void AnimatedSprite::BuildAnimation(int row, int cnt, int w, int h, float d = 0.1f)
