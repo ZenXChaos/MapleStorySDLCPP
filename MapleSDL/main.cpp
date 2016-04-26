@@ -9,6 +9,7 @@
 
 using namespace std;
 
+#include "MessageDispatch.h"
 #include "Box.h"
 #include "GameUtils.h"
 #include "RelativeSpace.h"
@@ -18,6 +19,7 @@ using namespace std;
 #include "SpawnManager.h"
 #include "GameMap.h"
 #include "Game.h"
+#include "HelperFunctions.h"
 
 #undef main
 

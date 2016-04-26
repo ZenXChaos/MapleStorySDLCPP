@@ -1,3 +1,6 @@
+#ifndef ENTITY_H
+#define ENTITY_H
+
 enum EntityState {
 	Idle=0, Walking=1, Attacking=3, Recovery=4
 };
@@ -24,6 +27,8 @@ class Entity {
 	SDL_Rect* currFrameData = new SDL_Rect();
 
 public:
+	MessageDispatch dispatch_message;
+
 	Uint32 roamDelay = 3;
 	FlipDirection Direction = Left;
 	std::map<std::string, AnimatedSprite> animations;
@@ -47,9 +52,18 @@ public:
 	void SetPositionX(int y);
 	void SetPositionY(int y);
 
+	void test(void) {
+		printf("%i", this->chasing);
+
+		return;
+	}
+
 	Entity(){
 		this->FaceDirection = SDL_FLIP_HORIZONTAL;
 		this->birth = SDL_GetTicks();
 		this->uniq_id = GameUtils::UniqID() + GameUtils::UniqID();
+		//this->dispatch_message.RegisterMessage("Hit", &IsHit, this);
 	}
 };
+
+#endif

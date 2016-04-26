@@ -175,6 +175,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameUtils.h" />
+    <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="MessageDispatch.h" />
     <ClInclude Include="RelativeSpace.h" />

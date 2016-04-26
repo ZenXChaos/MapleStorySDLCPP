@@ -9,6 +9,7 @@
 
 using namespace std;
 
+#include "MessageDispatch.h"
 #include "Box.h"
 #include "GameUtils.h"
 #include "RelativeSpace.h"

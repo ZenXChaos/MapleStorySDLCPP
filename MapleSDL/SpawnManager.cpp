@@ -12,6 +12,7 @@
 
 using namespace std;
 
+#include "MessageDispatch.h"
 #include "Box.h"
 #include "GameUtils.h"
 #include "RelativeSpace.h"
@@ -26,6 +27,7 @@ void SpawnManager::ManagePool(Uint32 tick) {
 	if (static_cast<size_t>(this->lastSpawn) > this->SpawnEvery && this->spawned.size() < this->maxSpawn) {
 		this->lastSpawnIndex = (tick/1000);
 		Entity *tmpMob = new Entity(this->MobList->at("mush"));
+
 		this->spawned.insert(this->spawned.end(), *tmpMob);
 		this->spawned.at(this->spawned.size() - 1).SetPositionY(210);
 	}

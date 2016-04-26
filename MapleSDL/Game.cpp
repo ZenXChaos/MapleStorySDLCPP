@@ -12,6 +12,7 @@
 
 using namespace std;
 
+#include "MessageDispatch.h"
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
