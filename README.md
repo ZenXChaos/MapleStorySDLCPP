@@ -16,6 +16,8 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 
 * Mobs
 
+> Item Drops
+
 > Basic AI
 
 > State Machine
