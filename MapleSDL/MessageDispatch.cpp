@@ -7,6 +7,7 @@
 #include <vector>
 #include <tinyxml2.h>
 #include <Box2D/Box2D.h>
+#include "GameDebug.h"
 
 #pragma comment(lib, "tinyxml2.lib")
 
@@ -17,6 +18,7 @@ using namespace std;
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
+#include "MISC\ItemDrop.hpp"
 #include "Entity.h"
 #include "SpawnManager.h"
 #include "Box.h"

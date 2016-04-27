@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include "GameDebug.h"
 
 using namespace std;
 
@@ -32,6 +33,11 @@ bool AnimatedSprite::LoadTexture(std::string path, SDL_Renderer* gRenderer)
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
 			return false;
 		}
+#ifdef DEBUG_SPRITETEXTURE_LOADED
+		else {
+			printf("Texture loaded!.. %s\n", path.c_str());
+		}
+#endif
 
 		this->renderer = gRenderer;
 

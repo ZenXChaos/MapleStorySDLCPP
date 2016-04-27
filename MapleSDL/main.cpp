@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include <Box2D\Box2D.h>
+#include "GameDebug.h"
 
 using namespace std;
 
@@ -15,11 +16,13 @@ using namespace std;
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
+#include "MISC\ItemDrop.hpp"
 #include "Entity.h"
 #include "SpawnManager.h"
 #include "GameMap.h"
 #include "Game.h"
 #include "HelperFunctions.h"
+
 
 #undef main
 
@@ -56,6 +59,7 @@ int main(int argc, char* argv) {
 	Player entity(&game.spawn_manager.spawned, &PlayerInput);
 	
 	game.SetMainPlayer(&entity);
+	game.LoadItemDrops(gRenderer);
 	game.LoadMobList(gRenderer);
 	game.LoadPlayerAnims(gRenderer, &entity);
 	game.InitSpawnManager();
@@ -108,6 +112,7 @@ int main(int argc, char* argv) {
 		entity.ManageState();
 		entity.Draw();
 		game.ManageMobPool();
+		game.ManageMapObjects();
 
 		//Update screen
 		SDL_RenderPresent(gRenderer);

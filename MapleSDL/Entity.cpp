@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include "GameDebug.h"
 
 using namespace std;
 
@@ -13,9 +14,8 @@ using namespace std;
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
+#include "MISC\ItemDrop.hpp"
 #include "Entity.h"
-
-#define DEBUG_MOBTRANSIT_RAYCAST 0
 
 void Entity::Draw() {
 	if (this->alive == false) {
@@ -55,6 +55,10 @@ void Entity::SetPositionY(int y) {
 
 void Entity::SetPositionX(int x) {
 	this->pos.x = x;
+}
+
+SDL_Rect Entity::GetPosition() {
+	return this->pos;
 }
 
 int Entity::GetPositionY() {

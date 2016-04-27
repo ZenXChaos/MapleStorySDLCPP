@@ -4,6 +4,10 @@ class Game {
 	std::map<std::string, Entity> MOBS_LIST;
 	std::map<int, std::string> MOBS_MAPPING;
 	std::map<std::string, int> MOBS_MAPPINGSTRING;
+
+	std::map<string, GameItemDrop> gameItemDrops;
+	std::vector<GameItemDrop> mapItemDrops; // Items dropped in map
+
 	SDL_Renderer* mainRenderer;
 
 	Player* mainPlayer;
@@ -14,9 +18,11 @@ public:
 	Entity* IdentifyMob(int mobid);
 	void LoadMobList(SDL_Renderer* gRenderer);
 	void LoadPlayerAnims(SDL_Renderer* gRenderer, Player* ent);
+	void LoadItemDrops(SDL_Renderer* gRenderer);
 	void InitSpawnManager();
 	void ManageMobPool();
 	void SetMainPlayer(Player* mp);
+	void ManageMapObjects();
 	Player* GetMainPlayer();
 
 	b2World* gameWorld;

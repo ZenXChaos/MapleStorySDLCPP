@@ -162,6 +162,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MessageDispatch.cpp" />
+    <ClCompile Include="MISC\ItemDrop.cpp" />
     <ClCompile Include="SpawnManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -173,11 +174,13 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="externdef.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameDebug.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameUtils.h" />
     <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="MessageDispatch.h" />
+    <ClInclude Include="MISC\ItemDrop.hpp" />
     <ClInclude Include="RelativeSpace.h" />
     <ClInclude Include="SpawnManager.h" />
   </ItemGroup>

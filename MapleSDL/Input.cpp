@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include "GameDebug.h"
 
 using namespace std;
 

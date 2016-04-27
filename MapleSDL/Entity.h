@@ -41,6 +41,7 @@ public:
 	MessageDispatch dispatch_message;
 
 	EntityLife Life;
+	GameItemDropProvider ItemDrops;
 
 	Uint32 roamDelay = 3;
 	FlipDirection Direction = Left;
@@ -69,14 +70,9 @@ public:
 	int GetWidth();
 	void SetPositionX(int y);
 	void SetPositionY(int y);
+	SDL_Rect GetPosition();
 	int GetPositionX();
 	int GetPositionY();
-
-	void test(void) {
-		printf("%i", this->chasing);
-
-		return;
-	}
 
 	Entity(){
 		this->FaceDirection = SDL_FLIP_HORIZONTAL;

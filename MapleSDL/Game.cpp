@@ -7,6 +7,7 @@
 #include <vector>
 #include <tinyxml2.h>
 #include <Box2D/Box2D.h>
+#include "GameDebug.h"
 
 #pragma comment(lib, "tinyxml2.lib")
 
@@ -17,10 +18,12 @@ using namespace std;
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
+#include "MISC\ItemDrop.hpp"
 #include "Entity.h"
 #include "SpawnManager.h"
 #include "Box.h"
 #include "Game.h"
+
 
 void Game::SetMainPlayer(Player* mp) {
 	this->mainPlayer = mp;
@@ -40,6 +43,7 @@ void Game::LoadMobList(SDL_Renderer* gRenderer){
 
 	for (; pRoot != nullptr; pRoot = pRoot->NextSiblingElement("mob")) {
 		std::string mob_name = pRoot->Attribute("name");
+		bool mob_hasDrops = pRoot->BoolAttribute("hasDrops");
 		int mob_id = pRoot->IntAttribute("id");
 		int mob_init_health = pRoot->IntAttribute("Health");
 		int mob_init_armour = pRoot->IntAttribute("Armour");
@@ -47,6 +51,8 @@ void Game::LoadMobList(SDL_Renderer* gRenderer){
 		
 		Entity mob;
 		(*MobList)[mob_name] = mob;
+
+		(*MobList)[mob_name].ItemDrops.hasDrops = mob_hasDrops;
 
 		tinyxml2::XMLElement* aRoot = pRoot->FirstChildElement("animations")->FirstChildElement("anim");
 
@@ -72,6 +78,12 @@ void Game::LoadMobList(SDL_Renderer* gRenderer){
 			
 		}
 
+		tinyxml2::XMLElement* i_Root = pRoot->FirstChildElement("itemDrops")->FirstChildElement("item");
+		
+		for (; i_Root != nullptr; i_Root = i_Root->NextSiblingElement("item")) {
+			(*MobList)[mob_name].ItemDrops.AddItem(this->gameItemDrops[i_Root->Attribute("value")]);
+		}
+
 		int i = 0;
 		for (std::map<std::string, Entity>::iterator it = MobList->begin(); it != MobList->end(); it++) {
 			
@@ -82,6 +94,32 @@ void Game::LoadMobList(SDL_Renderer* gRenderer){
 		}
 
 	}
+}
+
+void Game::LoadItemDrops(SDL_Renderer* gRenderer) {
+	this->mainRenderer = gRenderer;
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLElement* pRoot;
+	doc.LoadFile("data\\items\\items.zenx");
+
+	pRoot = doc.FirstChildElement("items")->FirstChildElement("item");
+
+	for (; pRoot != nullptr; pRoot = pRoot->NextSiblingElement("item")) {
+		GameItemDrop i_Drop;
+		i_Drop.i_Health = pRoot->FirstChildElement("health")->IntAttribute("value");
+		i_Drop.i_Mana = pRoot->FirstChildElement("mana")->IntAttribute("value");
+		i_Drop.i_dropRate = pRoot->FirstChildElement("dropRate")->IntAttribute("value");
+		i_Drop.i_Name = pRoot->Attribute("name");
+		i_Drop.i_ID = pRoot->IntAttribute("id");
+
+		i_Drop.sprite.LoadTexture(pRoot->FirstChildElement("sprite")->Attribute("file"), gRenderer);
+		i_Drop.sprite.BuildAnimation(0, 1, pRoot->FirstChildElement("sprite")->IntAttribute("width"), pRoot->FirstChildElement("sprite")->IntAttribute("height"), 0.1f);
+
+		this->gameItemDrops[i_Drop.i_Name] = i_Drop;
+
+	}
+
+
 }
 
 Entity* Game::IdentifyMob(std::string mobname) {
@@ -116,7 +154,9 @@ Entity* Game::IdentifyMob(int mobid) {
 void Game::ManageMobPool() {
 	for (size_t i = 0; i < spawn_manager.spawned.size(); i++) {
 		if (this->spawn_manager.spawned[i].alive == false) {
-
+			SDL_Rect tmpPos = this->spawn_manager.spawned.at(i).GetPosition();
+			tmpPos.y += 30;
+			this->spawn_manager.spawned.at(i).ItemDrops.DropItems(&this->mapItemDrops, tmpPos);
 			this->spawn_manager.spawned.erase(this->spawn_manager.spawned.begin()+i);
 			break;
 		}
@@ -141,6 +181,13 @@ void Game::ManageMobPool() {
 	SDL_SetRenderDrawColor(this->mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
 	mainPlayer->IdentifyMobs();
+}
+
+void Game::ManageMapObjects() {
+	//Show Drops
+	for (size_t i = 0; i < this->mapItemDrops.size(); i++) {
+		this->mapItemDrops[i].sprite.Animate(this->mapItemDrops[i].i_dropPos, 0, NULL, SDL_FLIP_NONE, nullptr);
+	}
 }
 
 void Game::LoadPlayerAnims(SDL_Renderer* gRenderer, Player* ent) {
