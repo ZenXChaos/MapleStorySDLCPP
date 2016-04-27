@@ -81,6 +81,8 @@ The following attributes are required for binding an animation sprite sheet.
 Sprites should all be on one row. Multi-row spritesheets are not supported at this time.
 
 
+### Code has been tested only on Windows Visual Studio 2015 - On windows 10. You may need to retarget to get things working!
+
 This project is very active, and contributions are welcome! (:
 
 [Follow me on Twitter](https://twitter.com/ZenXChaos)
