@@ -198,9 +198,6 @@ void Game::LoadPlayerAnims(Entity* e) {
 			std::string sprite_filepath = aRoot->Attribute("file");
 			e->animations[sprite_anim_name].AddSprite(sprite_filepath + ".png", sprite_delta);
 		}
-
-		//e->animations[sprite_anim_name] = avbo;
-
 	}
 
 	return;

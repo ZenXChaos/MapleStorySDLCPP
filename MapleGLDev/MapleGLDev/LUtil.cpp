@@ -25,7 +25,7 @@ GameMap map;
 LFRect mapPos;
 
 void Core() {
-
+	map.DrawMap({ 0,0,0,0 });
 	entity.ManageState();
 	entity.Draw();
 }
@@ -93,15 +93,15 @@ bool initGL()
 
 	//Then init game
 	game.SetMainPlayer(&entity);
-	//game.LoadItemDrops();
-	//game.LoadMobList();
-	//game.InitSpawnManager();
+	game.LoadItemDrops();
+	game.LoadMobList();
+	game.InitSpawnManager();
 
 	mapPos.w = 1387;
 	mapPos.h = 907;
 	mapPos.x = 0;
 	mapPos.y = -407;
-	//map.InitMap("content\\maps\\hennesys\\map01.png", mapPos);
+	map.InitMap("content\\maps\\hennesys\\map01.png", mapPos);
 	//entity.SetPositionY(0);
 
     return true;
