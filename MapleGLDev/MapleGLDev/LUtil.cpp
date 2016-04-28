@@ -3,14 +3,32 @@
 #include <IL/ilu.h>
 #include "LTexture.h"
 
+#include "MessageDispatch.h"
+#include "GameUtils.h"
+#include "RelativeSpace.h"
+#include "ItemDrop.hpp"
+#include "Entity.h"
+#include "SpawnManager.h"
+#include "GameMap.h"
+#include "Game.h"
+
 //VBO rendered texture
 LTexture gVBOTexture;
 LTexture gVBOTexture2;
 
-AnimatedVBO mushmob;
-AnimatedVBO mushmobwalk;
 
 int tick = 0;
+
+Game game;
+Player entity(&game.spawn_manager.spawned);
+GameMap map;
+LFRect mapPos;
+
+void Core() {
+
+	entity.ManageState();
+	entity.Draw();
+}
 
 bool initGL()
 {
@@ -73,13 +91,27 @@ bool initGL()
         return false;
     }
 
+	//Then init game
+	game.SetMainPlayer(&entity);
+	//game.LoadItemDrops();
+	//game.LoadMobList();
+	//game.InitSpawnManager();
+
+	mapPos.w = 1387;
+	mapPos.h = 907;
+	mapPos.x = 0;
+	mapPos.y = -407;
+	//map.InitMap("content\\maps\\hennesys\\map01.png", mapPos);
+	//entity.SetPositionY(0);
 
     return true;
 }
 
+AnimatedVBO testvb;
 bool loadMedia()
 {
-	if (!gVBOTexture.loadTextureFromFile("opengl.png"))
+	
+	/*if (!gVBOTexture.loadTextureFromFile("opengl.png"))
 	{
 		printf("Unable to load OpenGL texture!\n");
 		return false;
@@ -89,26 +121,22 @@ bool loadMedia()
 	{
 		printf("Unable to load OpenGL texture!\n");
 		return false;
-	}
-	mushmob.AddSprite("mobs\\mush\\idle\\stand_0.png", 0.1f);
-	mushmob.AddSprite("mobs\\mush\\idle\\stand_1.png", 0.1f);
-
-	mushmobwalk.AddSprite("mobs\\mush\\walk\\move_0.png", 0.1f);
-	mushmobwalk.AddSprite("mobs\\mush\\walk\\move_1.png", 0.1f);
-	mushmobwalk.AddSprite("mobs\\mush\\walk\\move_2.png", 0.1f);
-
-    return true;
+	}*/
+	entity.animations["idle"];
+	//testvb.AddSprite("content\\mobs\\mush\\idle\\stand_0.png", 0.1);
+	game.LoadPlayerAnims(&entity);
+	//entity.animations["idle"].AddSprite("content\\player\\idle\\stand1_0.png", 0.1);
+	return true;
 }
 
 void update(int val)
 {
 	tick++;
+
 }
 
-extern void GameRun(int val);
-
 void render()
-{
+{	
     //Clear color buffer
     glClear( GL_COLOR_BUFFER_BIT );
 
@@ -118,7 +146,8 @@ void render()
     //Render textured quad using VBOs
 	//gVBOTexture.render( ( SCREEN_WIDTH - gVBOTexture.imageWidth() ) / 2.f, ( SCREEN_HEIGHT - gVBOTexture.imageHeight() ) / 2.f );
 	//gVBOTexture2.render((SCREEN_WIDTH - gVBOTexture.imageWidth()) / 2.f, (SCREEN_HEIGHT - gVBOTexture.imageHeight()) / 2.f);
-	GameRun(tick);
+	entity.Draw();
+	Core();
     //Update screen
     glutSwapBuffers();
 }

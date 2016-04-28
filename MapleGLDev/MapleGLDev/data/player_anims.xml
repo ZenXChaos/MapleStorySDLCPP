@@ -1,0 +1,33 @@
+<animations>
+
+    <!-- For future use! -->
+    <animatedVBOPlayer delta="0.1" name="walk">
+    
+        <head>
+        
+        </head>
+        
+        <body>
+        
+        </body>
+        
+    </animatedVBOPlayer>
+    
+    <animatedVBO delta="0.1" name="idle">
+        <sprite file="content\player\idle\stand1_0" />
+        <sprite file="content\player\idle\stand1_1" />
+        <sprite file="content\player\idle\stand1_2" />
+        <sprite file="content\player\idle\stand1_3" />
+        <sprite file="content\player\idle\stand1_4" />
+    </animatedVBO>
+    
+    <!--
+    
+    <anim name="idle" sprite="content\player\idle.png" max_frames="5.9" delta="0.05" sprite_width="82" sprite_height="78" yfactorup="12" yfactordown="0" />
+    
+    <anim name="walk" sprite="content\player\walk.png" max_frames="4.9" delta="0.05" sprite_width="91" sprite_height="77" yfactorup="12" yfactordown="0" />
+    
+    <anim name="attack" sprite="content\player\attack01.png" max_frames="3.9" delta="0.1" sprite_width="96" sprite_height="84" yfactorup="12" yfactordown="0" />
+    
+    -->
+</animations>

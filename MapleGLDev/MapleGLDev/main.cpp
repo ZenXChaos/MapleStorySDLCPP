@@ -1,4 +1,20 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <map>
+#include <vector>
+
 #include "LUtil.h"
+
+#include "LTexture.h"
+#include "MessageDispatch.h"
+#include "GameUtils.h"
+#include "RelativeSpace.h"
+#include "ItemDrop.hpp"
+#include "Entity.h"
+#include "SpawnManager.h"
+#include "GameMap.h"
+#include "Game.h"
 
 void runMainLoop( int val );
 /*
@@ -11,6 +27,7 @@ Side Effects:
 */
 
 extern void InitGameMGR();
+
 
 int main( int argc, char* args[] )
 {

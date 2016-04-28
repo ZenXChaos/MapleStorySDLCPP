@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 //Screen constants
-const int SCREEN_WIDTH = 640;
+const int SCREEN_WIDTH = 1000;
 const int SCREEN_HEIGHT = 480;
 const int SCREEN_FPS = 60;
 

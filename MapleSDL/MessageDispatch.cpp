@@ -24,11 +24,6 @@ using namespace std;
 #include "Box.h"
 #include "Game.h"
 
-Uint32 MD_Time::GetAge(Uint32 tick) {
-	return (tick - birth) / 1000;
-}
-
-
 
 void MessageDispatch::RegisterMessage(std::string msg, void(*callback)(Entity *e), Entity *context) {
 	DispatchedMessage dm;

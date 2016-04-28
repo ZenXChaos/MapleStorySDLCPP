@@ -16,25 +16,30 @@ using namespace std;
 
 #include "GameUtils.h"
 #include "RelativeSpace.h"
+#include "MessageDispatch.h"
+#include "ItemDrop.hpp"
 #include "Entity.h"
 #include "SpawnManager.h"
 #include "Game.h"
 
-extern AnimatedVBO mushmob;
-extern AnimatedVBO mushmobwalk;
 Entity mobmush;
 
 
+void Game::SetMainPlayer(Player* mp) {
+	this->mainPlayer = mp;
+}
+
+Player* Game::GetMainPlayer() {
+	return this->mainPlayer;
+}
+
 void InitGameMGR() {
 
-	mobmush.animations.insert(std::pair<std::string, AnimatedVBO>("idle", mushmob));
-	mobmush.animations.insert(std::pair<std::string, AnimatedVBO>("walk", mushmobwalk));
+	
 }
 
 void GameRun(int val) {
-	mobmush.Tick();
-	mobmush.AI();
-	mobmush.Draw();
+
 }
 
 void Game::LoadMobList() {
@@ -54,28 +59,35 @@ void Game::LoadMobList() {
 		Entity mob;
 		MobList->insert(std::pair<std::string, Entity>(mob_name, mob));
 
-		tinyxml2::XMLElement* aRoot = pRoot->FirstChildElement("animations")->FirstChildElement("anim");
+		tinyxml2::XMLElement* mRoot = pRoot->FirstChildElement("animatedVBO");
 
-		for (; aRoot != nullptr; aRoot = aRoot->NextSiblingElement("anim")) {
-			std::string sprite_anim_name = aRoot->Attribute("name");
-			std::string sprite_filepath = aRoot->Attribute("sprite");
-			float sprite_delta = aRoot->FloatAttribute("delta");
-			int sprite_max_frames = aRoot->IntAttribute("max_frames");
-			int sprite_width = aRoot->IntAttribute("sprite_width");
-			int sprite_height = aRoot->IntAttribute("sprite_height");
-			//int sprite_y_factor = aRoot->IntAttribute("yfactordown") - aRoot->IntAttribute("yfactorup");
-			//int sprite_x_factor = aRoot->IntAttribute("xfactordown") - aRoot->IntAttribute("xfactorup");
+		for (; mRoot != nullptr; mRoot = mRoot->NextSiblingElement("animatedVBO")) {
+			tinyxml2::XMLElement* aRoot = mRoot->FirstChildElement("sprite");
+			std::string sprite_anim_name = mRoot->Attribute("name");
 
 			AnimatedVBO avbo;
-			this->MobList->at(mob_name).animations[sprite_anim_name] = avbo;
-			this->MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).AddSprite(sprite_filepath, sprite_delta);
-			//this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).BuildAnimation(0, sprite_max_frames, sprite_width, sprite_height, sprite_delta);
-			//this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).yfactor = sprite_y_factor;
-			//this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).xfactor = sprite_x_factor;
-			//if (MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).texture == nullptr) {
-			//	printf("SDL Error: %s", SDL_GetError());
-			//}
+			for (; aRoot != nullptr; aRoot = aRoot->NextSiblingElement("sprite")) {
+			std::string sprite_filepath = aRoot->Attribute("file");
+				float sprite_delta = mRoot->FloatAttribute("delta");
+				//int sprite_y_factor = aRoot->IntAttribute("yfactordown") - aRoot->IntAttribute("yfactorup");
+				//int sprite_x_factor = aRoot->IntAttribute("xfactordown") - aRoot->IntAttribute("xfactorup");
 
+				avbo.AddSprite(sprite_filepath+".png", sprite_delta);
+				//this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).BuildAnimation(0, sprite_max_frames, sprite_width, sprite_height, sprite_delta);
+				//this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).yfactor = sprite_y_factor;
+				//this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).xfactor = sprite_x_factor;
+				//if (MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).texture == nullptr) {
+				//	printf("SDL Error: %s", SDL_GetError());
+				//}
+
+			}
+			this->MobList->at(mob_name).animations[sprite_anim_name] = avbo;
+		}
+		
+		tinyxml2::XMLElement* i_Root = pRoot->FirstChildElement("itemDrops")->FirstChildElement("item");
+
+		for (; i_Root != nullptr; i_Root = i_Root->NextSiblingElement("item")) {
+			(*MobList)[mob_name].ItemDrops.AddItem(this->gameItemDrops[i_Root->Attribute("value")]);
 		}
 
 		int i = 0;
@@ -101,6 +113,30 @@ Entity* Game::IdentifyMob(std::string mobname) {
 	return nullptr;
 }
 
+void Game::LoadItemDrops() {
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLElement* pRoot;
+	doc.LoadFile("data\\items\\items.zenx");
+
+	pRoot = doc.FirstChildElement("items")->FirstChildElement("item");
+
+	for (; pRoot != nullptr; pRoot = pRoot->NextSiblingElement("item")) {
+		GameItemDrop i_Drop;
+		i_Drop.i_Health = pRoot->FirstChildElement("health")->IntAttribute("value");
+		i_Drop.i_Mana = pRoot->FirstChildElement("mana")->IntAttribute("value");
+		i_Drop.i_dropRate = pRoot->FirstChildElement("dropRate")->IntAttribute("value");
+		i_Drop.i_Name = pRoot->Attribute("name");
+		i_Drop.i_ID = pRoot->IntAttribute("id");
+
+		i_Drop.sprite.AddSprite(pRoot->FirstChildElement("sprite")->Attribute("file"), 1);
+
+		this->gameItemDrops[i_Drop.i_Name] = i_Drop;
+
+	}
+
+
+}
+
 void Game::InitSpawnManager() {
 	//Initialize spawn_manager mob list with list from Game.
 	spawn_manager.MobList = new std::map<std::string, Entity>(*this->MobList);
@@ -121,31 +157,49 @@ Entity* Game::IdentifyMob(int mobid) {
 
 void Game::ManageMobPool() {
 	for (size_t i = 0; i < spawn_manager.spawned.size(); i++) {
-		spawn_manager.spawned[i].Draw();
-		spawn_manager.spawned[i].AI();
+		if (this->spawn_manager.spawned[i].alive == false) {
+			LFRect tmpPos = this->spawn_manager.spawned.at(i).GetPosition();
+			tmpPos.y += 30;
+			this->spawn_manager.spawned.at(i).ItemDrops.DropItems(&this->mapItemDrops, tmpPos);
+			this->spawn_manager.spawned.erase(this->spawn_manager.spawned.begin() + i);
+			break;
+		}
+		else {
+			spawn_manager.spawned[i].AI();
+			spawn_manager.spawned[i].Draw();
+		}
+	}
+	mainPlayer->IdentifyMobs();
+}
+
+void Game::ManageMapObjects() {
+	//Show Drops
+	for (size_t i = 0; i < this->mapItemDrops.size(); i++) {
+		this->mapItemDrops[i].sprite.Animate(this->mapItemDrops[i].i_dropPos.x, this->mapItemDrops[i].i_dropPos.y, FlipDirection::Left);
 	}
 }
 
-void Game::LoadPlayerAnims(std::map<std::string, AnimatedVBO>* animlist) {
+void Game::LoadPlayerAnims(Entity* e) {
 	tinyxml2::XMLElement* pRoot;
 	tinyxml2::XMLDocument doc;
 
 	doc.LoadFile("data\\player_anims.xml");
 
-	pRoot = doc.FirstChild()->FirstChildElement("anim");
+	pRoot = doc.FirstChild()->FirstChildElement("animatedVBO");
 
 
-	for (; pRoot != nullptr; pRoot = pRoot->NextSiblingElement("anim")) {
+	for (; pRoot != nullptr; pRoot = pRoot->NextSiblingElement("animatedVBO")) {
 		std::string sprite_anim_name = pRoot->Attribute("name");
-		std::string sprite_filepath = pRoot->Attribute("sprite");
 		float sprite_delta = pRoot->FloatAttribute("delta");
-		int sprite_max_frames = pRoot->IntAttribute("max_frames");
-		int sprite_width = pRoot->IntAttribute("sprite_width");
-		int sprite_height = pRoot->IntAttribute("sprite_height");
 
-		AnimatedVBO avbo;
-		animlist->insert(std::pair<std::string, AnimatedVBO>(sprite_anim_name, avbo));
-		animlist->at(sprite_anim_name.c_str()).AddSprite(sprite_filepath, sprite_delta);
+		tinyxml2::XMLElement* aRoot = pRoot->FirstChildElement("sprite");
+
+		for (; aRoot != nullptr; aRoot = aRoot->NextSiblingElement("sprite")) {
+			std::string sprite_filepath = aRoot->Attribute("file");
+			e->animations[sprite_anim_name].AddSprite(sprite_filepath + ".png", sprite_delta);
+		}
+
+		//e->animations[sprite_anim_name] = avbo;
 
 	}
 

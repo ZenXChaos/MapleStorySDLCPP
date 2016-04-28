@@ -1,24 +1,16 @@
 <mobs>
     <mob name="mush">
-        <AnimatedVBO delta="0.1">
-            <Sprite file="idle\move_0" />
-            <Sprite file="idle\move_1" />
-            <Sprite file="idle\move_2" />
-        </AnimatedVBO>
+        <animatedVBO delta="0.1" name="walk">
+            <sprite file="content\mobs\mush\idle\stand_0" />
+            <sprite file="content\mobs\mush\idle\stand_1" />
+        </animatedVBO>
         
-        <Entity>
-            <Name value="Mush" />
-            <Life>
-                <Health value="100" />
-            </Life>
-            
-            <Kombat>
-                <Weakness value="Love"/>
-                
-                <Skills>
-                
-                </Skills>
-            </Kombat>
-        </Entity>
+        <itemDrops>
+            <item value="red_potion" />
+        </itemDrops>
+        
+        <!--
+            Future properties / settings.
+         -->
     </mob>
 </mobs>

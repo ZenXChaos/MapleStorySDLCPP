@@ -544,15 +544,19 @@ void LTexture::freeVBO()
 }
 
 void AnimatedVBO::Animate(GLfloat x, GLfloat y, GLint direction) {
-	if (static_cast<int>(this->current_frame) > this->max_frames-1) {
-		this->current_frame = 0;
-	}
-
+	
 	this->textures[static_cast<int>(current_frame)].render(x,y, direction);
 
-
-
 	this->current_frame += this->delta;
+	this->animFinished = false;
+
+	if (this->current_frame > this->max_frames) {
+		this->current_frame = 0;
+		this->animFinished = true;
+		return;
+	}
+
+	this->percentDone = (this->current_frame / this->max_frames) * 100;
 }
 
 void AnimatedVBO::AddSprite(std::string filename, float d = 0.1f) {

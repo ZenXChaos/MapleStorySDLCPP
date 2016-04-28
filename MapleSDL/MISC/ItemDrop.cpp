@@ -17,6 +17,7 @@ using namespace std;
 
 void GameItemDropProvider::AddItem(GameItemDrop i_Drop) {
 	this->dropItems.insert(this->dropItems.end(), i_Drop);
+	this->hasDrops = true;
 }
 
 void GameItemDropProvider::DropItems(std::vector<GameItemDrop>* gid_Item, SDL_Rect pos) {

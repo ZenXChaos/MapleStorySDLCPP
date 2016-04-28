@@ -278,13 +278,29 @@ class LTexture
 };
 
 class AnimatedVBO {
-	float current_frame;
-	float delta;
-	int max_frames;
+	float current_frame = 0.0f;
+	float max_frames = 0.0f;
+	float delta = 0.0f;
+	float percentDone = 0.0f;
 
+	bool animFinished = false;
 public:
 
 	std::map<int, LTexture> textures;
+
+	int yfactor = 0, xfactor = 0;
+
+	float getDelta() {
+		return this->delta;
+	}
+	float percentComplete() {
+		return this->percentDone;
+	}
+
+	bool isFinishedPlaying() {
+		return this->animFinished;
+	}
+
 	void Animate(GLfloat x, GLfloat y, GLint direction);
 	void AddSprite(std::string filename, float d);
 

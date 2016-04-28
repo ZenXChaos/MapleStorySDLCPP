@@ -10,6 +10,8 @@
 
 #include "RelativeSpace.h"
 #include "GameUtils.h"
+#include "MessageDispatch.h"
+#include "ItemDrop.hpp"
 #include "Entity.h"
 
 using namespace std;
@@ -17,20 +19,36 @@ using namespace std;
 #define DEBUG_MOBTRANSIT_RAYCAST 0
 
 void Entity::Draw() {
+	if (this->alive == false) {
+		return;
+	}
 	switch (this->State) {
 	case Idle:
 		//this->animations->at("idle").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
 		this->animations.at("idle").Animate(pos.x, pos.y, this->Direction);
+		currentAnimation = &this->animations.at("idle");
 		break;
 
 	case Walking:
 		//this->animations->at("walk").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
 		this->animations.at("walk").Animate(pos.x, pos.y, this->Direction);
+		currentAnimation = &this->animations.at("walk");
 		break;
 
 	case Attacking:
 		//this->animations->at("attack").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
 		this->animations.at("attack").Animate(pos.x, pos.y, this->Direction);
+		currentAnimation = &this->animations.at("attack");
+		break;
+
+	case Recovery:
+		this->animations.at("hit").Animate(pos.x, pos.y, this->Direction);
+		currentAnimation = &this->animations.at("hit");
+		break;
+
+	case Death:
+		this->animations.at("die").Animate(pos.x, pos.y, this->Direction);
+		currentAnimation = &this->animations.at("die");
 		break;
 	}
 }
@@ -41,6 +59,18 @@ void Entity::SetPositionY(GLfloat y) {
 
 void Entity::SetPositionX(GLfloat x) {
 	this->pos.x = x;
+}
+
+LFRect Entity::GetPosition() {
+	return this->pos;
+}
+
+GLfloat Entity::GetPositionY() {
+	return this->pos.y;
+}
+
+GLfloat Entity::GetPositionX() {
+	return this->pos.x;
 }
 
 GLfloat Entity::GetWidth() {
@@ -56,7 +86,9 @@ void Entity::Station() {
 		this->State = EntityState::Idle;
 	}
 }
-
+void Entity::Tick() {
+	this->tick++;
+}
 void Entity::Roam() {
 	if (roaming == true) {
 		if (nextTransitLocation.x != pos.x) {
@@ -110,7 +142,8 @@ void Entity::Roam() {
 		}
 	}
 	else {
-		if (this->age() - this->roamDelayIndex >= this->roamDelay) {
+		int age = this->age();
+		if (age - this->roamDelayIndex >= this->roamDelay) {
 			this->roamDelayIndex = this->age();
 			nextTransitLocation.x = static_cast<GLfloat>(GameUtils::RandomIntegerRange(0, 900));
 			while (nextTransitLocation.x < this->pos.x + static_cast<GLfloat>(this->minRoamTransit) && nextTransitLocation.x > pos.x) {
@@ -127,14 +160,40 @@ void Entity::Roam() {
 	}
 }
 
-void Entity::Tick() {
-	this->tick ++;
-}
 void Entity::AI() {
 	//tick = SDL_GetTicks();
-	if (!chasing) {
-		if (State == EntityState::Idle || roaming) {
-			Roam();
+	if (this->State != EntityState::Death) {
+		switch (this->State) {
+		case EntityState::Recovery:
+			if (this->recoveryIndex > 0.0f) {
+				recoveryIndex -= currentAnimation->getDelta();
+			}
+			else {
+				this->State = Idle;
+			}
+
+			break;
+
+		case EntityState::Death:
+			if (this->currentAnimation->percentComplete() >= 90) {
+				this->Kill();
+			}
+			break;
+		}
+		if (this->State == EntityState::Recovery) {
+
+		}
+		else {
+			if (!chasing) {
+				if (State == Idle || roaming) {
+					Roam();
+				}
+			}
+		}
+	}
+	else {
+		if (this->currentAnimation->percentComplete() >= 95 || this->currentAnimation->isFinishedPlaying() == true && this->alive == true) {
+			this->alive = false;
 		}
 	}
 }
@@ -205,4 +264,67 @@ void Entity::Walk(FlipDirection direction) {
 
 	Direction = direction;
 
+}
+
+
+void Player::IdentifyMobs() {
+	this->closestMob = nullptr;
+	this->inRange.clear();
+
+	GLfloat dist = -1;
+	size_t i = 0;
+	for (std::vector<Entity>::iterator mob = spawned->begin(); mob != spawned->end(); mob++) {
+		if (mob->GetPositionX() > this->pos.x) {
+			GLfloat mobd = mob->GetPositionX() - this->pos.x;
+			if (mob->GetPositionX() - this->pos.x <= this->attackRange) {
+				this->closestMob = &this->spawned->at(i);
+				dist = mob->GetPositionX() - this->pos.x;
+			}
+		}
+		else {
+			if (this->pos.x - mob->GetPositionX() <= this->attackRange) {
+				this->closestMob = &this->spawned->at(i);
+				dist = this->pos.x - mob->GetPositionX();
+			}
+		}
+
+		i++;
+	}
+}
+
+void Entity::TakeHit() {
+	this->State = EntityState::Recovery;
+	this->recoveryIndex = 3.0f;
+}
+
+void Entity::PrepKill() {
+	this->State = EntityState::Death;
+}
+
+void Entity::Kill() {
+	this->alive = false;
+}
+
+void Player::ManageState() {
+	if (this->State == EntityState::Attacking) {
+		if (this->currentAnimation->isFinishedPlaying()) {
+			this->State = EntityState::Idle;
+			this->attacking = false;
+		}
+		else {
+			float pdone = this->currentAnimation->percentComplete();
+			if (this->currentAnimation->percentComplete() >= 50.0f && attacking == false) {
+				if (this->closestMob != nullptr) {
+					this->closestMob->dispatch_message.RegisterMessage("IsHit", &IsHit, this->closestMob);
+					this->attacking = true;
+				}
+			}
+		}
+	}
+
+	/*
+	if (playerInput->IsKeyPressed(SDL_SCANCODE_C) && this->State != EntityState::Attacking) {
+		this->State = EntityState::Attacking;
+	}
+	*/
 }
