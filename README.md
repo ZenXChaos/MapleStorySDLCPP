@@ -83,6 +83,16 @@ Sprites should all be on one row. Multi-row spritesheets are not supported at th
 
 ### Code has been tested only on Windows Visual Studio 2015 - On windows 10. You may need to retarget to get things working!
 
+#### Ports / Languages
+
+This project is being developed in C++, C#, and soon -- Java!
+
+Currently, available ports:
+    
+    [C++ OpenGL](https://github.com/ZenXChaos/MapleStorySDLCPP/tree/master/MapleGLDev)
+    
+    [C# SDL](https://github.com/ZenXChaos/MMORPG-CS)
+
 This project is very active, and contributions are welcome! (:
 
 [Follow me on Twitter](https://twitter.com/ZenXChaos)
