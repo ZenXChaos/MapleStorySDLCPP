@@ -19,9 +19,9 @@ using namespace std;
 #include "SpawnManager.h"
 
 void SpawnManager::ManagePool(GLint tick) {
-	this->lastSpawn = (tick) - lastSpawnIndex;
+	this->lastSpawn = (tick/60 )- lastSpawnIndex;
 	if (static_cast<size_t>(this->lastSpawn) > this->SpawnEvery && this->spawned.size() < this->maxSpawn) {
-		this->lastSpawnIndex = (tick / 1000);
+		this->lastSpawnIndex = (tick / 60);
 		Entity tmpMob ;
 		//tmpMob.animations = (*this->MobList)["mush"]->animations;
 		tmpMob.alive = true;
@@ -34,6 +34,6 @@ void SpawnManager::ManagePool(GLint tick) {
 		//this->spawned.at(this->spawned.size() - 1).SetPositionY(210);
 	}
 	else if (this->spawned.size() >= this->maxSpawn) {
-		this->lastSpawnIndex = (tick / 1000);
+		this->lastSpawnIndex = (tick / 60);
 	}
 }

@@ -460,9 +460,10 @@ void LTexture::render( GLfloat x, GLfloat y, GLint direction, LFRect* clip )
         glDisableClientState( GL_VERTEX_ARRAY );
 		if (direction == 1) {
 			glRotatef(-180, 0, -180, 0);
-			//glTranslatef(quadWidth, 0, 0.f);
+			glTranslatef(-quadWidth, 0, 0.f);
 		}
 		glTranslatef(-x, -y, 0.0f);
+		glPopMatrix();
     }
 }
 

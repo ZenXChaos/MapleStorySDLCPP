@@ -6,7 +6,7 @@ class SpawnManager {
 
 	LFRect spawnPoints[10] = {{0,0,0,0}};
 
-	size_t maxSpawn = 1;
+	size_t maxSpawn = 3;
 public:
 	std::map<std::string, Entity*>* MobList;
 	std::vector<Entity*> spawned;
