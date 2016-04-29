@@ -7,6 +7,7 @@
 #include <vector>
 #include <Box2D\Box2D.h>
 #include "GameDebug.h"
+#include "Global.h"
 
 using namespace std;
 
@@ -17,7 +18,7 @@ using namespace std;
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
 #include "MISC\ItemDrop.hpp"
-#include "Entity.h"
+#include "Entity.hpp"
 #include "SpawnManager.h"
 #include "GameMap.h"
 #include "Game.h"

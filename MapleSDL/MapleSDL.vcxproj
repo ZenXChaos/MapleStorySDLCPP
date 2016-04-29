@@ -171,12 +171,13 @@
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Box.h" />
-    <ClInclude Include="Entity.h" />
+    <ClInclude Include="Entity.hpp" />
     <ClInclude Include="externdef.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameDebug.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameUtils.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="MessageDispatch.h" />
