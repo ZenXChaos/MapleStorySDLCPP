@@ -1,8 +1,14 @@
 <mobs>
     <mob name="mush">
-        <animatedVBO delta="0.1" name="walk">
+        <animatedVBO delta="0.1" name="idle">
             <sprite file="content\mobs\mush\idle\stand_0" />
             <sprite file="content\mobs\mush\idle\stand_1" />
+        </animatedVBO>
+        
+        <animatedVBO delta="0.1" name="walk">
+            <sprite file="content\mobs\mush\walk\move_0" />
+            <sprite file="content\mobs\mush\walk\move_1" />
+            <sprite file="content\mobs\mush\walk\move_2" />
         </animatedVBO>
         
         <itemDrops>

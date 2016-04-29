@@ -19,14 +19,19 @@ using namespace std;
 #include "SpawnManager.h"
 
 void SpawnManager::ManagePool(GLint tick) {
-	this->lastSpawn = (tick / 1000) - lastSpawnIndex;
-	std::vector<Entity> mobl = this->spawned;
+	this->lastSpawn = (tick) - lastSpawnIndex;
 	if (static_cast<size_t>(this->lastSpawn) > this->SpawnEvery && this->spawned.size() < this->maxSpawn) {
 		this->lastSpawnIndex = (tick / 1000);
-		Entity *tmpMob = new Entity(this->MobList->at("mush"));
+		Entity tmpMob ;
+		//tmpMob.animations = (*this->MobList)["mush"]->animations;
+		tmpMob.alive = true;
 
-		this->spawned.insert(this->spawned.end(), *tmpMob);
-		this->spawned.at(this->spawned.size() - 1).SetPositionY(210);
+		Entity* tmpM = new Entity();
+		(*tmpM).animations = (*this->MobList)["mush"]->animations;
+		memcpy(tmpM, (*this->MobList)["mush"], sizeof((*this->MobList)["mush"]));
+		this->spawned.insert(this->spawned.end(), tmpM);
+		this->spawned.at(this->spawned.size() - 1)->pos = new LFRect();
+		//this->spawned.at(this->spawned.size() - 1).SetPositionY(210);
 	}
 	else if (this->spawned.size() >= this->maxSpawn) {
 		this->lastSpawnIndex = (tick / 1000);

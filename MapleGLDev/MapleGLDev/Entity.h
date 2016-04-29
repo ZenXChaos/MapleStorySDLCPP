@@ -1,5 +1,3 @@
-#ifndef ENTITY_H
-#define ENTITY_H
 
 enum EntityState {
 	Idle = 0, Walking = 1, Attacking = 3, Recovery = 4, Death = 5
@@ -13,7 +11,6 @@ public:
 
 class Entity {
 protected:
-	LFRect pos;
 
 	int walkSpeed = 0;
 	int maxWalkSpeed = 1;
@@ -35,7 +32,10 @@ protected:
 	LFRect* currFrameData = new LFRect();
 	AnimatedVBO* currentAnimation;
 
+
+
 public:
+	LFRect* pos = new LFRect();
 	EntityState State;
 	MessageDispatch dispatch_message;
 
@@ -88,15 +88,14 @@ class Player : public Entity {
 	//Input* playerInput;
 public:
 
-	std::vector<Entity>* spawned;
+	std::vector<Entity*>* spawned;
 	std::vector<Entity*> inRange;
 
 	void IdentifyMobs();
 	void ManageState();
 
-	Player(std::vector<Entity>* sp) : Entity() {
+	Player(std::vector<Entity*>* sp) : Entity() {
 		spawned = sp;
 		//playerInput = pi;
 	}
 };
-#endif
