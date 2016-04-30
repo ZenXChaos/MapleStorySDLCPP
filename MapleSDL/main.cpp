@@ -1,11 +1,11 @@
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
 #include <map>
 #include <vector>
-#include <Box2D\Box2D.h>
+#include <Box2D/Box2D.h>
 #include "GameDebug.h"
 
 using namespace std;
@@ -16,7 +16,7 @@ using namespace std;
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
-#include "MISC\ItemDrop.hpp"
+#include "MISC/ItemDrop.hpp"
 #include "Entity.h"
 #include "SpawnManager.h"
 #include "GameMap.h"
@@ -75,7 +75,7 @@ int main(int argc, char* argv) {
 	mapPos.h = 907;
 	mapPos.x = 0;
 	mapPos.y = -407;
-	map.InitMap("content\\maps\\hennesys\\map01.png", mapPos, gRenderer);
+	map.InitMap("content//maps//hennesys//map01.png", mapPos, gRenderer);
 	entity.SetPositionY(190);
 	while (running) {
 

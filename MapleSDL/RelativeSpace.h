@@ -1,3 +1,5 @@
+#ifndef RELATIVESPACE_H
+#define RELATIVESPACE_H
 enum FlipDirection {
 	Left, Right
 };
@@ -5,3 +7,4 @@ enum FlipDirection {
 class RelativeSpace {
 
 };
+#endif

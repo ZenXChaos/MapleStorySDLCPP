@@ -1,11 +1,23 @@
+#ifndef GAME_H
+#define GAME_H
+
+#include <map>
+#include <string>
+#include <SDL2/SDL.h>
+#include "Entity.h"
+#include "SpawnManager.h"
+#include "Box.h"
+
 class Game {
 
-	std::map<std::string, Entity>* MobList = new std::map<std::string, Entity>();
+  //TODO: i dont' see a reason why this needs to be a pointer
+	//std::map<std::string, Entity> * MobList = new std::map<std::string, Entity>();
+	std::map<std::string, Entity> MobList;
 	std::map<std::string, Entity> MOBS_LIST;
 	std::map<int, std::string> MOBS_MAPPING;
 	std::map<std::string, int> MOBS_MAPPINGSTRING;
 
-	std::map<string, GameItemDrop> gameItemDrops;
+	std::map<std::string, GameItemDrop> gameItemDrops;
 	std::vector<GameItemDrop> mapItemDrops; // Items dropped in map
 
 	SDL_Renderer* mainRenderer;
@@ -46,3 +58,5 @@ public:
 
 	}
 };
+
+#endif

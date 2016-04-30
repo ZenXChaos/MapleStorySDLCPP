@@ -4,6 +4,6 @@
         <mana value="0" />
         <dropRate value="80" />
         
-        <sprite file="content\items\potions\redpotion.png" width="23" height="33" />
+        <sprite file="content/items/potions/redpotion.png" width="23" height="33" />
     </item>
 </items>

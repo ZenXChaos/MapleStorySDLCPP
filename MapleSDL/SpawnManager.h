@@ -1,3 +1,12 @@
+#ifndef SPAWNMANAGER_H
+#define SPAWNMANAGER_H
+
+#include <map>
+#include <vector>
+#include <SDL2/SDL.h>
+
+#include "Entity.h"
+
 
 class SpawnManager {
 	Uint32 lastSpawn = 0;
@@ -13,3 +22,4 @@ public:
 
 	void ManagePool(Uint32 tick);
 };
+#endif

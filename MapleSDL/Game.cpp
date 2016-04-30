@@ -7,9 +7,11 @@
 #include <vector>
 #include <tinyxml2.h>
 #include <Box2D/Box2D.h>
+#include <SDL2/SDL.h>
 #include "GameDebug.h"
 
 #pragma comment(lib, "tinyxml2.lib")
+//TODO: Handle path separator 
 
 using namespace std;
 
@@ -18,7 +20,7 @@ using namespace std;
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
-#include "MISC\ItemDrop.hpp"
+#include "MISC/ItemDrop.hpp"
 #include "Entity.h"
 #include "SpawnManager.h"
 #include "Box.h"
@@ -37,7 +39,7 @@ void Game::LoadMobList(SDL_Renderer* gRenderer){
 	this->mainRenderer = gRenderer;
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLElement* pRoot;
-	doc.LoadFile("data\\mobs\\mobs.zenx");
+	doc.LoadFile("data//mobs//mobs.zenx");
 
 	pRoot = doc.FirstChildElement("mobs")->FirstChildElement("mob");
 
@@ -50,9 +52,13 @@ void Game::LoadMobList(SDL_Renderer* gRenderer){
 		int mob_init_mana = pRoot->IntAttribute("Mana");
 		
 		Entity mob;
-		(*MobList)[mob_name] = mob;
+		//(*MobList)[mob_name] = mob;
 
-		(*MobList)[mob_name].ItemDrops.hasDrops = mob_hasDrops;
+		//(*MobList)[mob_name].ItemDrops.hasDrops = mob_hasDrops;
+    MobList[mob_name] = mob;
+
+		MobList[mob_name].ItemDrops.hasDrops = mob_hasDrops;
+
 
 		tinyxml2::XMLElement* aRoot = pRoot->FirstChildElement("animations")->FirstChildElement("anim");
 
@@ -67,25 +73,47 @@ void Game::LoadMobList(SDL_Renderer* gRenderer){
 			int sprite_x_factor = aRoot->IntAttribute("xfactordown") - aRoot->IntAttribute("xfactorup");
 
 			AnimatedSprite as;
+      //TODO: fix me 
+      /*  
 			this->MobList->at(mob_name).animations.insert(std::pair<std::string, AnimatedSprite>(sprite_anim_name, as));
 			this->MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).LoadTexture(sprite_filepath.c_str(), gRenderer);
 			this->MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).BuildAnimation(0, sprite_max_frames, sprite_width, sprite_height, sprite_delta);
 			this->MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).yfactor = sprite_y_factor;
 			this->MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).xfactor = sprite_x_factor;
+    
 			if (MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).texture == nullptr) {
 				printf("SDL Error: %s", SDL_GetError());
 			}
-			
+      */
+			this->MobList.at(mob_name).animations.insert(std::pair<std::string, AnimatedSprite>(sprite_anim_name, as));
+			this->MobList.at(mob_name).animations.at(sprite_anim_name.c_str()).LoadTexture(sprite_filepath.c_str(), gRenderer);
+			this->MobList.at(mob_name).animations.at(sprite_anim_name.c_str()).BuildAnimation(0, sprite_max_frames, sprite_width, sprite_height, sprite_delta);
+			this->MobList.at(mob_name).animations.at(sprite_anim_name.c_str()).yfactor = sprite_y_factor;
+			this->MobList.at(mob_name).animations.at(sprite_anim_name.c_str()).xfactor = sprite_x_factor;
+    
+      //TODO: fix me
+      /*
+			if (MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).texture == nullptr) {
+				printf("SDL Error: %s", SDL_GetError());
+			}
+      */
+      if (MobList.at(mob_name).animations.at(sprite_anim_name.c_str()).texture == nullptr) {
+				printf("SDL Error: %s", SDL_GetError());
+			}
 		}
 
 		tinyxml2::XMLElement* i_Root = pRoot->FirstChildElement("itemDrops")->FirstChildElement("item");
 		
 		for (; i_Root != nullptr; i_Root = i_Root->NextSiblingElement("item")) {
-			(*MobList)[mob_name].ItemDrops.AddItem(this->gameItemDrops[i_Root->Attribute("value")]);
+      //TODO: fix me
+			//(*MobList)[mob_name].ItemDrops.AddItem(this->gameItemDrops[i_Root->Attribute("value")]);
+			MobList[mob_name].ItemDrops.AddItem(this->gameItemDrops[i_Root->Attribute("value")]);
 		}
 
 		int i = 0;
-		for (std::map<std::string, Entity>::iterator it = MobList->begin(); it != MobList->end(); it++) {
+    //TODO: fix me
+		//for (std::map<std::string, Entity>::iterator it = MobList->begin(); it != MobList->end(); it++) {
+		for (std::map<std::string, Entity>::iterator it = MobList.begin(); it != MobList.end(); it++) {
 			
 			MOBS_LIST[it->first.c_str()] = it->second;
 			MOBS_MAPPING[i] = it->first;
@@ -100,7 +128,8 @@ void Game::LoadItemDrops(SDL_Renderer* gRenderer) {
 	this->mainRenderer = gRenderer;
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLElement* pRoot;
-	doc.LoadFile("data\\items\\items.zenx");
+  //TODO: add guard around 
+	doc.LoadFile("data//items//items.zenx");
 
 	pRoot = doc.FirstChildElement("items")->FirstChildElement("item");
 
@@ -123,7 +152,7 @@ void Game::LoadItemDrops(SDL_Renderer* gRenderer) {
 }
 
 Entity* Game::IdentifyMob(std::string mobname) {
-	std::map<std::string, Entity> moblist = *MobList;
+	//std::map<std::string, Entity> moblist = *MobList;
 	std::map<std::string, int>::iterator it = MOBS_MAPPINGSTRING.find(mobname);
 	if (it != MOBS_MAPPINGSTRING.end()) {
 		return &MOBS_LIST[it->first];
@@ -135,11 +164,13 @@ Entity* Game::IdentifyMob(std::string mobname) {
 
 void Game::InitSpawnManager() {
 	//Initialize spawn_manager mob list with list from Game.
-	spawn_manager.MobList = new std::map<std::string, Entity>(*this->MobList);
+  //TODO: fix me
+	//spawn_manager.MobList = new std::map<std::string, Entity>(*this->MobList);
+	spawn_manager.MobList = new std::map<std::string, Entity>(this->MobList);
 }
 
 Entity* Game::IdentifyMob(int mobid) {
-	std::map<std::string, Entity> moblist = *MobList;
+	//std::map<std::string, Entity> moblist = *MobList;
 	std::map<int, std::string>::iterator it = MOBS_MAPPING.find(mobid);
 	if (it != MOBS_MAPPING.end()) {
 		return &MOBS_LIST[it->second];
@@ -194,7 +225,7 @@ void Game::LoadPlayerAnims(SDL_Renderer* gRenderer, Player* ent) {
 	tinyxml2::XMLElement* pRoot;
 	tinyxml2::XMLDocument doc;
 
-	doc.LoadFile("data\\player_anims.xml");
+	doc.LoadFile("data//player_anims.xml");
 
 	pRoot = doc.FirstChild()->FirstChildElement("anim");
 
