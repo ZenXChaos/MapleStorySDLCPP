@@ -1,5 +1,6 @@
 #pragma once
-
+#ifndef HUD_H
+#define HUD_H
 class HUDObject {
 public:
 	int row = 0, column = 0;
@@ -8,8 +9,6 @@ public:
 };
 
 class HUD_GridPanel {
-	int itemCount = 0;
-
 public:
 	int columns = 0, rows = 0;
 	int width = 0, height = 0;
@@ -27,4 +26,4 @@ public:
 	HUD();
 	virtual ~HUD();
 };
-
+#endif

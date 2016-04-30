@@ -1,4 +1,5 @@
-
+#ifndef ANIMATEDSPRITE_H
+#define ANIMATEDSPRITE_H
 class AnimatedSprite {
 	float current_frame = 0.0f;
 	float max_frames = 0.0f;
@@ -36,3 +37,4 @@ public:
 	AnimatedSprite(){}
 
 };
+#endif

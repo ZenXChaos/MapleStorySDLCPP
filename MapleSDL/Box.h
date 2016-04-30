@@ -1,3 +1,5 @@
+#ifndef BOX_H
+#define BOX_H
 class Box {
 	b2Body* body = nullptr;
 	b2Fixture* fixture = nullptr;
@@ -17,3 +19,4 @@ public:
 		return this->dimensions;
 	}
 };
+#endif

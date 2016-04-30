@@ -1,4 +1,5 @@
-
+#ifndef ITEMDROP_H
+#define ITEMDROP_H
 class GameItemDrop {
 
 public:
@@ -22,3 +23,4 @@ public:
 	void AddItem(GameItemDrop i_Drop);
 	void DropItems(std::vector<GameItemDrop>* gid_Item, SDL_Rect pos);
 };
+#endif

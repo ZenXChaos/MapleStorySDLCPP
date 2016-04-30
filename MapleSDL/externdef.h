@@ -1,3 +1,5 @@
+#ifndef EXTERNDEF_H
+#define EXTERNDEF_H
 extern class AnimatedSprite {
 	float current_frame = 0.0f;
 	float max_frames = 0.0f;
@@ -16,3 +18,4 @@ public:
 	AnimatedSprite() {}
 
 };
+#endif

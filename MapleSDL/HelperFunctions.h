@@ -1,3 +1,5 @@
+#ifndef H_FUNC_H
+#define H_FUNC_H
 void IsHit(Entity *e) {
 	if (GameUtils::RandomIntegerRange(0, 10) <= 5) {
 		e->TakeHit();
@@ -10,3 +12,4 @@ void IsHit(Entity *e) {
 		e->PrepKill();
 	}
 }
+#endif

@@ -1,4 +1,5 @@
-
+#ifndef SPAWNMANAGER_H
+#define SPAWNMANAGER_H
 class SpawnManager {
 	Uint32 lastSpawn = 0;
 	Uint32 lastSpawnIndex = 0;
@@ -13,3 +14,4 @@ public:
 
 	void ManagePool(Uint32 tick);
 };
+#endif

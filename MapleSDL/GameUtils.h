@@ -1,4 +1,5 @@
-
+#ifndef GAMEUTILS_H
+#define GAMEUTILS_H
 #include <random>
 
 class GameUtils {
@@ -35,3 +36,4 @@ public:
 		return uni(rng);
 	}
 };
+#endif

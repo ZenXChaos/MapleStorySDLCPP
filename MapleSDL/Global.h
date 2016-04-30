@@ -1,3 +1,5 @@
+#ifndef GLOBAL_H
+#define GLOBAL_H
 class Entity;
 class MessageDispatch;
 class Player;
@@ -97,3 +99,4 @@ namespace GLOBAL_MMORPG_GAME {
 		return static_cast<Player*>(m_Player);
 	}
 }
+#endif

@@ -1,3 +1,5 @@
+#ifndef GAME_H
+#define GAME_H
 class Game {
 
 	std::map<std::string, Entity>* MobList = new std::map<std::string, Entity>();
@@ -46,3 +48,4 @@ public:
 
 	}
 };
+#endif
