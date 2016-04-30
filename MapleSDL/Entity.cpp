@@ -300,6 +300,11 @@ void Entity::PrepKill() {
 	this->State = EntityState::Death;
 }
 
+void Entity::GenUniqID()
+{
+	this->uniq_id = GameUtils::UniqID() + GameUtils::UniqID();
+}
+
 void Entity::Kill() {
 	this->alive = false;
 }

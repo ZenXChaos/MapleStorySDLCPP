@@ -80,11 +80,15 @@ int main(int argc, char* argv) {
 	map.InitMap("content\\maps\\hennesys\\map01.png", mapPos, gRenderer);
 	entity.SetPositionY(190);
 
-	HUD_GridPanel hudgrid;
+	HUD_FlowPanel hudgrid;
 	hudgrid.height = 100;
-	hudgrid.width = 100;
-	hudgrid.columns = 5;
-	hudgrid.rows = 1;
+	hudgrid.width = 50;
+
+	HUD_FlowPanel hudgrid2;
+	hudgrid2.height = 100;
+	hudgrid2.width = 10;
+	//hudgrid.columns = 5;
+	//hudgrid.rows = 1;
 
 	AnimatedSprite as1;
 	as1.LoadTexture("content\\misc\\itemNo\\ItemNo.1.png", gRenderer);
@@ -109,6 +113,9 @@ int main(int argc, char* argv) {
 
 	hudgrid.AddObject("1", hob1);
 	hudgrid.AddObject("2", hob2);
+
+	hudgrid2.AddObject("1", hob1);
+	hudgrid2.AddObject("2", hob2);
 	//hudgrid.AddObject("3", hob3);
 
 
@@ -152,6 +159,7 @@ int main(int argc, char* argv) {
 
 		//HUD
 		hudgrid.DrawPanel(10, 10);
+		hudgrid2.DrawPanel(10, 22);
 		
 		//Update screen
 		SDL_RenderPresent(gRenderer);

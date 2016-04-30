@@ -70,6 +70,7 @@ public:
 	void TakeHit();
 	void Kill();
 	void PrepKill();
+	void GenUniqID();
 
 	std::string uniq_id;
 

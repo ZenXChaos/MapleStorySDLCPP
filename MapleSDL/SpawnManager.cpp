@@ -34,7 +34,7 @@ void SpawnManager::ManagePool(Uint32 tick) {
 
 		this->spawned.insert(this->spawned.end(), *tmpMob);
 		this->spawned.at(this->spawned.size() - 1).SetPositionY(210);
-
+		this->spawned.at(this->spawned.size() - 1).GenUniqID();
 		GLOBAL_MMORPG_GAME::EntityDispatchedHandles.RegisterEntity(this->spawned.at(this->spawned.size() - 1).uniq_id)->RegisterEntityHandle(this->spawned.at(this->spawned.size() - 1).uniq_id, &this->spawned.at(this->spawned.size() - 1).dispatch_message);
 	}
 	else if (this->spawned.size() >= this->maxSpawn) {

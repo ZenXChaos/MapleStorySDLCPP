@@ -20,6 +20,17 @@ public:
 	void DrawPanel(int x, int y);
 };
 
+class HUD_FlowPanel {
+public:
+	int width = 0, height = 0;
+	int spacingY = 5, spacingX = 5;
+
+	std::map<std::string, HUDObject> elements;
+
+	void AddObject(std::string elem_name, HUDObject obj);
+
+	void DrawPanel(int x, int y);
+};
 class HUD
 {
 public:
