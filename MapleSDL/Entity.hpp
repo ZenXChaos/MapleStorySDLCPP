@@ -1,6 +1,15 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <vector>
+#include <map>
+#include <SDL2/SDL.h>
+#include "AnimatedSprite.h"
+#include "MessageDispatch.h"
+#include "RelativeSpace.h"
+#include "GameUtils.h"
+#include "Input.h"
+#include "MISC/ItemDrop.hpp"
 enum EntityState {
 	Idle=0, Walking=1, Attacking=3, Recovery=4, Death=5
 };

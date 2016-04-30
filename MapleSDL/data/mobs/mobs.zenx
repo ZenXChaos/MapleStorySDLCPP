@@ -1,10 +1,11 @@
 <mobs>
     <mob name="mush" id="0" health="100" armour="0" mana="0" hasDrops="true" exp="10" mesomindrop="9" mesomaxdrop="18">
         <animations>
-            <anim name="idle" sprite="content\mobs\mush\standing\idle01_left.png" max_frames="2.9" delta="0.05" sprite_width="63" sprite_height="58" yfactorup="0" />
-            <anim name="walk" sprite="content\mobs\mush\walking\walking01_left.png" max_frames="3.9" delta="0.1" sprite_width="64" sprite_height="67" yfactorup="6" />
-            <anim name="hit" sprite="content\mobs\mush\hit\hit.png" max_frames="1" delta="0.08" sprite_width="62" sprite_height="65" yfactorup="0" />
-            <anim name="die" sprite="content\mobs\mush\die\die01_left.png" max_frames="3.9" delta="0.05" sprite_width="65" sprite_height="59" yfactorup="0" />
+            <anim name="idle" sprite="content/mobs/mush/standing/idle01_left.png" max_frames="2.9" delta="0.05" sprite_width="63" sprite_height="58" yfactorup="0" />
+            <anim name="walk" sprite="content/mobs/mush/walking/walking01_left.png" max_frames="3.9" delta="0.1" sprite_width="64" sprite_height="67" yfactorup="6" />
+            <anim name="hit" sprite="content/mobs/mush/hit/hit.png" max_frames="1" delta="0.08" sprite_width="62" sprite_height="65" yfactorup="0" />
+            <anim name="die" sprite="content/mobs/mush/die/die01_left.png" max_frames="3.9" delta="0.05" sprite_width="65" sprite_height="59" yfactorup="0" />
+           
         </animations>
         
         <itemDrops>

@@ -6,7 +6,7 @@
 #include <map>
 #include <vector>
 #include <tinyxml2.h>
-#include <Box2D\Box2D.h>
+#include <Box2D/Box2D.h>
 #include "GameDebug.h"
 #include "Global.h"
 
@@ -14,15 +14,14 @@
 
 using namespace std;
 
+#include "SpawnManager.h"
 #include "Input.h"
 #include "MessageDispatch.h"
 #include "Box.h"
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
-#include "MISC\ItemDrop.hpp"
-#include "Entity.hpp"
-#include "SpawnManager.h"
+#include "MISC/ItemDrop.hpp"
 #include "Game.h"
 
 void SpawnManager::ManagePool(Uint32 tick) {

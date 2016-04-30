@@ -1,12 +1,12 @@
 <HUD>
-    <HUDSprite name="ItemNo.0" sprite="content\misc\itemNo\itemNo.0.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.1" sprite="content\misc\itemNo\itemNo.1.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.2" sprite="content\misc\itemNo\ItemNo.2.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.3" sprite="content\misc\itemNo\ItemNo.3.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.4" sprite="content\misc\itemNo\ItemNo.4.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.5" sprite="content\misc\itemNo\ItemNo.5.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.6" sprite="content\misc\itemNo\ItemNo.6.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.7" sprite="content\misc\itemNo\ItemNo.7.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.8" sprite="content\misc\itemNo\ItemNo.8.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.9" sprite="content\misc\itemNo\ItemNo.9.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.0" sprite="content/misc/itemNo/ItemNo.0.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.1" sprite="content/misc/itemNo/ItemNo.1.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.2" sprite="content/misc/itemNo/ItemNo.2.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.3" sprite="content/misc/itemNo/ItemNo.3.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.4" sprite="content/misc/itemNo/ItemNo.4.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.5" sprite="content/misc/itemNo/ItemNo.5.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.6" sprite="content/misc/itemNo/ItemNo.6.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.7" sprite="content/misc/itemNo/ItemNo.7.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.8" sprite="content/misc/itemNo/ItemNo.8.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.9" sprite="content/misc/itemNo/ItemNo.9.png" sprite_width="8" sprite_height="11" />
 </HUD>

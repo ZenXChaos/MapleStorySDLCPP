@@ -1,8 +1,8 @@
-
 #ifndef MESSAGEDISPATCH_H
 #define  MESSAGEDISPATCH_H
 
 #include <functional>
+#include <vector>
 using namespace std::placeholders;
 
 class Entity;

@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <Box2D\Box2D.h>
+#include <Box2D/Box2D.h>
 #include "GameDebug.h"
 #include "Global.h"
 
@@ -17,7 +17,7 @@ using namespace std;
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
-#include "MISC\ItemDrop.hpp"
+#include "MISC/ItemDrop.hpp"
 #include "Entity.hpp"
 #include "SpawnManager.h"
 #include "GameMap.h"

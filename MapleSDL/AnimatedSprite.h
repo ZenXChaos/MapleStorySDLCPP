@@ -1,5 +1,7 @@
 #ifndef ANIMATEDSPRITE_H
 #define ANIMATEDSPRITE_H
+#include <SDL2/SDL.h>
+
 class AnimatedSprite {
 	float current_frame = 0.0f;
 	float max_frames = 0.0f;

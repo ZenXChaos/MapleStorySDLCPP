@@ -1,5 +1,7 @@
 #ifndef BOX_H
 #define BOX_H
+#include <Box2D/Box2D.h>
+
 class Box {
 	b2Body* body = nullptr;
 	b2Fixture* fixture = nullptr;
