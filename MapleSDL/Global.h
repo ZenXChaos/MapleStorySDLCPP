@@ -1,5 +1,8 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
+#include <map>
+#include <vector>
+
 class Entity;
 class MessageDispatch;
 class Player;
@@ -20,7 +23,8 @@ namespace GLOBAL_MMORPG_GAME {
 	template <class T, class TT>
 	DispatchedMobMessageHandles<T, TT>* GLOBAL_MMORPG_GAME::DispatchedMobMessageHandles<T, TT>::SendEntityDispatchedMessage(std::string entityid, std::string msgname, void(*callback)(Entity *e), Entity* sender)
 	{
-		this->msgs[T]->RegisterMessage(msgname, callback, e);
+    //TODO: fix me
+		//this->msgs[T]->RegisterMessage(msgname, callback, e);
 
 		return this;
 	}
@@ -47,38 +51,13 @@ namespace GLOBAL_MMORPG_GAME {
 		std::vector<T> elems;     // elements 
 
 	public:
-		void clear();
-		void push(T const&);  // push element 
-		void pop();               // pop element 
-		T top() const;            // return top element 
-		bool empty() const {       // return true if empty.
-			return elems.empty();
-		}
+    void clear() {this->elems.clear();}
+    void push(T const& t){this->elems.push(t);}
+    void pop(T const &t) { elems.erase(t);}
+    T top() const{return elems.begin();}
+    bool empty() const { return elems.empty();}
 	};
 
-	template <class T>
-	void GLOBAL_MMORPG_GAME::SpawnManagerMobs<T>::clear()
-	{
-		this->elems.clear();
-	}
-
-	template <class T>
-	void GLOBAL_MMORPG_GAME::SpawnManagerMobs<T>::push(T const&)
-	{
-		elems.push(T);
-	}
-
-	template <class T>
-	T GLOBAL_MMORPG_GAME::SpawnManagerMobs<T>::top() const
-	{
-		return elems.begin();
-	}
-
-	template <class T>
-	void GLOBAL_MMORPG_GAME::SpawnManagerMobs<T>::pop()
-	{
-		elems.erase(T);
-	}
 
 	static Player* m_Player;
 	static void* m_SpawnManager;

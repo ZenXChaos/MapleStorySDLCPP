@@ -16,7 +16,7 @@ using namespace std;
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
 #include "MISC/ItemDrop.hpp"
-#include "Entity.h"
+#include "Entity.hpp"
 
 void Entity::Draw() {
 	if (this->alive == false) {

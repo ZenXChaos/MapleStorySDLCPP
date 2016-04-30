@@ -18,7 +18,7 @@ using namespace std;
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
 #include "MISC/ItemDrop.hpp"
-#include "Entity.h"
+#include "Entity.hpp"
 #include "SpawnManager.h"
 #include "GameMap.h"
 #include "Game.h"
@@ -76,7 +76,7 @@ int main(int argc, char* argv) {
 	mapPos.h = 907;
 	mapPos.x = 0;
 	mapPos.y = -407;
-	map.InitMap("content//maps//hennesys//map01.png", mapPos, gRenderer);
+	map.InitMap("content/maps/hennesys/map01.png", mapPos, gRenderer);
 	entity.SetPositionY(190);
 
 	HUD_FlowPanel hudgrid;
@@ -90,14 +90,14 @@ int main(int argc, char* argv) {
 	//hudgrid.rows = 1;
 
 	AnimatedSprite as1;
-	as1.LoadTexture("content\\misc\\itemNo\\ItemNo.1.png", gRenderer);
+	as1.LoadTexture("content/misc/itemNo/ItemNo.1.png", gRenderer);
 	as1.BuildAnimation(0, 1, 8, 11, 0.1f);
 
 	AnimatedSprite as2;
-	as2.LoadTexture("content\\misc\\itemNo\\ItemNo.2.png", gRenderer);
+	as2.LoadTexture("content/misc/itemNo/ItemNo.2.png", gRenderer);
 	as2.BuildAnimation(0, 1, 8, 11, 0.1f);
 	//AnimatedSprite as3;
-	//as1.LoadTexture("content\\misc\\itemNo\\ItemNo.3.png", gRenderer);
+	//as1.LoadTexture("content/misc/itemNo/ItemNo.3.png", gRenderer);
 
 	HUDObject hob1;
 	hob1.sprites = &as1;
@@ -127,6 +127,7 @@ int main(int argc, char* argv) {
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_QUIT:
+        running = false;
 				break;
 			case SDL_KEYDOWN:
 				PlayerInput.KeyDown(event.key.keysym.scancode);

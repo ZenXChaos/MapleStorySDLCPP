@@ -14,6 +14,7 @@
 
 using namespace std;
 
+#include "SpawnManager.h"
 #include "Input.h"
 #include "MessageDispatch.h"
 #include "Box.h"
@@ -21,8 +22,6 @@ using namespace std;
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
 #include "MISC/ItemDrop.hpp"
-#include "Entity.h"
-#include "SpawnManager.h"
 #include "Game.h"
 
 void SpawnManager::ManagePool(Uint32 tick) {

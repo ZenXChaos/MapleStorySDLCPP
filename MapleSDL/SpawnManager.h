@@ -5,7 +5,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 
-#include "Entity.h"
+#include "Entity.hpp"
 
 
 class SpawnManager {

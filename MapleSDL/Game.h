@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 #include <SDL2/SDL.h>
-#include "Entity.h"
+#include "Entity.hpp"
 #include "SpawnManager.h"
 #include "Box.h"
 
@@ -58,3 +58,4 @@ public:
 
 	}
 };
+#endif
