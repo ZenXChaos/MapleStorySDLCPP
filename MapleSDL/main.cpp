@@ -143,7 +143,11 @@ int main(int argc, char* argv) {
 	hudgrid2.AddObject(hob2);
 	//hudgrid.AddObject("3", hob3);
 
+	AnimatedSprite cursr;
+	cursr.LoadTexture("content\\misc\\Cursor.0.0.png", gRenderer);
+	cursr.BuildAnimation(0, 1, 24, 28, 0);
 
+	SDL_ShowCursor(SDL_DISABLE);
 	while (running) {
 
 		tick = SDL_GetTicks();
@@ -176,6 +180,12 @@ int main(int argc, char* argv) {
 			entity.Station();
 		}
 
+		SDL_Rect mousePos;
+		mousePos.w = 24;
+		mousePos.y = 28;
+		SDL_GetMouseState(&mousePos.x, &mousePos.y);
+
+
 		map.DrawMap(mapPos);
 		entity.ManageState();
 		entity.Draw();
@@ -187,6 +197,9 @@ int main(int argc, char* argv) {
 		//hudgrid2.DrawPanel(10, 22);
 		
 		HUD_ShowPlayerEXP();
+
+		//Custom Cursor
+		cursr.Animate(mousePos, 0, NULL, SDL_FLIP_NONE, nullptr);
 		//Update screen
 		SDL_RenderPresent(gRenderer);
 
