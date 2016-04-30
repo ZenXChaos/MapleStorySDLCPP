@@ -160,7 +160,7 @@ void Entity::Roam() {
 }
 
 void Entity::AI() {
-	tick = SDL_GetTicks();
+	tick = static_cast<float>(SDL_GetTicks());
 	if (this->State != EntityState::Death) {
 		switch (this->State) {
 		case EntityState::Recovery:
@@ -199,6 +199,7 @@ void Entity::AI() {
 }
 
 void Entity::WalkTowards(SDL_Rect topos) {
+
 
 	if (this->State == Attacking || topos.x < 0) {
 		return;
@@ -317,7 +318,11 @@ void Player::ManageState() {
 			float pdone = this->currentAnimation->percentComplete();
 			if (this->currentAnimation->percentComplete() >= 50.0f && attacking == false) {
 				if (this->closestMob != nullptr) {
-					this->closestMob->dispatch_message.RegisterMessage("IsHit", &IsHit, this->closestMob);
+					Entity* tmpE = this->closestMob;
+					tmpE->dispatch_message.RegisterMessage("IsHit", &IsHit, this->closestMob);
+					if (tmpE->Life.Health <= 0) {
+						this->expPts += tmpE->expGain;
+					}
 					this->attacking = true;
 				}
 			}
@@ -326,7 +331,7 @@ void Player::ManageState() {
 
 	
 	if (playerInput->IsKeyPressed(SDL_SCANCODE_C) && this->State != EntityState::Attacking) {
-		Uint32 age = this->age();
+		float age = this->age();
 		if (this->age() - this->lastAttack >= this->attackRecovery) {
 
 			this->State = EntityState::Attacking;
@@ -334,11 +339,11 @@ void Player::ManageState() {
 		}else{
 
 #ifdef DEBUG_DENIED_PLAYERACTION
-			printf("Player count not attack! Last attack `%i` < `%i\n", static_cast<int>(this->age() - this->lastAttack), static_cast<int>(this->attackRecovery));
+			printf("Player count not attack! Last attack `%F` < `%F\n",this->age() - this->lastAttack, this->attackRecovery);
 #endif
 		
 		}
 	}
 
-	this->tick = SDL_GetTicks();
+	this->tick = static_cast<float>(SDL_GetTicks());
 }

@@ -34,6 +34,8 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 
 > State Machine
 
+> Exp Points
+
 * Game Logic
 
 > Basic Map

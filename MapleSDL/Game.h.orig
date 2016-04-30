@@ -10,6 +10,11 @@
 
 class Game {
 
+<<<<<<< HEAD
+  //TODO: i dont' see a reason why this needs to be a pointer
+	//std::map<std::string, Entity> * MobList = new std::map<std::string, Entity>();
+=======
+>>>>>>> master
 	std::map<std::string, Entity> MobList;
 	std::map<std::string, Entity> MOBS_LIST;
 	std::map<int, std::string> MOBS_MAPPING;

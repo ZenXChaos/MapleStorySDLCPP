@@ -56,38 +56,38 @@ void HUD_GridPanel::DrawPanel(int x, int y)
 	}
 }
 
-void HUD_FlowPanel::AddObject(std::string elem_name, HUDObject obj)
+void HUD_FlowPanel::AddObject(HUDObject obj)
 {
 
-	this->elements[elem_name] = obj;
+	this->elements.push_back(obj);
 }
 
 void HUD_FlowPanel::DrawPanel(int x, int y)
 {
 	int posx = 0, posy = 0;
-	std::map<std::string, HUDObject>::iterator collection;
+	std::vector<HUDObject>::iterator collection;
 
 	int tallestObject = 0;
 	int indexX = 0;
 	int indexY = 0;
 	for (collection = this->elements.begin(); collection != this->elements.end(); collection++) {
 		SDL_Rect pos = { 0,0,0,0 };
-		if (indexX + this->spacingX + collection->second.sprites->animclips[0].w > this->width) {
+		if (indexX + this->spacingX + collection->sprites->animclips[0].w > this->width) {
 			indexY += tallestObject+spacingY;
 			indexX = x;
 			pos.x = x+spacingX;
 		}else{
 
 			pos.x = x+indexX+spacingX;
-			indexX += x+collection->second.sprites->animclips[0].w + spacingX;
+			indexX += x+collection->sprites->animclips[0].w + spacingX;
 		}
-		if (tallestObject < collection->second.sprites->animclips[0].h) {
-			tallestObject = collection->second.sprites->animclips[0].h;
+		if (tallestObject < collection->sprites->animclips[0].h) {
+			tallestObject = collection->sprites->animclips[0].h;
 		}
 		pos.y = y+indexY;
-		pos.w = collection->second.sprites->animclips[0].w;
-		pos.h = collection->second.sprites->animclips[0].h;
+		pos.w = collection->sprites->animclips[0].w;
+		pos.h = collection->sprites->animclips[0].h;
 
-		collection->second.sprites->Animate(pos, 0, NULL, SDL_FLIP_NONE, NULL);
+		collection->sprites->Animate(pos, 0, NULL, SDL_FLIP_NONE, NULL);
 	}
 }
