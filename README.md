@@ -44,6 +44,10 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 
 > MessageDispatching (Player to Mob) entity communication.
 
+* HUD
+
+> Grid Layout
+
 ---
 
 #### Controls
