@@ -22,11 +22,32 @@ using namespace std;
 #include "Entity.hpp"
 #include "SpawnManager.h"
 #include "GameMap.h"
+#include "HUD.h"
 #include "Game.h"
 #include "HelperFunctions.h"
-#include "HUD.h"
 
 #undef main
+
+std::map<std::string, AnimatedSprite> HUDElements;
+void HUD_ShowPlayerEXP()
+{
+	HUD_FlowPanel expFlowPanel;
+	expFlowPanel.width = 400;
+	expFlowPanel.spacingX = 2;
+	char *playerEXP_s = (char*)malloc(sizeof(char) * 80);
+	_itoa_s(GLOBAL_MMORPG_GAME::m_Player->expPts, playerEXP_s, 80, 10);
+	int sp = strlen(playerEXP_s);
+
+	for (int i = 0; i < sp; i++) {
+		HUDObject ItemNo;
+		std::string itemno = "ItemNo.";
+		itemno += playerEXP_s[i];
+		ItemNo.sprites = &HUDElements[itemno];
+		expFlowPanel.AddObject(ItemNo);
+	}
+
+	expFlowPanel.DrawPanel(0, 0);
+}
 
 int main(int argc, char* argv) {
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -63,6 +84,7 @@ int main(int argc, char* argv) {
 	game.SetMainPlayer(&entity);
 	game.LoadItemDrops(gRenderer);
 	game.LoadMobList(gRenderer);
+	game.LoadHUDSprites(gRenderer);
 	game.LoadPlayerAnims(gRenderer, &entity);
 	game.InitSpawnManager();
 
@@ -111,13 +133,12 @@ int main(int argc, char* argv) {
 	//HUDObject hob3;
 	//hob3.sprites = &as3;
 
-	hudgrid.AddObject("1", hob1);
-	hudgrid.AddObject("2", hob2);
+	hudgrid.AddObject(hob1);
+	hudgrid.AddObject(hob2);
 
-	hudgrid2.AddObject("1", hob1);
-	hudgrid2.AddObject("2", hob2);
+	hudgrid2.AddObject(hob1);
+	hudgrid2.AddObject(hob2);
 	//hudgrid.AddObject("3", hob3);
-
 
 
 	while (running) {
@@ -158,15 +179,19 @@ int main(int argc, char* argv) {
 		game.ManageMapObjects();
 
 		//HUD
-		hudgrid.DrawPanel(10, 10);
-		hudgrid2.DrawPanel(10, 22);
+		//hudgrid.DrawPanel(10, 10);
+		//hudgrid2.DrawPanel(10, 22);
 		
+		HUD_ShowPlayerEXP();
 		//Update screen
 		SDL_RenderPresent(gRenderer);
 
 		//SpawnManager
 		game.spawn_manager.ManagePool(tick);
 //LIMIT FPS
+
+
+
 		frame += 0.1f;
 		unsigned int fps = 60;
 		if ((1000 / fps) > SDL_GetTicks() - tick) {

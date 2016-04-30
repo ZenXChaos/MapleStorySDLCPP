@@ -23,6 +23,7 @@ using namespace std;
 #include "Entity.hpp"
 #include "SpawnManager.h"
 #include "Box.h"
+#include "HUD.h"
 #include "Game.h"
 
 
@@ -40,21 +41,21 @@ void Game::LoadMobList(SDL_Renderer* gRenderer){
 	tinyxml2::XMLElement* pRoot;
 	doc.LoadFile("data\\mobs\\mobs.zenx");
 
-	pRoot = doc.FirstChildElement("mobs")->FirstChildElement("mob");
 
-	for (; pRoot != nullptr; pRoot = pRoot->NextSiblingElement("mob")) {
+	for (pRoot = doc.FirstChildElement("mobs")->FirstChildElement("mob"); pRoot != nullptr; pRoot = pRoot->NextSiblingElement("mob")) {
 		std::string mob_name = pRoot->Attribute("name");
 		bool mob_hasDrops = pRoot->BoolAttribute("hasDrops");
 		int mob_id = pRoot->IntAttribute("id");
-		int mob_init_health = pRoot->IntAttribute("Health");
-		int mob_init_armour = pRoot->IntAttribute("Armour");
-		int mob_init_mana = pRoot->IntAttribute("Mana");
-		
+		int mob_init_health = pRoot->IntAttribute("health");
+		int mob_init_armour = pRoot->IntAttribute("armour");
+		int mob_init_mana = pRoot->IntAttribute("mana");
+		int mob_exp_gain = pRoot->IntAttribute("exp");
 		Entity mob;
-		(*MobList)[mob_name] = mob;
+		(MobList)[mob_name] = mob;
 
-		(*MobList)[mob_name].ItemDrops.hasDrops = mob_hasDrops;
+		(MobList)[mob_name].ItemDrops.hasDrops = mob_hasDrops;
 
+		(MobList)[mob_name].expGain = mob_exp_gain;
 		tinyxml2::XMLElement* aRoot = pRoot->FirstChildElement("animations")->FirstChildElement("anim");
 
 		for (; aRoot != nullptr; aRoot = aRoot->NextSiblingElement("anim")) {
@@ -67,13 +68,14 @@ void Game::LoadMobList(SDL_Renderer* gRenderer){
 			int sprite_y_factor = aRoot->IntAttribute("yfactordown") - aRoot->IntAttribute("yfactorup") ;
 			int sprite_x_factor = aRoot->IntAttribute("xfactordown") - aRoot->IntAttribute("xfactorup");
 
+
 			AnimatedSprite as;
-			this->MobList->at(mob_name).animations.insert(std::pair<std::string, AnimatedSprite>(sprite_anim_name, as));
-			this->MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).LoadTexture(sprite_filepath.c_str(), gRenderer);
-			this->MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).BuildAnimation(0, sprite_max_frames, sprite_width, sprite_height, sprite_delta);
-			this->MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).yfactor = sprite_y_factor;
-			this->MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).xfactor = sprite_x_factor;
-			if (MobList->at(mob_name).animations.at(sprite_anim_name.c_str()).texture == nullptr) {
+			(MobList)[mob_name].animations.insert(std::pair<std::string, AnimatedSprite>(sprite_anim_name, as));
+			(MobList)[mob_name].animations.at(sprite_anim_name.c_str()).LoadTexture(sprite_filepath.c_str(), gRenderer);
+			(MobList)[mob_name].animations.at(sprite_anim_name.c_str()).BuildAnimation(0, sprite_max_frames, sprite_width, sprite_height, sprite_delta);
+			(MobList)[mob_name].animations.at(sprite_anim_name.c_str()).yfactor = sprite_y_factor;
+			(MobList)[mob_name].animations.at(sprite_anim_name.c_str()).xfactor = sprite_x_factor;
+			if ((MobList)[mob_name].animations.at(sprite_anim_name.c_str()).texture == nullptr) {
 				printf("SDL Error: %s", SDL_GetError());
 			}
 			
@@ -82,11 +84,11 @@ void Game::LoadMobList(SDL_Renderer* gRenderer){
 		tinyxml2::XMLElement* i_Root = pRoot->FirstChildElement("itemDrops")->FirstChildElement("item");
 		
 		for (; i_Root != nullptr; i_Root = i_Root->NextSiblingElement("item")) {
-			(*MobList)[mob_name].ItemDrops.AddItem(this->gameItemDrops[i_Root->Attribute("value")]);
+			(MobList)[mob_name].ItemDrops.AddItem(this->gameItemDrops[i_Root->Attribute("value")]);
 		}
 
 		int i = 0;
-		for (std::map<std::string, Entity>::iterator it = MobList->begin(); it != MobList->end(); it++) {
+		for (std::map<std::string, Entity>::iterator it = MobList.begin(); it != MobList.end(); it++) {
 			
 			MOBS_LIST[it->first.c_str()] = it->second;
 			MOBS_MAPPING[i] = it->first;
@@ -124,7 +126,7 @@ void Game::LoadItemDrops(SDL_Renderer* gRenderer) {
 }
 
 Entity* Game::IdentifyMob(std::string mobname) {
-	std::map<std::string, Entity> moblist = *MobList;
+	std::map<std::string, Entity> moblist = MobList;
 	std::map<std::string, int>::iterator it = MOBS_MAPPINGSTRING.find(mobname);
 	if (it != MOBS_MAPPINGSTRING.end()) {
 		return &MOBS_LIST[it->first];
@@ -136,11 +138,11 @@ Entity* Game::IdentifyMob(std::string mobname) {
 
 void Game::InitSpawnManager() {
 	//Initialize spawn_manager mob list with list from Game.
-	spawn_manager.MobList = new std::map<std::string, Entity>(*this->MobList);
+	spawn_manager.MobList = new std::map<std::string, Entity>(this->MobList);
 }
 
 Entity* Game::IdentifyMob(int mobid) {
-	std::map<std::string, Entity> moblist = *MobList;
+	std::map<std::string, Entity> moblist = MobList;
 	std::map<int, std::string>::iterator it = MOBS_MAPPING.find(mobid);
 	if (it != MOBS_MAPPING.end()) {
 		return &MOBS_LIST[it->second];
@@ -191,16 +193,32 @@ void Game::ManageMapObjects() {
 	}
 }
 
+
+extern std::map<std::string, AnimatedSprite> HUDElements;
+void Game::LoadHUDSprites(SDL_Renderer* gRenderer)
+{
+	this->mainRenderer = gRenderer;
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLElement* pRoot;
+	doc.LoadFile("data\\HUD.zenx");
+
+
+	for (pRoot = doc.FirstChildElement("HUD")->FirstChildElement("HUDSprite"); pRoot != nullptr; pRoot = pRoot->NextSiblingElement("HUDSprite")) {
+		std::string sprite_name = pRoot->Attribute("name");
+		HUDElements[sprite_name].LoadTexture(pRoot->Attribute("sprite"), gRenderer);
+		HUDElements[pRoot->Attribute("name")].BuildAnimation(0, 1, pRoot->IntAttribute("sprite_width"), pRoot->IntAttribute("sprite_height"), 0);
+	}
+}
+
 void Game::LoadPlayerAnims(SDL_Renderer* gRenderer, Player* ent) {
 	tinyxml2::XMLElement* pRoot;
 	tinyxml2::XMLDocument doc;
 
 	doc.LoadFile("data\\player_anims.xml");
 
-	pRoot = doc.FirstChild()->FirstChildElement("anim");
 
 
-	for (; pRoot != nullptr; pRoot = pRoot->NextSiblingElement("anim")) {
+	for (pRoot = doc.FirstChild()->FirstChildElement("anim"); pRoot != nullptr; pRoot = pRoot->NextSiblingElement("anim")) {
 		std::string sprite_anim_name = pRoot->Attribute("name");
 		std::string sprite_filepath = pRoot->Attribute("sprite");
 		float sprite_delta = pRoot->FloatAttribute("delta");

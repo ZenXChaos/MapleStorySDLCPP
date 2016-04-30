@@ -3,8 +3,15 @@
 class Entity;
 class MessageDispatch;
 class Player;
+class AnimatedSprite;
 
 namespace GLOBAL_MMORPG_GAME {
+
+	template <class T, class TT>
+	class HUDE {
+	private:
+		std::map<T, TT*> msgs;     // elements 
+	};
 
 	template <class T, class TT>
 	class DispatchedMobMessageHandles {

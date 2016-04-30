@@ -25,9 +25,6 @@ protected:
 	int walkSpeedAccel = 1;
 	int minRoamTransit = 100;
 
-	int mesoDropMin = 0;
-	int mesoDropMax = 0;
-	int expGain = 0;
 
 	bool usesAccel;
 	bool roaming = false;
@@ -35,15 +32,16 @@ protected:
 	bool attacking = false;
 
 	SDL_Rect nextTransitLocation = { 0,0,0,0 };
-	Uint32 roamDelayIndex = 0;
-	Uint32 tick = 0;
+	SDL_Rect* currFrameData = new SDL_Rect();
+
 	Uint32 birth = 0;
 
+	float roamDelayIndex = 0;
+	float tick = 0;
 	float recoveryIndex = 0.0f;
-	Uint32 lastAttack = 0;
-	Uint32 attackRecovery = 2;
+	float lastAttack = 0.0f;
+	float attackRecovery = 0.4f;
 
-	SDL_Rect* currFrameData = new SDL_Rect();
 	AnimatedSprite* currentAnimation;
 
 public:
@@ -57,6 +55,10 @@ public:
 	Uint32 roamDelay = 3;
 	FlipDirection Direction = Left;
 	std::map<std::string, AnimatedSprite> animations;
+
+	int mesoDropMin = 0;
+	int mesoDropMax = 0;
+	int expGain = 0;
 
 	bool alive = true;
 
@@ -74,7 +76,7 @@ public:
 
 	std::string uniq_id;
 
-	Uint32 age() {
+	float age() {
 		return ((this->tick/1000) - this->birth);
 	}
 
@@ -100,8 +102,9 @@ class Player : public Entity {
 	Entity* closestMob = nullptr;
 	Input* playerInput;
 
-	int exp = 0;
 public:
+
+	int expPts = 0;
 
 	std::vector<Entity>* spawned;
 	std::vector<Entity*> inRange;

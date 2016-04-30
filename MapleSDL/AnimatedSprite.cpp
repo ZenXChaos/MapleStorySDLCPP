@@ -12,6 +12,7 @@ using namespace std;
 
 #include "AnimatedSprite.h"
 #include "RelativeSpace.h"
+#include "HUD.h"
 
 bool AnimatedSprite::LoadTexture(std::string path, SDL_Renderer* gRenderer)
 {

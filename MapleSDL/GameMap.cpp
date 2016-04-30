@@ -12,6 +12,7 @@ using namespace std;
 
 #include "AnimatedSprite.h"
 #include "GameMap.h"
+#include "HUD.h"
 
 void GameMap::InitMap(std::string initMapFile, SDL_Rect pos, SDL_Renderer* gRenderer) {
 	this->mapSprite.LoadTexture(initMapFile, gRenderer);

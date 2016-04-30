@@ -2,7 +2,7 @@
 #define GAME_H
 class Game {
 
-	std::map<std::string, Entity>* MobList = new std::map<std::string, Entity>();
+	std::map<std::string, Entity> MobList;
 	std::map<std::string, Entity> MOBS_LIST;
 	std::map<int, std::string> MOBS_MAPPING;
 	std::map<std::string, int> MOBS_MAPPINGSTRING;
@@ -25,6 +25,7 @@ public:
 	void ManageMobPool();
 	void SetMainPlayer(Player* mp);
 	void ManageMapObjects();
+	void LoadHUDSprites(SDL_Renderer* gRenderer);
 	Player* GetMainPlayer();
 
 	b2World* gameWorld;

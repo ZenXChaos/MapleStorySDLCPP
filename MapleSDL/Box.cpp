@@ -21,6 +21,7 @@ using namespace std;
 #include "Entity.hpp"
 #include "SpawnManager.h"
 #include "GameMap.h"
+#include "HUD.h"
 #include "Game.h"
 
 

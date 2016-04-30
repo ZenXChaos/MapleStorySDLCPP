@@ -1,4 +1,3 @@
-#pragma once
 #ifndef HUD_H
 #define HUD_H
 class HUDObject {
@@ -25,16 +24,17 @@ public:
 	int width = 0, height = 0;
 	int spacingY = 5, spacingX = 5;
 
-	std::map<std::string, HUDObject> elements;
+	std::vector<HUDObject> elements;
 
-	void AddObject(std::string elem_name, HUDObject obj);
+	void AddObject(HUDObject obj);
 
 	void DrawPanel(int x, int y);
 };
-class HUD
+static class HUD
 {
 public:
 	HUD();
 	virtual ~HUD();
-};
+
+} UIHUD;
 #endif
