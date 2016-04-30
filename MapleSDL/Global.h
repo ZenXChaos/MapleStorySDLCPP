@@ -1,5 +1,6 @@
 class Entity;
 class MessageDispatch;
+class Player;
 
 namespace GLOBAL_MMORPG_GAME {
 
@@ -77,7 +78,7 @@ namespace GLOBAL_MMORPG_GAME {
 		elems.erase(T);
 	}
 
-	static void* m_Player;
+	static Player* m_Player;
 	static void* m_SpawnManager;
 	static void* m_GameMain;
 
@@ -90,5 +91,9 @@ namespace GLOBAL_MMORPG_GAME {
 		m_entities.insert(std::pair<std::string, void*>(entity_id, nullptr));
 		m_entities[entity_id] = e;
 
+	}
+
+	static Player* GetMainPlayer() {
+		return static_cast<Player*>(m_Player);
 	}
 }

@@ -159,6 +159,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMap.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MessageDispatch.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="GameUtils.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="HelperFunctions.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="MessageDispatch.h" />
     <ClInclude Include="MISC\ItemDrop.hpp" />

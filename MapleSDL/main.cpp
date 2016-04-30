@@ -11,6 +11,7 @@
 
 using namespace std;
 
+
 #include "Input.h"
 #include "MessageDispatch.h"
 #include "Box.h"
@@ -23,7 +24,7 @@ using namespace std;
 #include "GameMap.h"
 #include "Game.h"
 #include "HelperFunctions.h"
-
+#include "HUD.h"
 
 #undef main
 
@@ -78,6 +79,40 @@ int main(int argc, char* argv) {
 	mapPos.y = -407;
 	map.InitMap("content\\maps\\hennesys\\map01.png", mapPos, gRenderer);
 	entity.SetPositionY(190);
+
+	HUD_GridPanel hudgrid;
+	hudgrid.height = 100;
+	hudgrid.width = 100;
+	hudgrid.columns = 5;
+	hudgrid.rows = 1;
+
+	AnimatedSprite as1;
+	as1.LoadTexture("content\\misc\\itemNo\\ItemNo.1.png", gRenderer);
+	as1.BuildAnimation(0, 1, 8, 11, 0.1f);
+
+	AnimatedSprite as2;
+	as2.LoadTexture("content\\misc\\itemNo\\ItemNo.2.png", gRenderer);
+	as2.BuildAnimation(0, 1, 8, 11, 0.1f);
+	//AnimatedSprite as3;
+	//as1.LoadTexture("content\\misc\\itemNo\\ItemNo.3.png", gRenderer);
+
+	HUDObject hob1;
+	hob1.sprites = &as1;
+	hob1.column = 0;
+	hob1.row = 0;
+	HUDObject hob2;
+	hob2.sprites = &as2;
+	hob2.column = 1;
+	hob2.row = 0;
+	//HUDObject hob3;
+	//hob3.sprites = &as3;
+
+	hudgrid.AddObject("1", hob1);
+	hudgrid.AddObject("2", hob2);
+	//hudgrid.AddObject("3", hob3);
+
+
+
 	while (running) {
 
 		tick = SDL_GetTicks();
@@ -115,13 +150,15 @@ int main(int argc, char* argv) {
 		game.ManageMobPool();
 		game.ManageMapObjects();
 
+		//HUD
+		hudgrid.DrawPanel(10, 10);
+		
 		//Update screen
 		SDL_RenderPresent(gRenderer);
 
 		//SpawnManager
 		game.spawn_manager.ManagePool(tick);
-
-		//LIMIT FPS
+//LIMIT FPS
 		frame += 0.1f;
 		unsigned int fps = 60;
 		if ((1000 / fps) > SDL_GetTicks() - tick) {

@@ -25,6 +25,9 @@ protected:
 	int walkSpeedAccel = 1;
 	int minRoamTransit = 100;
 
+	int mesoDropMin = 0;
+	int mesoDropMax = 0;
+	int expGain = 0;
 
 	bool usesAccel;
 	bool roaming = false;
@@ -95,6 +98,8 @@ class Player : public Entity {
 
 	Entity* closestMob = nullptr;
 	Input* playerInput;
+
+	int exp = 0;
 public:
 
 	std::vector<Entity>* spawned;
@@ -107,7 +112,7 @@ public:
 		spawned = sp;
 		playerInput = pi;
 		this->e_Type = EntityType::e_Player;
-		GLOBAL_MMORPG_GAME::m_Player = static_cast<void*>(this);
+		GLOBAL_MMORPG_GAME::m_Player = (this);
 	}
 };
 
