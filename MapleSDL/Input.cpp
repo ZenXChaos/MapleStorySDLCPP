@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include "GameDebug.h"
+#include "Global.h"
 
 using namespace std;
 

@@ -25,52 +25,52 @@ void Entity::Draw() {
 	switch (this->State) {
 	case Idle:
 		//this->animations->at("idle").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
-		this->animations.at("idle").Animate(pos.x, pos.y, this->Direction);
+		this->animations.at("idle").Animate(pos->x, pos->y, this->Direction);
 		currentAnimation = &this->animations.at("idle");
 		break;
 
 	case Walking:
 		//this->animations->at("walk").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
-		this->animations.at("walk").Animate(pos.x, pos.y, this->Direction);
+		this->animations.at("walk").Animate(pos->x, pos->y, this->Direction);
 		currentAnimation = &this->animations.at("walk");
 		break;
 
 	case Attacking:
 		//this->animations->at("attack").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
-		this->animations.at("attack").Animate(pos.x, pos.y, this->Direction);
+		this->animations.at("attack").Animate(pos->x, pos->y, this->Direction);
 		currentAnimation = &this->animations.at("attack");
 		break;
 
 	case Recovery:
-		this->animations.at("hit").Animate(pos.x, pos.y, this->Direction);
+		this->animations.at("hit").Animate(pos->x, pos->y, this->Direction);
 		currentAnimation = &this->animations.at("hit");
 		break;
 
 	case Death:
-		this->animations.at("die").Animate(pos.x, pos.y, this->Direction);
+		this->animations.at("die").Animate(pos->x, pos->y, this->Direction);
 		currentAnimation = &this->animations.at("die");
 		break;
 	}
 }
 
 void Entity::SetPositionY(GLfloat y) {
-	this->pos.y = y;
+	this->pos->y = y;
 }
 
 void Entity::SetPositionX(GLfloat x) {
-	this->pos.x = x;
+	this->pos->x = x;
 }
 
 LFRect Entity::GetPosition() {
-	return this->pos;
+	return *this->pos;
 }
 
 GLfloat Entity::GetPositionY() {
-	return this->pos.y;
+	return this->pos->y;
 }
 
 GLfloat Entity::GetPositionX() {
-	return this->pos.x;
+	return this->pos->x;
 }
 
 GLfloat Entity::GetWidth() {
@@ -91,12 +91,12 @@ void Entity::Tick() {
 }
 void Entity::Roam() {
 	if (roaming == true) {
-		if (nextTransitLocation.x != pos.x) {
+		if (nextTransitLocation.x != pos->x) {
 			this->WalkTowards(nextTransitLocation);
 
 #ifdef DEBUG_MOBTRANSIT_RAYCAST
 			LFRect fillRect = nextTransitLocation;
-			fillRect.y = this->pos.y;
+			fillRect.y = this->pos->y;
 			fillRect.w = this->currFrameData->w;
 			fillRect.h = this->currFrameData->h;
 			/*SDL_SetRenderDrawColor(this->animations->at("idle").getRenderer(), 0xFF, 0xF2, 0x00, 0xFF);
@@ -104,10 +104,10 @@ void Entity::Roam() {
 			SDL_RenderDrawRect(this->animations->at("idle").getRenderer(), &fillRect);
 			SDL_SetRenderDrawColor(this->animations->at("idle").getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 			*/
-			if (this->pos.x < nextTransitLocation.x) {
-				for (GLfloat i = this->pos.x + ((this->currFrameData->w / 2) + (this->currFrameData->w / 4)); i < nextTransitLocation.x - 5; i += 0.4f) {
+			if (this->pos->x < nextTransitLocation.x) {
+				for (GLfloat i = this->pos->x + ((this->currFrameData->w / 2) + (this->currFrameData->w / 4)); i < nextTransitLocation.x - 5; i += 0.4f) {
 					LFRect tmpPos;
-					tmpPos.y = this->pos.y + (this->currFrameData->h / 2) - 5;
+					tmpPos.y = this->pos->y + (this->currFrameData->h / 2) - 5;
 					tmpPos.x = i;
 					tmpPos.w = 10;
 					tmpPos.h = 10;
@@ -120,9 +120,9 @@ void Entity::Roam() {
 				}
 			}
 			else {
-				for (GLfloat i = this->pos.x + (this->currFrameData->w / 4); i > nextTransitLocation.x + this->currFrameData->w + 5; i -= 0.4f) {
+				for (GLfloat i = this->pos->x + (this->currFrameData->w / 4); i > nextTransitLocation.x + this->currFrameData->w + 5; i -= 0.4f) {
 					LFRect tmpPos;
-					tmpPos.y = this->pos.y + (this->currFrameData->h / 2) - 5;
+					tmpPos.y = this->pos->y + (this->currFrameData->h / 2) - 5;
 					tmpPos.x = i;
 					tmpPos.w = 10;
 					tmpPos.h = 10;
@@ -146,12 +146,12 @@ void Entity::Roam() {
 		if (age - this->roamDelayIndex >= this->roamDelay) {
 			this->roamDelayIndex = this->age();
 			nextTransitLocation.x = static_cast<GLfloat>(GameUtils::RandomIntegerRange(0, 900));
-			while (nextTransitLocation.x < this->pos.x + static_cast<GLfloat>(this->minRoamTransit) && nextTransitLocation.x > pos.x) {
+			while (nextTransitLocation.x < this->pos->x + static_cast<GLfloat>(this->minRoamTransit) && nextTransitLocation.x > pos->x) {
 
 				nextTransitLocation.x = static_cast<GLfloat>(GameUtils::RandomIntegerRange(0, 900));
 			}
 
-			while (nextTransitLocation.x > this->pos.x - this->minRoamTransit && nextTransitLocation.x < pos.x) {
+			while (nextTransitLocation.x > this->pos->x - this->minRoamTransit && nextTransitLocation.x < pos->x) {
 
 				nextTransitLocation.x = static_cast<GLfloat>(GameUtils::RandomIntegerRange(0, 900));
 			}
@@ -196,6 +196,8 @@ void Entity::AI() {
 			this->alive = false;
 		}
 	}
+
+	this->Tick();
 }
 
 void Entity::WalkTowards(LFRect topos) {
@@ -207,7 +209,7 @@ void Entity::WalkTowards(LFRect topos) {
 		State = EntityState::Walking;
 	}
 
-	if (topos.x < pos.x) {
+	if (topos.x < pos->x) {
 		this->Walk(FlipDirection::Left);
 	}
 	else
@@ -226,7 +228,7 @@ void Entity::WalkAway(LFRect frompos) {
 		State = EntityState::Walking;
 	}
 
-	if (frompos.x < pos.x) {
+	if (frompos.x < pos->x) {
 		this->Walk(FlipDirection::Right);
 	}
 	else
@@ -254,11 +256,11 @@ void Entity::Walk(FlipDirection direction) {
 	}
 
 	if (direction == FlipDirection::Right) {
-		this->pos.x += this->walkSpeed;
+		this->pos->x += this->walkSpeed;
 		//this->FaceDirection = SDL_FLIP_HORIZONTAL;
 	}
 	else {
-		this->pos.x -= this->walkSpeed;
+		this->pos->x -= this->walkSpeed;
 		//this->FaceDirection = SDL_FLIP_NONE;
 	}
 
@@ -273,18 +275,18 @@ void Player::IdentifyMobs() {
 
 	GLfloat dist = -1;
 	size_t i = 0;
-	for (std::vector<Entity>::iterator mob = spawned->begin(); mob != spawned->end(); mob++) {
-		if (mob->GetPositionX() > this->pos.x) {
-			GLfloat mobd = mob->GetPositionX() - this->pos.x;
-			if (mob->GetPositionX() - this->pos.x <= this->attackRange) {
-				this->closestMob = &this->spawned->at(i);
-				dist = mob->GetPositionX() - this->pos.x;
+	for (std::vector<Entity*>::iterator mob = spawned->begin(); mob != spawned->end(); mob++) {
+		if (mob[0]->GetPositionX() > this->pos->x) {
+			GLfloat mobd = mob[0]->GetPositionX() - this->pos->x;
+			if (mob[0]->GetPositionX() - this->pos->x <= this->attackRange) {
+				this->closestMob = this->spawned->at(i);
+				dist = mob[0]->GetPositionX() - this->pos->x;
 			}
 		}
 		else {
-			if (this->pos.x - mob->GetPositionX() <= this->attackRange) {
-				this->closestMob = &this->spawned->at(i);
-				dist = this->pos.x - mob->GetPositionX();
+			if (this->pos->x - mob[0]->GetPositionX() <= this->attackRange) {
+				this->closestMob = &this->spawned->at(i)[0];
+				dist = this->pos->x - mob[0]->GetPositionX();
 			}
 		}
 

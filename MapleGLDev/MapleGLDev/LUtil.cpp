@@ -19,15 +19,25 @@ LTexture gVBOTexture2;
 
 int tick = 0;
 
+std::map<std::string, Entity*> MobList;
+
 Game game;
 Player entity(&game.spawn_manager.spawned);
 GameMap map;
 LFRect mapPos;
 
+Entity mushy;
+
 void Core() {
-	map.DrawMap({ 0,0,0,0 });
-	entity.ManageState();
-	entity.Draw();
+	//map.DrawMap(mapPos);
+	//entity.Draw();
+	//entity.ManageState();
+	game.ManageMobPool();
+	//game.ManageMapObjects();
+
+	//MobList["mush"]->Draw();
+	//mushy.Draw();
+
 }
 
 bool initGL()
@@ -91,23 +101,25 @@ bool initGL()
         return false;
     }
 
+	game.MobList = &MobList;
+
+	//MobList["mush"] = new Entity();
+	//MobList["mush"]->animations["idle"].AddSprite("content\\maps\\hennesys\\map01.png", 0.1f);
 	//Then init game
 	game.SetMainPlayer(&entity);
-	game.LoadItemDrops();
+	//game.LoadItemDrops();
 	game.LoadMobList();
+	//game.LoadPlayerAnims(&entity);
 	game.InitSpawnManager();
-
-	mapPos.w = 1387;
-	mapPos.h = 907;
+	entity.SetPositionY(190);
+	mapPos.w = SCREEN_WIDTH;
+	mapPos.h = SCREEN_HEIGHT;
 	mapPos.x = 0;
 	mapPos.y = -407;
-	map.InitMap("content\\maps\\hennesys\\map01.png", mapPos);
-	//entity.SetPositionY(0);
-
+	//map.InitMap("content\\maps\\hennesys\\map01.png", mapPos);
     return true;
 }
 
-AnimatedVBO testvb;
 bool loadMedia()
 {
 	
@@ -122,10 +134,8 @@ bool loadMedia()
 		printf("Unable to load OpenGL texture!\n");
 		return false;
 	}*/
-	entity.animations["idle"];
-	//testvb.AddSprite("content\\mobs\\mush\\idle\\stand_0.png", 0.1);
-	game.LoadPlayerAnims(&entity);
-	//entity.animations["idle"].AddSprite("content\\player\\idle\\stand1_0.png", 0.1);
+
+	
 	return true;
 }
 
@@ -146,8 +156,8 @@ void render()
     //Render textured quad using VBOs
 	//gVBOTexture.render( ( SCREEN_WIDTH - gVBOTexture.imageWidth() ) / 2.f, ( SCREEN_HEIGHT - gVBOTexture.imageHeight() ) / 2.f );
 	//gVBOTexture2.render((SCREEN_WIDTH - gVBOTexture.imageWidth()) / 2.f, (SCREEN_HEIGHT - gVBOTexture.imageHeight()) / 2.f);
-	entity.Draw();
 	Core();
     //Update screen
-    glutSwapBuffers();
+	glutSwapBuffers();
+	game.spawn_manager.ManagePool(tick);
 }

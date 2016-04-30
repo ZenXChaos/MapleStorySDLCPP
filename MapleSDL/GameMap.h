@@ -1,3 +1,5 @@
+#ifndef GAMEMAP_H
+#define GAMEMAP_H
 class GameMapObject {
 	AnimatedSprite sprite;
 public:
@@ -14,3 +16,4 @@ public:
 	void InitMap(std::string initMapFile, SDL_Rect pos, SDL_Renderer* gRenderer);
 	void DrawMap(SDL_Rect pos);
 };
+#endif

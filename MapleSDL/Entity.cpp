@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include "GameDebug.h"
+#include "Global.h"
 
 using namespace std;
 
@@ -87,6 +88,9 @@ void Entity::Roam() {
 	if (roaming == true) {
 		if (nextTransitLocation.x != pos.x) {
 			this->WalkTowards(nextTransitLocation);
+#ifdef DEBUG_MOBTRANSIT_ROAMNOTREACHED
+			printf("Mob (%s) transiting to location {%i,%i}\n", this->uniq_id.c_str(), nextTransitLocation.x, nextTransitLocation.y);
+#endif
 
 #ifdef DEBUG_MOBTRANSIT_RAYCAST
 			SDL_Rect fillRect = nextTransitLocation;
@@ -132,6 +136,9 @@ void Entity::Roam() {
 			this->roaming = false;
 			this->State = Idle;
 			this->roamDelayIndex = this->age();
+#ifdef DEBUG_MOBTRANSIT_ROAMREACHED
+			printf("Mob (%s) reached location {%i,%i}\n", this->uniq_id.c_str(), nextTransitLocation.x, nextTransitLocation.y);
+#endif
 		}
 	}
 	else {
@@ -157,8 +164,8 @@ void Entity::AI() {
 	if (this->State != EntityState::Death) {
 		switch (this->State) {
 		case EntityState::Recovery:
-			if (this->recoveryIndex > 0.0f) {
-				recoveryIndex -= currentAnimation->getDelta();
+			if (this->recoveryIndex > 0) {
+				this->recoveryIndex -= currentAnimation->getDelta();
 			}
 			else {
 				this->State = Idle;
@@ -292,6 +299,11 @@ void Entity::PrepKill() {
 	this->State = EntityState::Death;
 }
 
+void Entity::GenUniqID()
+{
+	this->uniq_id = GameUtils::UniqID() + GameUtils::UniqID();
+}
+
 void Entity::Kill() {
 	this->alive = false;
 }
@@ -312,7 +324,21 @@ void Player::ManageState() {
 		}
 	}
 
+	
 	if (playerInput->IsKeyPressed(SDL_SCANCODE_C) && this->State != EntityState::Attacking) {
-		this->State = EntityState::Attacking;
+		Uint32 age = this->age();
+		if (this->age() - this->lastAttack >= this->attackRecovery) {
+
+			this->State = EntityState::Attacking;
+			this->lastAttack = this->age();
+		}else{
+
+#ifdef DEBUG_DENIED_PLAYERACTION
+			printf("Player count not attack! Last attack `%i` < `%i\n", static_cast<int>(this->age() - this->lastAttack), static_cast<int>(this->attackRecovery));
+#endif
+		
+		}
 	}
+
+	this->tick = SDL_GetTicks();
 }

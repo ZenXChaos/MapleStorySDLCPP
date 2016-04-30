@@ -7,6 +7,7 @@
 #include <vector>
 #include <Box2D/Box2D.h>
 #include "GameDebug.h"
+#include "Global.h"
 
 using namespace std;
 

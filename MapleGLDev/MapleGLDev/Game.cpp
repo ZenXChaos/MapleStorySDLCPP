@@ -56,8 +56,8 @@ void Game::LoadMobList() {
 		int mob_init_armour = pRoot->IntAttribute("Armour");
 		int mob_init_mana = pRoot->IntAttribute("Mana");
 
-		Entity mob;
-		MobList->insert(std::pair<std::string, Entity>(mob_name, mob));
+		(*this->MobList)[mob_name] = new Entity();
+
 
 		tinyxml2::XMLElement* mRoot = pRoot->FirstChildElement("animatedVBO");
 
@@ -65,35 +65,26 @@ void Game::LoadMobList() {
 			tinyxml2::XMLElement* aRoot = mRoot->FirstChildElement("sprite");
 			std::string sprite_anim_name = mRoot->Attribute("name");
 
-			AnimatedVBO avbo;
 			for (; aRoot != nullptr; aRoot = aRoot->NextSiblingElement("sprite")) {
 			std::string sprite_filepath = aRoot->Attribute("file");
 				float sprite_delta = mRoot->FloatAttribute("delta");
-				//int sprite_y_factor = aRoot->IntAttribute("yfactordown") - aRoot->IntAttribute("yfactorup");
-				//int sprite_x_factor = aRoot->IntAttribute("xfactordown") - aRoot->IntAttribute("xfactorup");
-
-				avbo.AddSprite(sprite_filepath+".png", sprite_delta);
-				//this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).BuildAnimation(0, sprite_max_frames, sprite_width, sprite_height, sprite_delta);
-				//this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).yfactor = sprite_y_factor;
-				//this->MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).xfactor = sprite_x_factor;
-				//if (MobList->at(mob_name).animations->at(sprite_anim_name.c_str()).texture == nullptr) {
-				//	printf("SDL Error: %s", SDL_GetError());
-				//}
+				
+				(*this->MobList)[mob_name]->animations[sprite_anim_name].AddSprite(sprite_filepath+".png", sprite_delta);
+				
 
 			}
-			this->MobList->at(mob_name).animations[sprite_anim_name] = avbo;
 		}
 		
 		tinyxml2::XMLElement* i_Root = pRoot->FirstChildElement("itemDrops")->FirstChildElement("item");
 
 		for (; i_Root != nullptr; i_Root = i_Root->NextSiblingElement("item")) {
-			(*MobList)[mob_name].ItemDrops.AddItem(this->gameItemDrops[i_Root->Attribute("value")]);
+			(*MobList)[mob_name]->ItemDrops.AddItem(this->gameItemDrops[i_Root->Attribute("value")]);
 		}
 
 		int i = 0;
-		for (std::map<std::string, Entity>::iterator it = MobList->begin(); it != MobList->end(); it++) {
+		for (std::map<std::string, Entity*>::iterator it = MobList->begin(); it != MobList->end(); it++) {
 
-			MOBS_LIST[it->first.c_str()] = it->second;
+			MOBS_LIST[it->first.c_str()] = *it->second;
 			MOBS_MAPPING[i] = it->first;
 			MOBS_MAPPINGSTRING[it->first] = i;
 			i++;
@@ -103,7 +94,7 @@ void Game::LoadMobList() {
 }
 
 Entity* Game::IdentifyMob(std::string mobname) {
-	std::map<std::string, Entity> moblist = *MobList;
+	std::map<std::string, Entity*> moblist = *MobList;
 	std::map<std::string, int>::iterator it = MOBS_MAPPINGSTRING.find(mobname);
 	if (it != MOBS_MAPPINGSTRING.end()) {
 		return &MOBS_LIST[it->first];
@@ -139,11 +130,11 @@ void Game::LoadItemDrops() {
 
 void Game::InitSpawnManager() {
 	//Initialize spawn_manager mob list with list from Game.
-	spawn_manager.MobList = new std::map<std::string, Entity>(*this->MobList);
+	spawn_manager.MobList = new std::map<std::string, Entity*>(*this->MobList);
 }
 
 Entity* Game::IdentifyMob(int mobid) {
-	std::map<std::string, Entity> moblist = *MobList;
+	std::map<std::string, Entity*> moblist = *MobList;
 	std::map<int, std::string>::iterator it = MOBS_MAPPING.find(mobid);
 	if (it != MOBS_MAPPING.end()) {
 		return &MOBS_LIST[it->second];
@@ -157,19 +148,19 @@ Entity* Game::IdentifyMob(int mobid) {
 
 void Game::ManageMobPool() {
 	for (size_t i = 0; i < spawn_manager.spawned.size(); i++) {
-		if (this->spawn_manager.spawned[i].alive == false) {
-			LFRect tmpPos = this->spawn_manager.spawned.at(i).GetPosition();
+		if (this->spawn_manager.spawned[i]->alive == false) {
+			LFRect tmpPos = this->spawn_manager.spawned.at(i)->GetPosition();
 			tmpPos.y += 30;
-			this->spawn_manager.spawned.at(i).ItemDrops.DropItems(&this->mapItemDrops, tmpPos);
-			this->spawn_manager.spawned.erase(this->spawn_manager.spawned.begin() + i);
+			this->spawn_manager.spawned.at(i)->ItemDrops.DropItems(&this->mapItemDrops, tmpPos);
+			//this->spawn_manager.spawned->erase(this->spawn_manager.spawned->begin() + i);
 			break;
 		}
 		else {
-			spawn_manager.spawned[i].AI();
-			spawn_manager.spawned[i].Draw();
+			spawn_manager.spawned[i]->AI();
+			spawn_manager.spawned[i]->Draw();
 		}
 	}
-	mainPlayer->IdentifyMobs();
+	//mainPlayer->IdentifyMobs();
 }
 
 void Game::ManageMapObjects() {

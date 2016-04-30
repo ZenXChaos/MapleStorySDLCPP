@@ -14,6 +14,10 @@ enum EntityState {
 	Idle=0, Walking=1, Attacking=3, Recovery=4, Death=5
 };
 
+enum EntityType {
+	e_Player=0, e_Mob=1, e_NPC=2
+};
+
 class EntityLife {
 
 public:
@@ -30,7 +34,9 @@ protected:
 	int walkSpeedAccel = 1;
 	int minRoamTransit = 100;
 
-	float recoveryIndex = 0;
+	int mesoDropMin = 0;
+	int mesoDropMax = 0;
+	int expGain = 0;
 
 	bool usesAccel;
 	bool roaming = false;
@@ -39,14 +45,19 @@ protected:
 
 	SDL_Rect nextTransitLocation = { 0,0,0,0 };
 	Uint32 roamDelayIndex = 0;
-	Uint32 tick;
-	Uint32 birth;
+	Uint32 tick = 0;
+	Uint32 birth = 0;
+
+	float recoveryIndex = 0.0f;
+	Uint32 lastAttack = 0;
+	Uint32 attackRecovery = 2;
 
 	SDL_Rect* currFrameData = new SDL_Rect();
 	AnimatedSprite* currentAnimation;
 
 public:
 	EntityState State;
+	EntityType e_Type = EntityType::e_Mob;
 	MessageDispatch dispatch_message;
 
 	EntityLife Life;
@@ -68,11 +79,12 @@ public:
 	void TakeHit();
 	void Kill();
 	void PrepKill();
+	void GenUniqID();
 
 	std::string uniq_id;
 
 	Uint32 age() {
-		return (this->tick - this->birth)/1000;
+		return ((this->tick/1000) - this->birth);
 	}
 
 	int GetHeight();
@@ -85,7 +97,7 @@ public:
 
 	Entity(){
 		this->FaceDirection = SDL_FLIP_HORIZONTAL;
-		this->birth = SDL_GetTicks();
+		this->birth = SDL_GetTicks()/1000;
 		this->uniq_id = GameUtils::UniqID() + GameUtils::UniqID();
 		//this->dispatch_message.RegisterMessage("Hit", &IsHit, this);
 	}
@@ -96,6 +108,8 @@ class Player : public Entity {
 
 	Entity* closestMob = nullptr;
 	Input* playerInput;
+
+	int exp = 0;
 public:
 
 	std::vector<Entity>* spawned;
@@ -107,6 +121,8 @@ public:
 	Player(std::vector<Entity>* sp, Input* pi) : Entity(){
 		spawned = sp;
 		playerInput = pi;
+		this->e_Type = EntityType::e_Player;
+		GLOBAL_MMORPG_GAME::m_Player = (this);
 	}
 };
 

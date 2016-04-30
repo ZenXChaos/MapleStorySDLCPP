@@ -9,6 +9,7 @@
 #include <Box2D/Box2D.h>
 #include <SDL2/SDL.h>
 #include "GameDebug.h"
+#include "Global.h"
 
 #pragma comment(lib, "tinyxml2.lib")
 //TODO: Handle path separator 

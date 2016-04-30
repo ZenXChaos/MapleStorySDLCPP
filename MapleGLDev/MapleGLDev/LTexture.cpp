@@ -414,7 +414,7 @@ void LTexture::render( GLfloat x, GLfloat y, GLint direction, LFRect* clip )
 
 		if (direction == 1) {
 			glRotatef(180, 0, 180, 0);
-			glTranslatef(-quadWidth, y, 0.f);
+			glTranslatef(-quadWidth, 0, 0.f);
 		}
 
         //Set vertex data
@@ -458,6 +458,12 @@ void LTexture::render( GLfloat x, GLfloat y, GLint direction, LFRect* clip )
         //Disable vertex and texture coordinate arrays
         glDisableClientState( GL_TEXTURE_COORD_ARRAY );
         glDisableClientState( GL_VERTEX_ARRAY );
+		if (direction == 1) {
+			glRotatef(-180, 0, -180, 0);
+			glTranslatef(-quadWidth, 0, 0.f);
+		}
+		glTranslatef(-x, -y, 0.0f);
+		glPopMatrix();
     }
 }
 
@@ -561,9 +567,8 @@ void AnimatedVBO::Animate(GLfloat x, GLfloat y, GLint direction) {
 
 void AnimatedVBO::AddSprite(std::string filename, float d = 0.1f) {
 	this->delta = 0.1f;
-	this->textures[this->textures.size()];
 
-	if (!this->textures[this->textures.size()-1].loadTextureFromFile(filename)) {
+	if (!this->textures[this->textures.size()].loadTextureFromFile(filename)) {
 		printf("Failed loading mob file!\n");
 	}
 	this->max_frames += 1;
