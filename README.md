@@ -104,10 +104,12 @@ Sprites should all be on one row. Multi-row spritesheets are not supported at th
 This project is being developed in C++, C#, and soon -- Java!
 
 Currently, available ports:
+
+> [C++ SDL2 Linux](https://github.com/begui/MapleStorySDLCPP/tree/linuxSDL2) Special thanks to @begui !
     
 > [C++ OpenGL](https://github.com/ZenXChaos/MapleStorySDLCPP/tree/master/MapleGLDev)
     
-> [C# SDL](https://github.com/ZenXChaos/MMORPG-CS)
+> [C# SDLDotNet](https://github.com/ZenXChaos/MMORPG-CS)
 
 This project is very active, and contributions are welcome! (:
 
