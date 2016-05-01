@@ -58,7 +58,7 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 
 ### Character Builder
 
-Allows you to customize character body parts, attachments, weapons, etc. More come to come soon!
+Allows you to customize character body parts, attachments, weapons, etc. More to come soon!
 
 ---
 
