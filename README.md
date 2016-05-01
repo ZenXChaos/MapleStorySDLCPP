@@ -28,6 +28,8 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 
 * Player
 
+> Dynamic 2D Character Builder (Change body parts)
+
 > Movement
 
 > Attacking
@@ -49,6 +51,12 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 * HUD
 
 > Grid Layout
+
+---
+
+### Character Builder
+
+Allows you to customize character body parts, attachments, weapons, etc. More come to come soon!
 
 ---
 
