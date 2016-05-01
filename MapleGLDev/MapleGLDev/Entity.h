@@ -82,7 +82,8 @@ public:
 };
 
 class Player : public Entity {
-	int attackRange = 100;
+	int attackRange = 50;
+	int attackRange_Closest = 10;
 
 	Entity* closestMob = nullptr;
 	//Input* playerInput;

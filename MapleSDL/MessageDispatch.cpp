@@ -26,9 +26,13 @@ using namespace std;
 #include "Game.h"
 
 
-void MessageDispatch::RegisterMessage(std::string msg, void(*callback)(Entity *e), Entity *context) {
+void MessageDispatch::RegisterMessage(std::string msg, void(*callback)(Entity *e), Entity *context, Uint32 timestamp) {
 	DispatchedMessage dm;
 	dm.callback = callback;
 	callback(context);
 	this->messages.push_back(dm);
+
+#ifdef DEBUG_ENTITYDISPATCHMSG_R
+	printf("Mob (%s) received Dispatch Message: %s!\n", context->uniq_id.c_str(), msg.c_str());
+#endif
 }

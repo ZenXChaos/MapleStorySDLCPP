@@ -320,9 +320,6 @@ void Player::ManageState() {
 				if (this->closestMob != nullptr) {
 					Entity* tmpE = this->closestMob;
 					tmpE->dispatch_message.RegisterMessage("IsHit", &IsHit, this->closestMob);
-					if (tmpE->Life.Health <= 0) {
-						this->expPts += tmpE->expGain;
-					}
 					this->attacking = true;
 				}
 			}

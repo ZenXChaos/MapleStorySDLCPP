@@ -26,6 +26,10 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 
 > Dynamic loading ( xml; .zenx files )
 
+> Mob Damage
+
+> Mob Health / EXP
+
 * Player
 
 > Dynamic 2D Character Builder (Change body parts)
@@ -52,7 +56,11 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 
 * HUD
 
+> Animated HUD Objects
+
 > Grid Layout
+
+> Flow Layout
 
 ---
 
@@ -105,7 +113,7 @@ This project is being developed in C++, C#, and soon -- Java!
 
 Currently, available ports:
 
-> [C++ SDL2 Linux](https://github.com/begui/MapleStorySDLCPP/tree/linuxSDL2) Special thanks to @begui !
+> [C++ SDL2 Linux](https://github.com/begui/MapleStorySDLCPP/tree/linuxSDL2) Special thanks to @[begui](https://github.com/begui) !
     
 > [C++ OpenGL](https://github.com/ZenXChaos/MapleStorySDLCPP/tree/master/MapleGLDev)
     

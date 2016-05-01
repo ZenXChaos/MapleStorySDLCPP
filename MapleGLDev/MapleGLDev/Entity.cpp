@@ -276,15 +276,15 @@ void Player::IdentifyMobs() {
 	GLfloat dist = -1;
 	size_t i = 0;
 	for (std::vector<Entity*>::iterator mob = spawned->begin(); mob != spawned->end(); mob++) {
-		if (mob[0]->GetPositionX() > this->pos->x) {
+		if (mob[0]->GetPositionX() > this->pos->x && this->Direction == FlipDirection::Right) {
 			GLfloat mobd = mob[0]->GetPositionX() - this->pos->x;
-			if (mob[0]->GetPositionX() - this->pos->x <= this->attackRange) {
+			if (mob[0]->GetPositionX() - this->pos->x <= this->attackRange && this->Direction == FlipDirection::Right && mob[0]->GetPositionX() - this->pos->x >= this->attackRange_Closest) {
 				this->closestMob = this->spawned->at(i);
 				dist = mob[0]->GetPositionX() - this->pos->x;
 			}
 		}
 		else {
-			if (this->pos->x - mob[0]->GetPositionX() <= this->attackRange) {
+			if (this->pos->x - mob[0]->GetPositionX() <= this->attackRange && this->Direction == FlipDirection::Left && this->pos->x - mob[0]->GetPositionX() >= this->attackRange_Closest) {
 				this->closestMob = &this->spawned->at(i)[0];
 				dist = this->pos->x - mob[0]->GetPositionX();
 			}
@@ -316,7 +316,11 @@ void Player::ManageState() {
 		else {
 			float pdone = this->currentAnimation->percentComplete();
 			if (this->currentAnimation->percentComplete() >= 50.0f && attacking == false) {
-				if (this->closestMob != nullptr) {
+				if (this->closestMob->pos->x < this->pos->x && this->Direction == FlipDirection::Left) {
+					this->closestMob->dispatch_message.RegisterMessage("IsHit", &IsHit, this->closestMob);
+					this->attacking = true;
+				}
+				else if (this->closestMob->pos->x > this->pos->x && this->Direction == FlipDirection::Right) {
 					this->closestMob->dispatch_message.RegisterMessage("IsHit", &IsHit, this->closestMob);
 					this->attacking = true;
 				}

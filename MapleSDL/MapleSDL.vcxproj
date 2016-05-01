@@ -165,6 +165,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MessageDispatch.cpp" />
     <ClCompile Include="MISC\ItemDrop.cpp" />
+    <ClCompile Include="MobExt.cpp" />
     <ClCompile Include="SpawnManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +187,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="MessageDispatch.h" />
     <ClInclude Include="MISC\ItemDrop.hpp" />
+    <ClInclude Include="MobExt.h" />
     <ClInclude Include="RelativeSpace.h" />
     <ClInclude Include="SpawnManager.h" />
   </ItemGroup>

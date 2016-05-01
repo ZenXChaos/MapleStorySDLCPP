@@ -28,7 +28,7 @@ public:
 
 	std::vector<DispatchedMessage> messages;
 
-	void RegisterMessage(std::string msg, void(*callback)(Entity *e), Entity *context);
+	void RegisterMessage(std::string msg, void(*callback)(Entity *e), Entity *context, Uint32 timestamp = SDL_GetTicks());
 
 	MessageDispatch() {
 		
