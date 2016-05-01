@@ -1,5 +1,14 @@
 #ifndef GAME_H
 #define GAME_H
+
+#include <map>
+#include <string>
+#include <SDL.h>
+#include "Entity.hpp"
+#include "SpawnManager.h"
+#include "Box.h"
+
+
 class Game {
 
 	std::map<std::string, Entity> MobList;
@@ -7,7 +16,7 @@ class Game {
 	std::map<int, std::string> MOBS_MAPPING;
 	std::map<std::string, int> MOBS_MAPPINGSTRING;
 
-	std::map<string, GameItemDrop> gameItemDrops;
+	std::map<std::string, GameItemDrop> gameItemDrops;
 	std::vector<GameItemDrop> mapItemDrops; // Items dropped in map
 
 	SDL_Renderer* mainRenderer;
@@ -49,4 +58,11 @@ public:
 
 	}
 };
+#endif
+
+#ifdef M_RENDERER
+SDL_Renderer* m_gRenderer = NULL;
+#undef M_RENDERER
+#else
+extern SDL_Renderer* m_gRenderer;
 #endif

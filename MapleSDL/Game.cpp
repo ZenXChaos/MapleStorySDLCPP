@@ -7,10 +7,12 @@
 #include <vector>
 #include <tinyxml2.h>
 #include <Box2D/Box2D.h>
+#include <SDL.h>
 #include "GameDebug.h"
 #include "Global.h"
 
 #pragma comment(lib, "tinyxml2.lib")
+//TODO: Handle path separator 
 
 using namespace std;
 
@@ -19,7 +21,7 @@ using namespace std;
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
-#include "MISC\ItemDrop.hpp"
+#include "MISC/ItemDrop.hpp"
 #include "Entity.hpp"
 #include "SpawnManager.h"
 #include "Box.h"
@@ -39,7 +41,7 @@ void Game::LoadMobList(SDL_Renderer* gRenderer){
 	this->mainRenderer = gRenderer;
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLElement* pRoot;
-	doc.LoadFile("data\\mobs\\mobs.zenx");
+	doc.LoadFile("data/mobs/mobs.zenx");
 
 
 	for (pRoot = doc.FirstChildElement("mobs")->FirstChildElement("mob"); pRoot != nullptr; pRoot = pRoot->NextSiblingElement("mob")) {
@@ -103,7 +105,7 @@ void Game::LoadItemDrops(SDL_Renderer* gRenderer) {
 	this->mainRenderer = gRenderer;
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLElement* pRoot;
-	doc.LoadFile("data\\items\\items.zenx");
+	doc.LoadFile("data/items/items.zenx");
 
 	pRoot = doc.FirstChildElement("items")->FirstChildElement("item");
 
@@ -200,7 +202,7 @@ void Game::LoadHUDSprites(SDL_Renderer* gRenderer)
 	this->mainRenderer = gRenderer;
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLElement* pRoot;
-	doc.LoadFile("data\\HUD.zenx");
+	doc.LoadFile("data/HUD.zenx");
 
 
 	for (pRoot = doc.FirstChildElement("HUD")->FirstChildElement("HUDSprite"); pRoot != nullptr; pRoot = pRoot->NextSiblingElement("HUDSprite")) {
@@ -214,7 +216,7 @@ void Game::LoadPlayerAnims(SDL_Renderer* gRenderer, Player* ent) {
 	tinyxml2::XMLElement* pRoot;
 	tinyxml2::XMLDocument doc;
 
-	doc.LoadFile("data\\player_anims.xml");
+	doc.LoadFile("data/player_anims.xml");
 
 
 

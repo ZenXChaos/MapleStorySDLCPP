@@ -1,5 +1,7 @@
 #ifndef INPUT_H
 #define INPUT_H
+#include <map>
+#include <SDL.h>
 class Input {
 	std::map<SDL_Scancode, bool> keysDown;
 	std::map<SDL_Scancode, bool> keysUp;

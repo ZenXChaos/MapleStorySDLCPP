@@ -5,12 +5,13 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <Box2D\Box2D.h>
+#include <Box2D/Box2D.h>
 #include "GameDebug.h"
 #include "Global.h"
 
 using namespace std;
 
+#define M_RENDERER
 
 #include "Input.h"
 #include "MessageDispatch.h"
@@ -18,13 +19,14 @@ using namespace std;
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
-#include "MISC\ItemDrop.hpp"
+#include "MISC/ItemDrop.hpp"
 #include "Entity.hpp"
 #include "SpawnManager.h"
 #include "GameMap.h"
 #include "HUD.h"
 #include "Game.h"
 #include "HelperFunctions.h"
+#include "Dynamic2DCharacter.h"
 
 #undef main
 
@@ -55,10 +57,10 @@ int main(int argc, char* argv) {
 
 	SDL_Window* window = nullptr;
 
-	SDL_Renderer* gRenderer = NULL;
+	m_gRenderer = NULL;
 
 	window = SDL_CreateWindow("Hi", 50, 50, 1000, 500, SDL_WINDOW_SHOWN);
-	gRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	m_gRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 
 	Uint32 tick;
@@ -68,7 +70,7 @@ int main(int argc, char* argv) {
 
 
 	//Initialize renderer color
-	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor(m_gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
 	//Initialize PNG loading
 	int imgFlags = IMG_INIT_PNG;
@@ -82,10 +84,10 @@ int main(int argc, char* argv) {
 	Player entity(&game.spawn_manager.spawned, &PlayerInput);
 	
 	game.SetMainPlayer(&entity);
-	game.LoadItemDrops(gRenderer);
-	game.LoadMobList(gRenderer);
-	game.LoadHUDSprites(gRenderer);
-	game.LoadPlayerAnims(gRenderer, &entity);
+	game.LoadItemDrops(m_gRenderer);
+	game.LoadMobList(m_gRenderer);
+	game.LoadHUDSprites(m_gRenderer);
+	game.LoadPlayerAnims(m_gRenderer, &entity);
 	game.InitSpawnManager();
 
 
@@ -99,7 +101,7 @@ int main(int argc, char* argv) {
 	mapPos.h = 907;
 	mapPos.x = 0;
 	mapPos.y = -407;
-	map.InitMap("content\\maps\\hennesys\\map01.png", mapPos, gRenderer);
+	map.InitMap("content/maps/hennesys/map01.png", mapPos, m_gRenderer);
 	entity.SetPositionY(190);
 
 	HUD_FlowPanel hudgrid;
@@ -113,14 +115,14 @@ int main(int argc, char* argv) {
 	//hudgrid.rows = 1;
 
 	AnimatedSprite as1;
-	as1.LoadTexture("content\\misc\\itemNo\\ItemNo.1.png", gRenderer);
+	as1.LoadTexture("content/misc/itemNo/ItemNo.1.png", m_gRenderer);
 	as1.BuildAnimation(0, 1, 8, 11, 0.1f);
 
 	AnimatedSprite as2;
-	as2.LoadTexture("content\\misc\\itemNo\\ItemNo.2.png", gRenderer);
+	as2.LoadTexture("content/misc/itemNo/ItemNo.2.png", m_gRenderer);
 	as2.BuildAnimation(0, 1, 8, 11, 0.1f);
 	//AnimatedSprite as3;
-	//as1.LoadTexture("content\\misc\\itemNo\\ItemNo.3.png", gRenderer);
+	//as1.LoadTexture("content/misc/itemNo/ItemNo.3.png", gRenderer);
 
 	HUDObject hob1;
 	hob1.sprites = &as1;
@@ -141,8 +143,11 @@ int main(int argc, char* argv) {
 	//hudgrid.AddObject("3", hob3);
 
 	AnimatedSprite cursr;
-	cursr.LoadTexture("content\\misc\\Cursor.0.0.png", gRenderer);
+	cursr.LoadTexture("content/misc/Cursor.0.0.png", m_gRenderer);
 	cursr.BuildAnimation(0, 1, 24, 28, 0);
+
+	Dynamic2DCharacter HumanoidPlayer(&entity);
+	
 
 	SDL_ShowCursor(SDL_DISABLE);
 	while (running) {
@@ -164,7 +169,7 @@ int main(int argc, char* argv) {
 		}
 
 		//Clear screen
-		SDL_RenderClear(gRenderer);
+		SDL_RenderClear(m_gRenderer);
 
 		if (PlayerInput.IsKeyPressed(SDL_SCANCODE_LEFT)) {
 			entity.Walk(Left);
@@ -196,8 +201,12 @@ int main(int argc, char* argv) {
 
 		//Custom Cursor
 		cursr.Animate(mousePos, 0, NULL, SDL_FLIP_NONE, nullptr);
+
+		SDL_Rect h_MousePose = mousePos;
+		h_MousePose.x += 35;
+		HumanoidPlayer.DrawParts(h_MousePose);
 		//Update screen
-		SDL_RenderPresent(gRenderer);
+		SDL_RenderPresent(m_gRenderer);
 
 		//SpawnManager
 		game.spawn_manager.ManagePool(tick);

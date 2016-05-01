@@ -1,5 +1,9 @@
-#ifndef ITEMDROP_H
-#define ITEMDROP_H
+#ifndef GAMEITEMDROP_H
+#define GAMEITEMDROP_H
+#include <string>
+#include <vector>
+#include "../AnimatedSprite.h"
+
 class GameItemDrop {
 
 public:
