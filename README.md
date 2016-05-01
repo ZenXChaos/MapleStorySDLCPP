@@ -113,8 +113,6 @@ This project is being developed in C++, C#, and soon -- Java!
 
 Currently, available ports:
 
-> [C++ SDL2 Linux](https://github.com/begui/MapleStorySDLCPP/tree/linuxSDL2) Special thanks to @[begui](https://github.com/begui) !
-    
 > [C++ OpenGL](https://github.com/ZenXChaos/MapleStorySDLCPP/tree/master/MapleGLDev)
     
 > [C# SDLDotNet](https://github.com/ZenXChaos/MMORPG-CS)
