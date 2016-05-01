@@ -42,6 +42,8 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 
 > Basic Map
 
+> Custom Cursor
+
 > Dynamic content loading
 
 > Spawn Manager
