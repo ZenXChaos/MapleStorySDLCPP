@@ -7,6 +7,7 @@
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "ItemDrop.hpp"
+#include "Input.h"
 #include "Entity.h"
 #include "SpawnManager.h"
 #include "GameMap.h"
@@ -28,15 +29,51 @@ LFRect mapPos;
 
 Entity mushy;
 
+void keyPressed(unsigned char key, int x, int y) {
+	entity.playerInput.KeyDown(key);
+}
+
+void keyUp(unsigned char key, int x, int y) {
+	entity.playerInput.KeyUp(key);
+}
+
+void keySpecialPressed(int key, int x, int y) {
+	if (key == GLUT_KEY_LEFT) {
+		keyPressed('<', 0, 0);
+	}
+	else if (key == GLUT_KEY_RIGHT) {
+		keyPressed('>', 0, 0);
+	}
+}
+
+void keySpecialUp(int key, int x, int y) {
+	if(key == GLUT_KEY_LEFT) {
+		keyUp('<', 0, 0);
+	}
+	else if (key == GLUT_KEY_RIGHT) {
+		keyUp('>', 0, 0);
+	}
+}
+
 void Core() {
-	//map.DrawMap(mapPos);
-	//entity.Draw();
+	map.DrawMap(mapPos);
+	entity.Draw();
 	//entity.ManageState();
 	game.ManageMobPool();
 	//game.ManageMapObjects();
 
 	//MobList["mush"]->Draw();
 	//mushy.Draw();
+
+	if (entity.playerInput.IsKeyPressed('<')) {
+		entity.Walk(Left);
+	}
+	else if (entity.playerInput.IsKeyPressed('>')) {
+		entity.Walk(Right);
+	}
+	else {
+		entity.Station();
+	}
 
 }
 
@@ -109,14 +146,19 @@ bool initGL()
 	game.SetMainPlayer(&entity);
 	//game.LoadItemDrops();
 	game.LoadMobList();
-	//game.LoadPlayerAnims(&entity);
+	game.LoadPlayerAnims(&entity);
 	game.InitSpawnManager();
 	entity.SetPositionY(190);
 	mapPos.w = SCREEN_WIDTH;
 	mapPos.h = SCREEN_HEIGHT;
 	mapPos.x = 0;
 	mapPos.y = -407;
-	//map.InitMap("content\\maps\\hennesys\\map01.png", mapPos);
+
+	glutKeyboardFunc(keyPressed);
+	glutKeyboardUpFunc(keyUp); 
+
+	glutSpecialFunc(keySpecialPressed);
+	glutSpecialUpFunc(keySpecialUp);
     return true;
 }
 

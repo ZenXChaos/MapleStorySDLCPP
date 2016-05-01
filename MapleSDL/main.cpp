@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL_opengl.h>
 #include <SDL_image.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,6 +9,7 @@
 #include <Box2D/Box2D.h>
 #include "GameDebug.h"
 #include "Global.h"
+#include "MobExt.h"
 
 using namespace std;
 

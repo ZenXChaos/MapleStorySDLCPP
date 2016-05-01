@@ -1,3 +1,5 @@
+#define GAMEPROP
+
 #include "LUtil.h"
 #include <IL/il.h>
 #include <IL/ilu.h>
@@ -18,12 +20,12 @@ using namespace std;
 #include "RelativeSpace.h"
 #include "MessageDispatch.h"
 #include "ItemDrop.hpp"
+#include "Input.h"
 #include "Entity.h"
 #include "SpawnManager.h"
 #include "Game.h"
 
 Entity mobmush;
-
 
 void Game::SetMainPlayer(Player* mp) {
 	this->mainPlayer = mp;
@@ -64,13 +66,16 @@ void Game::LoadMobList() {
 		for (; mRoot != nullptr; mRoot = mRoot->NextSiblingElement("animatedVBO")) {
 			tinyxml2::XMLElement* aRoot = mRoot->FirstChildElement("sprite");
 			std::string sprite_anim_name = mRoot->Attribute("name");
+			int sprite_x = mRoot->IntAttribute("x");
+			int sprite_y = mRoot->IntAttribute("y");
 
 			for (; aRoot != nullptr; aRoot = aRoot->NextSiblingElement("sprite")) {
 			std::string sprite_filepath = aRoot->Attribute("file");
 				float sprite_delta = mRoot->FloatAttribute("delta");
 				
-				(*this->MobList)[mob_name]->animations[sprite_anim_name].AddSprite(sprite_filepath+".png", sprite_delta);
-				
+				(*this->MobList)[mob_name]->animations[sprite_anim_name].AddSprite(sprite_filepath + ".png", sprite_delta);
+				(*this->MobList)[mob_name]->animations[sprite_anim_name].xfactor = sprite_x;
+				(*this->MobList)[mob_name]->animations[sprite_anim_name].yfactor = sprite_y;
 
 			}
 		}

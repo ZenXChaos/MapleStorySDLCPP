@@ -23,3 +23,10 @@ public:
 	void ManageMapObjects();
 	Player* GetMainPlayer();
 };
+
+#ifndef GAMEPROP
+extern int groundY;
+#else
+int groundY = 400;
+#undef GAMEPROP
+#endif

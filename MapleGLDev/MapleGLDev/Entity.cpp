@@ -8,49 +8,54 @@
 #include <IL/ilu.h>
 #include "LTexture.h"
 
-#include "RelativeSpace.h"
 #include "GameUtils.h"
+#include "RelativeSpace.h"
 #include "MessageDispatch.h"
 #include "ItemDrop.hpp"
+#include "Input.h"
 #include "Entity.h"
+#include "SpawnManager.h"
+#include "Game.h"
 
 using namespace std;
 
 #define DEBUG_MOBTRANSIT_RAYCAST 0
 
 void Entity::Draw() {
+	LFRect newPos = *this->pos;
+	string e_state = "idle";
+
 	if (this->alive == false) {
 		return;
 	}
 	switch (this->State) {
 	case Idle:
 		//this->animations->at("idle").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
-		this->animations.at("idle").Animate(pos->x, pos->y, this->Direction);
-		currentAnimation = &this->animations.at("idle");
 		break;
 
 	case Walking:
 		//this->animations->at("walk").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
-		this->animations.at("walk").Animate(pos->x, pos->y, this->Direction);
-		currentAnimation = &this->animations.at("walk");
+		e_state = "walk";
 		break;
 
 	case Attacking:
 		//this->animations->at("attack").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
-		this->animations.at("attack").Animate(pos->x, pos->y, this->Direction);
-		currentAnimation = &this->animations.at("attack");
+		e_state = "attack";
 		break;
 
 	case Recovery:
-		this->animations.at("hit").Animate(pos->x, pos->y, this->Direction);
-		currentAnimation = &this->animations.at("hit");
+		e_state = "hit";
 		break;
 
 	case Death:
-		this->animations.at("die").Animate(pos->x, pos->y, this->Direction);
-		currentAnimation = &this->animations.at("die");
+		e_state = "die";
 		break;
 	}
+
+	newPos.x += this->animations.at(e_state.c_str()).xfactor;
+	newPos.y += this->animations.at(e_state.c_str()).yfactor;
+	this->animations.at(e_state.c_str()).Animate(newPos.x, newPos.y, this->Direction);
+	currentAnimation = &this->animations.at(e_state.c_str());
 }
 
 void Entity::SetPositionY(GLfloat y) {

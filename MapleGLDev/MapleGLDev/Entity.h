@@ -86,9 +86,9 @@ class Player : public Entity {
 	int attackRange_Closest = 10;
 
 	Entity* closestMob = nullptr;
-	//Input* playerInput;
 public:
 
+	Input playerInput;
 	std::vector<Entity*>* spawned;
 	std::vector<Entity*> inRange;
 

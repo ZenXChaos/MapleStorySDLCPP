@@ -1,11 +1,11 @@
 <mobs>
     <mob name="mush">
-        <animatedVBO delta="0.1" name="idle">
+        <animatedVBO delta="0.1" name="idle" x="0" y="8">
             <sprite file="content\mobs\mush\idle\stand_0" />
             <sprite file="content\mobs\mush\idle\stand_1" />
         </animatedVBO>
         
-        <animatedVBO delta="0.1" name="walk">
+        <animatedVBO delta="0.1" name="walk" x="0" y="0">
             <sprite file="content\mobs\mush\walk\move_0" />
             <sprite file="content\mobs\mush\walk\move_1" />
             <sprite file="content\mobs\mush\walk\move_2" />

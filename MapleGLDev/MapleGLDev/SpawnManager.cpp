@@ -15,6 +15,7 @@ using namespace std;
 #include "RelativeSpace.h"
 #include "MessageDispatch.h"
 #include "ItemDrop.hpp"
+#include "Input.h"
 #include "Entity.h"
 #include "SpawnManager.h"
 

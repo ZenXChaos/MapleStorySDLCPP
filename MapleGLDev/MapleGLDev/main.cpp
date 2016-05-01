@@ -11,6 +11,7 @@
 #include "GameUtils.h"
 #include "RelativeSpace.h"
 #include "ItemDrop.hpp"
+#include "Input.h"
 #include "Entity.h"
 #include "SpawnManager.h"
 #include "GameMap.h"

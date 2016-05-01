@@ -129,6 +129,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMap.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="ItemDrop.cpp" />
     <ClCompile Include="LTexture.cpp" />
     <ClCompile Include="LUtil.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameUtils.h" />
     <ClInclude Include="HelperFunctions.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="ItemDrop.hpp" />
     <ClInclude Include="LFRect.h" />
     <ClInclude Include="LOpenGL.h" />

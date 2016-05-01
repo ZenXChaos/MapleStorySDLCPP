@@ -21,6 +21,13 @@
         <sprite file="content\player\idle\stand1_4" />
     </animatedVBO>
     
+    <animatedVBO delta="0.1" name="walk">
+        <sprite file="content\player\walk\walk1_0" />
+        <sprite file="content\player\walk\walk1_1" />
+        <sprite file="content\player\walk\walk1_2" />
+        <sprite file="content\player\walk\walk1_3" />
+    </animatedVBO>
+    
     <!--
     
     <anim name="idle" sprite="content\player\idle.png" max_frames="5.9" delta="0.05" sprite_width="82" sprite_height="78" yfactorup="12" yfactordown="0" />

@@ -12,6 +12,7 @@
 #include "GameUtils.h"
 #include "MessageDispatch.h"
 #include "ItemDrop.hpp"
+#include "Input.h"
 #include "Entity.h"
 
 #include "HelperFunctions.h"

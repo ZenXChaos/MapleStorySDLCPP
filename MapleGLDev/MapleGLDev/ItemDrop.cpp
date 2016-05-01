@@ -10,9 +10,7 @@
 
 #include "RelativeSpace.h"
 #include "GameUtils.h"
-#include "MessageDispatch.h"
 #include "ItemDrop.hpp"
-#include "Entity.h"
 
 void GameItemDropProvider::AddItem(GameItemDrop i_Drop) {
 	this->dropItems.insert(this->dropItems.end(), i_Drop);
