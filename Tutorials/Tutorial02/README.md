@@ -181,10 +181,10 @@ Here is the full source code:
 <pre>
 <nowiki>
 //main.cpp
-#include <SDL.h>
-#include <SDL_image.h>
-#include <stdio.h>
-#include <string>
+#include &lt;SDL.h&gt;
+#include &lt;SDL_image.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string&gt;
 
 #include "Sprite.hpp"
 
@@ -246,10 +246,10 @@ int main(int argc, char* argv) {
 <pre>
 <nowiki>
 //Sprite.cpp
-#include <SDL.h>
-#include <SDL_image.h>
-#include <stdio.h>
-#include <string>
+#include &lt;SDL.h&gt;
+#include &lt;SDL_image.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string&gt;
 #include "Sprite.hpp"
 
 
