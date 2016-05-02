@@ -47,8 +47,8 @@ void HUD_GridPanel::DrawPanel(int x, int y)
 
 	for (collection = this->elements.begin(); collection != this->elements.end(); collection++) {
 		SDL_Rect pos = { 0,0,0,0 };
-		pos.x = x + (collection->second.column > 0 ? (this->width / this->columns)*collection->second.column : 0);
-		pos.y = y + (collection->second.row > 0 ? (this->height / this->rows)*collection->second.row : 0);
+		pos.x = x + (collection->second.column > 0 ? (this->width / this->columns)*collection->second.column : 0) + collection->second.localX;
+		pos.y = y + (collection->second.row > 0 ? (this->height / this->rows)*collection->second.row : 0) + collection->second.localY;
 		pos.w = collection->second.sprites->animclips[0].w;
 		pos.h = collection->second.sprites->animclips[0].h;
 
@@ -84,10 +84,42 @@ void HUD_FlowPanel::DrawPanel(int x, int y)
 		if (tallestObject < collection->sprites->animclips[0].h) {
 			tallestObject = collection->sprites->animclips[0].h;
 		}
-		pos.y = y+indexY;
+		pos.x += collection->localX;
+		pos.y = y + indexY + collection->localY;
 		pos.w = collection->sprites->animclips[0].w;
 		pos.h = collection->sprites->animclips[0].h;
 
 		collection->sprites->Animate(pos, 0, NULL, SDL_FLIP_NONE, NULL);
 	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* HUD EFFECTS */
+#define HUD_EFFECTS
+
+std::map<std::string, HUDObject> registeredEffects;
+std::map<std::string, bool> registeredEffectsComplete;
+void HUD_ANIM_TransitionDown(HUDObject* h_Obj) {
+
+	if (registeredEffectsComplete[h_Obj->e_ID] == false) {
+		if (h_Obj->localY < 400) {
+			h_Obj->localY += 10;
+		}
+		else {
+			registeredEffectsComplete[h_Obj->e_ID] = true;
+			h_Obj->localY = 0;
+		}
+	}
+	registeredEffects[h_Obj->e_ID] = *h_Obj;
 }

@@ -46,8 +46,13 @@ void HUD_ShowPlayerEXP()
 		std::string itemno = "ItemNo.";
 		itemno += playerEXP_s[i];
 		ItemNo.sprites = &HUDElements[itemno];
+		ItemNo.e_ID = itemno;
+		HUD_Animation<HUDObject> hudAnim;
+		hudAnim.RegisterHUDEffect(&ItemNo);
+		hudAnim.ApplyEffect(&ItemNo, HUD_ANIM_TransitionDown);
 		expFlowPanel.AddObject(ItemNo);
 	}
+
 
 	expFlowPanel.DrawPanel(0, 0);
 }
