@@ -72,14 +72,14 @@ void HUD_FlowPanel::DrawPanel(int x, int y)
 	int indexY = 0;
 	for (collection = this->elements.begin(); collection != this->elements.end(); collection++) {
 		SDL_Rect pos = { 0,0,0,0 };
-		if (indexX + this->spacingX + collection->sprites->animclips[0].w > this->width) {
+		if (indexX + this->spacingX + collection->sprites->animclips[0].w > x+this->width) {
 			indexY += tallestObject+spacingY;
 			indexX = x;
 			pos.x = x+spacingX;
 		}else{
 
 			pos.x = x+indexX+spacingX;
-			indexX += x+collection->sprites->animclips[0].w + spacingX;
+			indexX += collection->sprites->animclips[0].w + spacingX;
 		}
 		if (tallestObject < collection->sprites->animclips[0].h) {
 			tallestObject = collection->sprites->animclips[0].h;

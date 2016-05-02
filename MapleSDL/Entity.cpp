@@ -16,6 +16,7 @@ using namespace std;
 #include "RelativeSpace.h"
 #include "AnimatedSprite.h"
 #include "MISC\ItemDrop.hpp"
+#include "HUD.h"
 #include "Entity.hpp"
 
 void Entity::Draw() {
@@ -41,6 +42,7 @@ void Entity::Draw() {
 	case Recovery:
 		this->animations.at("hit").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
 		currentAnimation = &this->animations.at("hit");
+		this->DrawHealth();
 		break;
 
 	case Death:
@@ -48,6 +50,8 @@ void Entity::Draw() {
 		currentAnimation = &this->animations.at("die");
 		break;
 	}
+	
+	
 }
 
 void Entity::SetPositionY(int y) {
@@ -195,7 +199,6 @@ void Entity::AI() {
 			this->alive = false;
 		}
 	}
-	
 }
 
 void Entity::WalkTowards(SDL_Rect topos) {
@@ -303,6 +306,28 @@ void Entity::PrepKill() {
 void Entity::GenUniqID()
 {
 	this->uniq_id = GameUtils::UniqID() + GameUtils::UniqID();
+}
+
+void Entity::DrawHealth()
+{
+	HUD_FlowPanel expFlowPanel;
+	expFlowPanel.width = 400;
+	expFlowPanel.spacingX = -2;
+	char *entityHealth_S = (char*)malloc(sizeof(char) * 80);
+	_itoa_s(this->Life.Health, entityHealth_S, 80, 10);
+	int sp = strlen(entityHealth_S);
+
+	for (int i = 0; i < sp; i++) {
+		HUDObject ItemNo;
+		std::string itemno = "DamageNo.";
+		itemno += entityHealth_S[i];
+		ItemNo.sprites = &HUDElements[itemno];
+		ItemNo.e_ID = itemno;
+		expFlowPanel.AddObject(ItemNo);
+	}
+
+
+	expFlowPanel.DrawPanel(this->pos.x, this->pos.y);
 }
 
 void Entity::Kill() {

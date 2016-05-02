@@ -9,4 +9,15 @@
     <HUDSprite name="ItemNo.7" sprite="content\misc\itemNo\ItemNo.7.png" sprite_width="8" sprite_height="11" />
     <HUDSprite name="ItemNo.8" sprite="content\misc\itemNo\ItemNo.8.png" sprite_width="8" sprite_height="11" />
     <HUDSprite name="ItemNo.9" sprite="content\misc\itemNo\ItemNo.9.png" sprite_width="8" sprite_height="11" />
+    
+    <HUDSprite name="DamageNo.0" sprite="content\misc\damageNo\DamageNo.0.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.1" sprite="content\misc\damageNo\DamageNo.1.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.2" sprite="content\misc\damageNo\DamageNo.2.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.3" sprite="content\misc\damageNo\DamageNo.3.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.4" sprite="content\misc\damageNo\DamageNo.4.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.5" sprite="content\misc\damageNo\DamageNo.5.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.6" sprite="content\misc\damageNo\DamageNo.6.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.7" sprite="content\misc\damageNo\DamageNo.7.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.8" sprite="content\misc\damageNo\DamageNo.8.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.9" sprite="content\misc\damageNo\DamageNo.9.png" sprite_width="54" sprite_height="60" />
 </HUD>

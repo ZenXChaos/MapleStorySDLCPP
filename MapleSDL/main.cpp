@@ -13,6 +13,7 @@
 using namespace std;
 
 #define M_RENDERER
+#define HUD_ELEMENTS
 
 #include "Input.h"
 #include "MessageDispatch.h"
@@ -30,8 +31,6 @@ using namespace std;
 #include "Dynamic2DCharacter.h"
 
 #undef main
-
-std::map<std::string, AnimatedSprite> HUDElements;
 void HUD_ShowPlayerEXP()
 {
 	HUD_FlowPanel expFlowPanel;

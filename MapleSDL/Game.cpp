@@ -196,7 +196,6 @@ void Game::ManageMapObjects() {
 }
 
 
-extern std::map<std::string, AnimatedSprite> HUDElements;
 void Game::LoadHUDSprites(SDL_Renderer* gRenderer)
 {
 	this->mainRenderer = gRenderer;

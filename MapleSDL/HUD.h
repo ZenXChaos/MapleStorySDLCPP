@@ -73,3 +73,10 @@ extern void HUD_ANIM_TransitionDown(HUDObject* h_Obj);
 extern std::map<std::string, HUDObject> registeredEffects;
 #endif
 #endif
+
+#ifndef HUD_ELEMENTS
+extern std::map<std::string, AnimatedSprite> HUDElements;
+#else
+#undef HUD_ELEMENTS
+std::map<std::string, AnimatedSprite> HUDElements;
+#endif

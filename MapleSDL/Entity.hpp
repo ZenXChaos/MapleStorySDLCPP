@@ -82,6 +82,7 @@ public:
 	void Kill();
 	void PrepKill();
 	void GenUniqID();
+	void DrawHealth();
 
 	std::string uniq_id;
 
