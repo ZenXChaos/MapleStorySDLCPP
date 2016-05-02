@@ -78,7 +78,7 @@ Attack: C
 
 ---
 
-![SS](https://raw.githubusercontent.com/ZenXChaos/MapleStorySDLCPP/master/SS.gif)
+![SS](https://github.com/ZenXChaos/MapleStorySDLCPP/raw/master/screenshots/ss_dmgnum.gif)
 
 ![SS2](https://raw.githubusercontent.com/ZenXChaos/MapleStorySDLCPP/master/SS2.gif)
 
