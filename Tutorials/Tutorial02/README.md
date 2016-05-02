@@ -1,6 +1,6 @@
 ### Loading images
 
-In this tutorial, we will learn how to load an image using *SDL_image* which we installed in [http://gamedev.ubersnip.com/index.php?title=Tutorials_Chapter1_-_Setting_Up_CPP_SDL Tutorial 01].
+In this tutorial, we will learn how to load an image using *SDL_image* which we installed in [Tutorial 01](http://gamedev.ubersnip.com/index.php?title=Tutorials_Chapter1_-_Setting_Up_CPP_SDL).
 
 For starters, we need to create two files. *Sprite.hpp* and *Sprite.cpp* . We will do most of the image handling in the *Sprite* class.
 
@@ -35,7 +35,7 @@ Let's define the variables necessary to store this information.
 public:
 int w = 0;
 int h = 0;
-
+ 
 private:
 SDL_Texture* texture = nullptr;
 </nowiki>
@@ -61,7 +61,6 @@ public:
 #endif
 </nowiki>
 </pre>
-
 
 How about loading the texture? Let's create a function for that! *bool LoadTexture(std::string filename, SDL_Renderer* gRenderer)* .
 
@@ -299,6 +298,7 @@ Sprite::Sprite()
 
 Sprite::~Sprite()
 {
+	
 }
 </nowiki>
 </pre>
