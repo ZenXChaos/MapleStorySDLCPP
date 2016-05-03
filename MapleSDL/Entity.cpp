@@ -318,11 +318,29 @@ void Entity::DrawHealth()
 	int sp = strlen(entityHealth_S);
 
 	for (int i = 0; i < sp; i++) {
+
+		char *tName = (char*)malloc(sizeof(char) * 80);
+		_itoa_s(i, tName, 80, 10);
+
+		char *lHit_S = (char*)malloc(sizeof(char) * 80);
+		_itoa_s(this->lastHit, lHit_S, 80, 10);
+
+		std::string objename = this->uniq_id + ".";
+		objename += tName;
+		objename += ".";
+		objename += lHit_S;
+		objename += ".";
+
+
 		HUDObject ItemNo;
 		std::string itemno = "DamageNo.";
 		itemno += entityHealth_S[i];
 		ItemNo.sprites = &HUDElements[itemno];
-		ItemNo.e_ID = itemno;
+		objename += itemno;
+		ItemNo.e_ID = objename;
+		HUD_Animation<HUDObject> hanim;
+		hanim.RegisterHUDEffect(&ItemNo);
+		hanim.ApplyEffect(&ItemNo, HUD_ANIM_DMGNO_TransitionUp);
 		expFlowPanel.AddObject(ItemNo);
 	}
 

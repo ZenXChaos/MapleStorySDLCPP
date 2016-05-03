@@ -15,12 +15,12 @@ using namespace std;
 void Input::KeyDown(SDL_Scancode key) {
 	this->keysDown[key] = true;
 	this->keysUp[key] = false;
+ 
 }
 
 void Input::KeyUp(SDL_Scancode key) {
 	this->keysDown[key] = false;
 	this->keysUp[key] = true;
-
 }
 
 bool Input::IsKeyPressed(SDL_Scancode key) {

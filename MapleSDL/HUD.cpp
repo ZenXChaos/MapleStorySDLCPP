@@ -123,3 +123,16 @@ void HUD_ANIM_TransitionDown(HUDObject* h_Obj) {
 	}
 	registeredEffects[h_Obj->e_ID] = *h_Obj;
 }
+
+void HUD_ANIM_DMGNO_TransitionUp(HUDObject* h_Obj) {
+
+	if (registeredEffectsComplete[h_Obj->e_ID] == false) {
+		if (h_Obj->localY > -50) {
+			h_Obj->localY -= 5;
+		}
+		else {
+			registeredEffectsComplete[h_Obj->e_ID] = true;
+		}
+	}
+	registeredEffects[h_Obj->e_ID] = *h_Obj;
+}

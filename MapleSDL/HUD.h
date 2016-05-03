@@ -70,6 +70,7 @@ public:
 
 #ifndef HUD_EFFECTS
 extern void HUD_ANIM_TransitionDown(HUDObject* h_Obj);
+extern void HUD_ANIM_DMGNO_TransitionUp(HUDObject* h_Obj);
 extern std::map<std::string, HUDObject> registeredEffects;
 #endif
 #endif

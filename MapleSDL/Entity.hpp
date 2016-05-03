@@ -61,6 +61,7 @@ public:
 	EntityLife Life;
 	GameItemDropProvider ItemDrops;
 
+	Uint32 lastHit = 0;
 	Uint32 roamDelay = 3;
 	FlipDirection Direction = Left;
 	std::map<std::string, AnimatedSprite> animations;
