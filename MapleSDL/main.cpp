@@ -1,3 +1,6 @@
+
+#define MOUSE_HANDLE
+
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
@@ -56,6 +59,19 @@ void HUD_ShowPlayerEXP()
 	expFlowPanel.DrawPanel(0, 0);
 }
 
+void test(void* context) {
+	printf("mouse down\n");
+}
+void test2(void* context) {
+	printf("mouse up\n");
+}
+void test3(void* context) {
+	printf("mouse enter\n");
+}
+void test4(void* context) {
+	printf("mouse leave\n");
+}
+
 int main(int argc, char* argv) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -87,6 +103,8 @@ int main(int argc, char* argv) {
 	Game game;
 	Input PlayerInput;
 	Player entity(&game.spawn_manager.spawned, &PlayerInput);
+
+	HUD_Button okbtn;
 	
 	game.SetMainPlayer(&entity);
 	game.LoadItemDrops(m_gRenderer);
@@ -154,6 +172,14 @@ int main(int argc, char* argv) {
 	Dynamic2DCharacter HumanoidPlayer(&entity);
 	
 
+	okbtn.normal = HUDElements["UtilDlgEx.BtOK.normal.0"];
+	okbtn.hover = HUDElements["UtilDlgEx.BtOK.mouseOver.0"];
+	okbtn.pressed = HUDElements["UtilDlgEx.BtOK.pressed.0"];
+	okbtn.BindAction("mouseDown", test, nullptr);
+	okbtn.BindAction("mouseUp", test2, nullptr);
+	okbtn.BindAction("mouseEnter", test3, nullptr);
+	okbtn.BindAction("mouseLeave", test4, nullptr);
+
 	SDL_ShowCursor(SDL_DISABLE);
 	while (running) {
 
@@ -169,6 +195,14 @@ int main(int argc, char* argv) {
 				break;
 			case SDL_KEYUP:
 				PlayerInput.KeyUp(event.key.keysym.scancode);
+				break;
+
+			case SDL_MOUSEBUTTONDOWN:
+					MH_clicked = true;
+				break;
+
+			case SDL_MOUSEBUTTONUP:
+				MH_clicked = false;
 				break;
 			}
 		}
@@ -203,6 +237,9 @@ int main(int argc, char* argv) {
 		//hudgrid2.DrawPanel(10, 22);
 		
 		HUD_ShowPlayerEXP();
+
+		HUD::readMouseInput();
+		okbtn.Present({10, 20});
 
 		//Custom Cursor
 		cursr.Animate(mousePos, 0, NULL, SDL_FLIP_NONE, nullptr);

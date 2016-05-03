@@ -20,4 +20,10 @@
     <HUDSprite name="DamageNo.7" sprite="content\misc\damageNo\DamageNo.7.png" sprite_width="54" sprite_height="60" />
     <HUDSprite name="DamageNo.8" sprite="content\misc\damageNo\DamageNo.8.png" sprite_width="54" sprite_height="60" />
     <HUDSprite name="DamageNo.9" sprite="content\misc\damageNo\DamageNo.9.png" sprite_width="54" sprite_height="60" />
+    
+    <HUDSprite name="UtilDlgEx.BtOK.mouseOver.0" sprite="content\misc\btn\UtilDlgEx.BtOK.mouseOver.0.png" sprite_width="46" sprite_height="18" />
+    <HUDSprite name="UtilDlgEx.BtOK.normal.0" sprite="content\misc\btn\UtilDlgEx.BtOK.normal.0.png" sprite_width="46" sprite_height="18" />
+    <HUDSprite name="UtilDlgEx.BtOK.pressed.0" sprite="content\misc\btn\UtilDlgEx.BtOK.pressed.0.png" sprite_width="46" sprite_height="18" />
+    <HUDSprite name="UtilDlgEx.BtPrev.disabled.0" sprite="content\misc\btn\UtilDlgEx.BtPrev.disabled.0.png" sprite_width="46" sprite_height="18" />
+    
 </HUD>

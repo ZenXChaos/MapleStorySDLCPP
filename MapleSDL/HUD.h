@@ -1,6 +1,16 @@
 #ifndef HUD_H
 #define HUD_H
 
+static class HUD
+{
+public:
+	HUD();
+	virtual ~HUD();
+
+	static void readMouseInput();
+
+} UHUD_m;
+
 class HUDObject {
 public:
 	int row = 0, column = 0;
@@ -46,6 +56,29 @@ public:
 	void DrawPanel(int x, int y);
 };
 
+class HUD_Button {
+
+public:
+	AnimatedSprite normal;
+	AnimatedSprite pressed;
+	AnimatedSprite hover;
+	AnimatedSprite disabled;
+
+	std::map<std::string, void(*)(void*)> methods;
+
+	bool clicked = false;
+
+	void Present(SDL_Rect pos);
+
+	void BindAction(std::string method, void(*methodFunc)(void* context), void* context);
+
+	HUD_Button();
+	virtual ~HUD_Button();
+	bool entered = false;
+	bool mouseleft = false;
+	bool registerOutOfBoundUp = false;
+};
+
 class HUD_FlowPanel {
 public:
 	int width = 0, height = 0;
@@ -60,13 +93,6 @@ public:
 
 	void DrawPanel(int x, int y);
 };
-static class HUD
-{
-public:
-	HUD();
-	virtual ~HUD();
-
-} UIHUD;
 
 #ifndef HUD_EFFECTS
 extern void HUD_ANIM_TransitionDown(HUDObject* h_Obj);

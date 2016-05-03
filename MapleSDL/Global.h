@@ -79,5 +79,18 @@ namespace GLOBAL_MMORPG_GAME {
 	static Player* GetMainPlayer() {
 		return static_cast<Player*>(m_Player);
 	}
+
+
 }
+#endif
+
+#ifndef MOUSE_HANDLE
+extern int MH_mouseX;
+extern int MH_mouseY;
+extern bool MH_clicked;
+#else
+#undef MOUSE_HANDLE
+int MH_mouseX = 0;
+int MH_mouseY = 0;
+bool MH_clicked = false;
 #endif

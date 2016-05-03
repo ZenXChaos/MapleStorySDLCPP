@@ -136,3 +136,90 @@ void HUD_ANIM_DMGNO_TransitionUp(HUDObject* h_Obj) {
 	}
 	registeredEffects[h_Obj->e_ID] = *h_Obj;
 }
+
+void HUD::readMouseInput()
+{
+
+	SDL_GetMouseState(&MH_mouseX, &MH_mouseY);
+}
+
+void HUD_Button::Present(SDL_Rect pos)
+{
+	pos.w = this->normal.animclips[0].w;
+	pos.h = this->normal.animclips[0].h;
+
+	int w = pos.w;
+	int h = pos.h;
+	if ((MH_mouseX > pos.x && MH_mouseX < pos.x + w) && (MH_mouseY > pos.y && MH_mouseY < pos.y + h)) {
+		if (MH_clicked == true) {
+			this->pressed.Animate(pos, 0, NULL, SDL_FLIP_NONE, nullptr);
+			if (this->clicked == false) {
+				this->clicked = true;
+				if (this->methods["mouseDown"] != nullptr) {
+					this->methods["mouseDown"](this);
+				}
+			}
+		}
+		else {
+			if (this->entered == false) {
+				this->entered = true;
+				if (this->methods["mouseEnter"] != nullptr) {
+					this->methods["mouseEnter"](this);
+				}
+			}
+
+			if (this->clicked == true) {
+				if (this->methods["mouseUp"] != nullptr) {
+					this->methods["mouseUp"](this);
+				}
+
+				this->clicked = false;
+			}
+
+			this->hover.Animate(pos, 0, NULL, SDL_FLIP_NONE, nullptr);
+		}
+	}
+	else {
+		
+		if (MH_clicked == false) {
+			if (this->entered == true) {
+				if (this->methods["mouseLeave"] != nullptr) {
+					this->methods["mouseLeave"](this);
+				}
+
+				this->entered = false;
+			}
+
+
+			if (this->clicked == true) {
+				if (this->methods["mouseUp"] != nullptr && this->registerOutOfBoundUp) {
+					this->methods["mouseUp"](this);
+				}
+
+				this->clicked = false;
+			}
+
+			this->clicked = false;
+		}
+		if (!this->registerOutOfBoundUp && this->entered) {
+			this->entered = false;
+		}
+		this->normal.Animate(pos, 0, NULL, SDL_FLIP_NONE, nullptr);
+	}
+
+}
+
+void HUD_Button::BindAction(std::string method, void(*methodFunc)(void* context), void* context)
+{
+	this->methods[method] = methodFunc;
+}
+
+HUD_Button::HUD_Button()
+{
+	
+}
+
+HUD_Button::~HUD_Button()
+{
+
+}
