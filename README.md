@@ -58,6 +58,10 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 
 > Animated HUD Objects
 
+> HUD Buttons
+
+>> mouseEnter, mouseLeave, mouseUp, mouseDown events.
+
 > Grid Layout
 
 > Flow Layout
