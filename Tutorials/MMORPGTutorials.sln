@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial01", "MMORPGTutoria
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial02", "Tutorial02\Tutorial02.vcxproj", "{FC3009B1-955D-4890-80C8-9C02BDF54FD3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial03", "Tutorial03\Tutorial03.vcxproj", "{AA66CA4E-DE04-46C0-B1AE-F57222DEC477}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{FC3009B1-955D-4890-80C8-9C02BDF54FD3}.Release|x64.Build.0 = Release|x64
 		{FC3009B1-955D-4890-80C8-9C02BDF54FD3}.Release|x86.ActiveCfg = Release|Win32
 		{FC3009B1-955D-4890-80C8-9C02BDF54FD3}.Release|x86.Build.0 = Release|Win32
+		{AA66CA4E-DE04-46C0-B1AE-F57222DEC477}.Debug|x64.ActiveCfg = Debug|x64
+		{AA66CA4E-DE04-46C0-B1AE-F57222DEC477}.Debug|x64.Build.0 = Debug|x64
+		{AA66CA4E-DE04-46C0-B1AE-F57222DEC477}.Debug|x86.ActiveCfg = Debug|Win32
+		{AA66CA4E-DE04-46C0-B1AE-F57222DEC477}.Debug|x86.Build.0 = Debug|Win32
+		{AA66CA4E-DE04-46C0-B1AE-F57222DEC477}.Release|x64.ActiveCfg = Release|x64
+		{AA66CA4E-DE04-46C0-B1AE-F57222DEC477}.Release|x64.Build.0 = Release|x64
+		{AA66CA4E-DE04-46C0-B1AE-F57222DEC477}.Release|x86.ActiveCfg = Release|Win32
+		{AA66CA4E-DE04-46C0-B1AE-F57222DEC477}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
