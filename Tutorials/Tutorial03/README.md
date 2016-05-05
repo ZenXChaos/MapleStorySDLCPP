@@ -1,8 +1,8 @@
 ### Animating a sprite
 
-In this tutorial, we will learn how to '''animate''' the sprite we displayed in the tutorial: [Displaying a sprite](http://gamedev.ubersnip.com/index.php?title=Displaying_a_sprite ).
+In this tutorial, we will learn how to *animate* the sprite we displayed in the tutorial: [Displaying a sprite](http://gamedev.ubersnip.com/index.php?title=Displaying_a_sprite ).
 
-Let's first create our source and header files. '''AnimatedSprite.cpp''' and '''AnimatedSprite.h'''. This is what our initial '''AnimatedSprite.cpp''' should look like.
+Let's first create our source and header files. *AnimatedSprite.cpp* and *AnimatedSprite.h*. This is what our initial *AnimatedSprite.cpp* should look like.
 
 <pre>
 <nowiki>
@@ -25,7 +25,7 @@ AnimatedSprite::~AnimatedSprite()
 </pre>
 
 
-'''AnimatedSprite.h'''
+*AnimatedSprite.h*
 
 <pre>
 <nowiki>
@@ -42,7 +42,7 @@ public:
 </nowiki>
 </pre>
 
-Additionally, in '''main.cpp'', we should include '''AnimatedSprite.h''' and '''<vector>'''.
+Additionally, in *main.cpp'', we should include *AnimatedSprite.h* and *<vector>*.
 
 <pre>
 <nowiki>
@@ -58,7 +58,7 @@ Additionally, in '''main.cpp'', we should include '''AnimatedSprite.h''' and '''
 </pre>
 
 
-Now, let's add a few variables to our '''AnimatedSprite''' class.
+Now, let's add a few variables to our *AnimatedSprite* class.
 
 ### Variables
 
@@ -76,13 +76,13 @@ std::vector<Sprite> animFrames;
 </nowiki>
 </pre>
 
-'''frame''': Keeps track of the current frame number we are at.
+*frame*: Keeps track of the current frame number we are at.
 
-'''maxFrames''': Maximum number of frames in an animation.
+*maxFrames*: Maximum number of frames in an animation.
 
-'''delta''': This manages the speed an animation plays at.
+*delta*: This manages the speed an animation plays at.
 
-'''animframes''': Individual sprite frames from class '''Sprite'''.
+*animframes*: Individual sprite frames from class *Sprite*.
 
 
 ### Methods
@@ -99,19 +99,19 @@ void Animate(SDL_Rect pos, SDL_Renderer* gRenderer);
 </nowiki>
 </pre>
 
-'''AddSprite()''': Adds a sprite to the animation stack.
+*AddSprite()*: Adds a sprite to the animation stack.
 
-'''Step()''': Goes to next animation in stack.
+*Step()*: Goes to next animation in stack.
 
-'''Animate()''': Animates the animation (Displays texture at x '''frame''').
+*Animate()*: Animates the animation (Displays texture at x *frame*).
 
 
 Let's define our functions now.
 
-'''AnimatedSprite.cpp''':
+*AnimatedSprite.cpp*:
 
 
-'''void AnimatedSprite::AddSprite(Sprite sprite)'''
+*void AnimatedSprite::AddSprite(Sprite sprite)*
 
 <pre>
 <nowiki>
@@ -122,10 +122,10 @@ void AnimatedSprite::AddSprite(Sprite sprite){
 </nowiki>
 </pre>
 
-This inserts a sprite into our '''animFrames''' container. We also need to increase the '''maxFrames''' count by one.
+This inserts a sprite into our *animFrames* container. We also need to increase the *maxFrames* count by one.
 
 
-'''void AnimatedSprite::Step()'''
+*void AnimatedSprite::Step()*
 <pre>
 <nowiki>
 void AnimatedSprite::Step(){
@@ -138,10 +138,10 @@ void AnimatedSprite::Step(){
 </nowiki>
 </pre>
 
-What happens here is the '''frame''' number is increased by '''delta'''. If the maximum number of frames is reached or exceeded, reset '''frame''' number to zero.
+What happens here is the *frame* number is increased by *delta*. If the maximum number of frames is reached or exceeded, reset *frame* number to zero.
 
 
-'''Animate()'''
+*Animate()*
 <pre>
 <nowiki>
 void AnimatedSprite::Animate(SDL_Rect pos, SDL_Renderer* gRenderer){
@@ -150,11 +150,11 @@ void AnimatedSprite::Animate(SDL_Rect pos, SDL_Renderer* gRenderer){
 </nowiki>
 </pre>
 
-This simply draws the texture at whatever '''frame''' is equal to. Notice static_cast<int>(), which just converts from float to int in this instance.
+This simply draws the texture at whatever *frame* is equal to. Notice static_cast<int>(), which just converts from float to int in this instance.
 
 ### Finishing up
 
-Our class is all setup, and all we need to do now is load our sprites. Let's go back to '''main.cpp'''.
+Our class is all setup, and all we need to do now is load our sprites. Let's go back to *main.cpp*.
 
 Change:
 
