@@ -1,6 +1,6 @@
 ### Animating a sprite
 
-In this tutorial, we will learn how to '''animate''' the sprite we displayed in the tutorial: [http://gamedev.ubersnip.com/index.php?title=Displaying_a_sprite '''Displaying a sprite'''].
+In this tutorial, we will learn how to '''animate''' the sprite we displayed in the tutorial: [Displaying a sprite](http://gamedev.ubersnip.com/index.php?title=Displaying_a_sprite ).
 
 Let's first create our source and header files. '''AnimatedSprite.cpp''' and '''AnimatedSprite.h'''. This is what our initial '''AnimatedSprite.cpp''' should look like.
 
