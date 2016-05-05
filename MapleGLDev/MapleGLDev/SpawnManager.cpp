@@ -11,13 +11,13 @@
 
 using namespace std;
 
-#include "GameUtils.h"
-#include "RelativeSpace.h"
-#include "MessageDispatch.h"
+#include "GameUtils.hpp"
+#include "RelativeSpace.hpp"
+#include "MessageDispatch.hpp"
 #include "ItemDrop.hpp"
-#include "Input.h"
-#include "Entity.h"
-#include "SpawnManager.h"
+#include "Input.hpp"
+#include "Entity.hpp"
+#include "SpawnManager.hpp"
 
 void SpawnManager::ManagePool(GLint tick) {
 	this->lastSpawn = (tick/60 )- lastSpawnIndex;

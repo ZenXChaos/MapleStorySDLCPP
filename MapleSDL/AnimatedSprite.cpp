@@ -5,14 +5,14 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "GameDebug.h"
+#include "GameDebug.hpp"
 #include "Global.h"
 
 using namespace std;
 
-#include "AnimatedSprite.h"
-#include "RelativeSpace.h"
-#include "HUD.h"
+#include "AnimatedSprite.hpp"
+#include "RelativeSpace.hpp"
+#include "HUD.hpp"
 
 bool AnimatedSprite::LoadTexture(std::string path, SDL_Renderer* gRenderer)
 {
@@ -67,6 +67,7 @@ void AnimatedSprite::Animate(SDL_Rect pos, double angle, SDL_Point* center, SDL_
 			*frameData = renderQuad;
 		}
 	}
+
 
 	//Render to screen
 	SDL_RenderCopyEx(this->renderer, this->texture, &this->animclips[static_cast<int>(this->current_frame)], &renderQuad, angle, center, flip);

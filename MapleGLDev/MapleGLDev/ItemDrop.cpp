@@ -8,8 +8,8 @@
 #include <IL/ilu.h>
 #include "LTexture.h"
 
-#include "RelativeSpace.h"
-#include "GameUtils.h"
+#include "RelativeSpace.hpp"
+#include "GameUtils.hpp"
 #include "ItemDrop.hpp"
 
 void GameItemDropProvider::AddItem(GameItemDrop i_Drop) {

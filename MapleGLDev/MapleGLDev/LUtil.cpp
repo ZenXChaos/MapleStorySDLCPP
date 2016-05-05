@@ -3,15 +3,16 @@
 #include <IL/ilu.h>
 #include "LTexture.h"
 
-#include "MessageDispatch.h"
-#include "GameUtils.h"
-#include "RelativeSpace.h"
+#include "MessageDispatch.hpp"
+#include "GameUtils.hpp"
+#include "RelativeSpace.hpp"
 #include "ItemDrop.hpp"
-#include "Input.h"
-#include "Entity.h"
-#include "SpawnManager.h"
-#include "GameMap.h"
-#include "Game.h"
+#include "Input.hpp"
+#include "Entity.hpp"
+#include "SpawnManager.hpp"
+#include "GameMap.hpp"
+#include "Game.hpp"
+#include "Camera.hpp"
 
 //VBO rendered texture
 LTexture gVBOTexture;

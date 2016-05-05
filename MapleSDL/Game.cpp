@@ -8,7 +8,7 @@
 #include <tinyxml2.h>
 #include <Box2D/Box2D.h>
 #include <SDL.h>
-#include "GameDebug.h"
+#include "GameDebug.hpp"
 #include "Global.h"
 
 #pragma comment(lib, "tinyxml2.lib")
@@ -16,17 +16,18 @@
 
 using namespace std;
 
-#include "Input.h"
-#include "MessageDispatch.h"
-#include "GameUtils.h"
-#include "RelativeSpace.h"
-#include "AnimatedSprite.h"
+#include "Input.hpp"
+#include "MessageDispatch.hpp"
+#include "GameUtils.hpp"
+#include "RelativeSpace.hpp"
+#include "AnimatedSprite.hpp"
 #include "MISC/ItemDrop.hpp"
 #include "Entity.hpp"
-#include "SpawnManager.h"
-#include "Box.h"
-#include "HUD.h"
-#include "Game.h"
+#include "SpawnManager.hpp"
+#include "Box.hpp"
+#include "HUD.hpp"
+#include "Camera.hpp"
+#include "Game.hpp"
 
 
 void Game::SetMainPlayer(Player* mp) {
@@ -128,6 +129,7 @@ void Game::LoadItemDrops(SDL_Renderer* gRenderer) {
 }
 
 Entity* Game::IdentifyMob(std::string mobname) {
+
 	std::map<std::string, Entity> moblist = MobList;
 	std::map<std::string, int>::iterator it = MOBS_MAPPINGSTRING.find(mobname);
 	if (it != MOBS_MAPPINGSTRING.end()) {
@@ -144,6 +146,7 @@ void Game::InitSpawnManager() {
 }
 
 Entity* Game::IdentifyMob(int mobid) {
+
 	std::map<std::string, Entity> moblist = MobList;
 	std::map<int, std::string>::iterator it = MOBS_MAPPING.find(mobid);
 	if (it != MOBS_MAPPING.end()) {
@@ -157,7 +160,11 @@ Entity* Game::IdentifyMob(int mobid) {
 }
 
 void Game::ManageMobPool() {
+
 	for (size_t i = 0; i < spawn_manager.spawned.size(); i++) {
+		if (i >= spawn_manager.spawned.size()) {
+			break; //just in case?
+		}
 		if (this->spawn_manager.spawned[i].alive == false) {
 			SDL_Rect tmpPos = this->spawn_manager.spawned.at(i).GetPosition();
 			tmpPos.y += 30;
@@ -165,9 +172,16 @@ void Game::ManageMobPool() {
 			this->spawn_manager.spawned.erase(this->spawn_manager.spawned.begin()+i);
 			break;
 		}
-		else {
-			spawn_manager.spawned[i].AI();
-			spawn_manager.spawned[i].Draw();
+
+		else{
+			if (&spawn_manager.spawned[i].Life != nullptr) {
+				if (spawn_manager.spawned[i].GetPositionX() < MainCamera.pos.w+MainCamera.pos.x) {
+					spawn_manager.spawned[i].Draw();
+				}else{
+					spawn_manager.spawned[i].Draw(true);
+				}
+				spawn_manager.spawned[i].AI();
+			}
 		}
 	}
 
@@ -186,6 +200,7 @@ void Game::ManageMobPool() {
 	SDL_SetRenderDrawColor(this->mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
 	mainPlayer->IdentifyMobs();
+
 }
 
 void Game::ManageMapObjects() {
@@ -194,7 +209,6 @@ void Game::ManageMapObjects() {
 		this->mapItemDrops[i].sprite.Animate(this->mapItemDrops[i].i_dropPos, 0, NULL, SDL_FLIP_NONE, nullptr);
 	}
 }
-
 
 void Game::LoadHUDSprites(SDL_Renderer* gRenderer)
 {

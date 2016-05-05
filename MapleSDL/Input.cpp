@@ -5,12 +5,12 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "GameDebug.h"
+#include "GameDebug.hpp"
 #include "Global.h"
 
 using namespace std;
 
-#include "Input.h"
+#include "Input.hpp"
 
 void Input::KeyDown(SDL_Scancode key) {
 	this->keysDown[key] = true;

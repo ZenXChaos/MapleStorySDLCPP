@@ -2,7 +2,7 @@
 #define GAMEITEMDROP_H
 #include <string>
 #include <vector>
-#include "../AnimatedSprite.h"
+#include "../AnimatedSprite.hpp"
 
 class GameItemDrop {
 

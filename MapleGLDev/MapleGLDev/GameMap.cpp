@@ -11,7 +11,7 @@
 
 using namespace std;
 
-#include "GameMap.h"
+#include "GameMap.hpp"
 
 void GameMap::InitMap(std::string initMapFile, LFRect pos) {
 	this->mapSprite.AddSprite(initMapFile, 0.1f);

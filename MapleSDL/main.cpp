@@ -2,6 +2,7 @@
 #define MOUSE_HANDLE
 
 #include <SDL.h>
+#include <SDL_thread.h>
 #include <SDL_image.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,29 +10,40 @@
 #include <map>
 #include <vector>
 #include <Box2D/Box2D.h>
-#include "GameDebug.h"
+#include "GameDebug.hpp"
 #include "Global.h"
-#include "MobExt.h"
+#include "MobExt.hpp"
 
 using namespace std;
 
 #define M_RENDERER
 #define HUD_ELEMENTS
+#define MAIN_HANDLE
+#define MAIN_CAMERA
 
-#include "Input.h"
-#include "MessageDispatch.h"
-#include "Box.h"
-#include "GameUtils.h"
-#include "RelativeSpace.h"
-#include "AnimatedSprite.h"
+#include "Input.hpp"
+#include "MessageDispatch.hpp"
+#include "Box.hpp"
+#include "GameUtils.hpp"
+#include "RelativeSpace.hpp"
+#include "AnimatedSprite.hpp"
 #include "MISC/ItemDrop.hpp"
 #include "Entity.hpp"
-#include "SpawnManager.h"
-#include "GameMap.h"
-#include "HUD.h"
-#include "Game.h"
-#include "HelperFunctions.h"
-#include "Dynamic2DCharacter.h"
+#include "SpawnManager.hpp"
+#include "GameMap.hpp"
+#include "HUD.hpp"
+#include "Game.hpp"
+#include "HelperFunctions.hpp"
+#include "Dynamic2DCharacter.hpp"
+#include "Camera.hpp"
+#include "CommandCentral.h"
+
+
+bool mainRunning = true;
+SDL_sem* mainLock = nullptr;
+SDL_sem* mainSpawnMGRLock = nullptr;
+
+SpawnManager* defSpawnManager = nullptr;
 
 #undef main
 void HUD_ShowPlayerEXP()
@@ -80,7 +92,7 @@ int main(int argc, char* argv) {
 
 	m_gRenderer = NULL;
 
-	window = SDL_CreateWindow("Hi", 50, 50, 1000, 500, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("Hi", 50, 50, 801, 601, SDL_WINDOW_SHOWN);
 	m_gRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 
@@ -113,6 +125,8 @@ int main(int argc, char* argv) {
 	game.LoadPlayerAnims(m_gRenderer, &entity);
 	game.InitSpawnManager();
 
+	defSpawnManager = &game.spawn_manager;
+
 
 	//IDENFITY A MOB
 	//Entity mush = *game.IdentifyMob("mush");
@@ -120,12 +134,13 @@ int main(int argc, char* argv) {
 
 	GameMap map;
 	SDL_Rect mapPos;
-	mapPos.w = 1387;
-	mapPos.h = 907;
+	mapPos.w = 801;
+	mapPos.h = 601;
 	mapPos.x = 0;
-	mapPos.y = -407;
-	map.InitMap("content/maps/hennesys/map01.png", mapPos, m_gRenderer);
-	entity.SetPositionY(190);
+	mapPos.y = 0;
+	map.InitMap("content/maps/main.png", mapPos, m_gRenderer);
+	MainCamera.pos.w = mapPos.w;
+	entity.SetPositionY(390);
 
 	HUD_FlowPanel hudgrid;
 	hudgrid.height = 100;
@@ -180,9 +195,13 @@ int main(int argc, char* argv) {
 	okbtn.BindAction("mouseEnter", test3, nullptr);
 	okbtn.BindAction("mouseLeave", test4, nullptr);
 
-	SDL_ShowCursor(SDL_DISABLE);
-	while (running) {
+	SDL_CreateThread(CommandCentral::CommandMain, "LazyThread", nullptr);
 
+	SDL_ShowCursor(SDL_DISABLE);
+	mainLock = SDL_CreateSemaphore(1);
+	while (mainRunning) {
+		//Lock
+		SDL_SemWait(mainLock);
 		tick = SDL_GetTicks();
 		SDL_Event event;
 
@@ -210,11 +229,25 @@ int main(int argc, char* argv) {
 		//Clear screen
 		SDL_RenderClear(m_gRenderer);
 
+		SDL_Rect camMapPos = mapPos;
+		camMapPos.x -= MainCamera.pos.x;
+
 		if (PlayerInput.IsKeyPressed(SDL_SCANCODE_LEFT)) {
-			entity.Walk(Left);
+			if (entity.GetPositionX() == 0) {
+				if (MainCamera.pos.x > 0) {
+					MainCamera.pos.x -= 1;
+				}
+			}else{
+				entity.Walk(Left);
+			}
 		}
 		else if (PlayerInput.IsKeyPressed(SDL_SCANCODE_RIGHT)) {
-			entity.Walk(Right);
+			if (entity.GetPositionX() <= camMapPos.w - entity.GetWidth()) {
+				entity.Walk(Right);
+			}else{
+			
+				MainCamera.pos.x += 1;
+			}
 		}
 		else {
 			entity.Station();
@@ -226,9 +259,10 @@ int main(int argc, char* argv) {
 		SDL_GetMouseState(&mousePos.x, &mousePos.y);
 
 
-		map.DrawMap(mapPos);
+		map.DrawMap(camMapPos);
 		entity.ManageState();
 		entity.Draw();
+
 		game.ManageMobPool();
 		game.ManageMapObjects();
 
@@ -261,6 +295,8 @@ int main(int argc, char* argv) {
 		if ((1000 / fps) > SDL_GetTicks() - tick) {
 			SDL_Delay(1000 / fps - (SDL_GetTicks() - tick));
 		}
+		//Unlock
+		SDL_SemPost(mainLock);
 	}
 
 	SDL_DestroyWindow(window);

@@ -11,7 +11,7 @@
 class SpawnManager {
 	Uint32 lastSpawn = 0;
 	Uint32 lastSpawnIndex = 0;
-	size_t SpawnEvery = 3;
+	size_t SpawnEvery = 10;
 
 	SDL_Rect spawnPoints[10] = { { 0,0,0,0 } };
 
@@ -21,5 +21,9 @@ public:
 	std::vector<Entity> spawned;
 
 	void ManagePool(Uint32 tick);
+	bool overridebusy = false;
+	void SpawnMob();
+	void SpawnMob_Safe();
+	bool overridespawn;
 };
 #endif

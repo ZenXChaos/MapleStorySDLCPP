@@ -5,19 +5,19 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "GameDebug.h"
+#include "GameDebug.hpp"
 #include "Global.h"
 
 using namespace std;
 
-#include "Input.h"
-#include "MessageDispatch.h"
-#include "GameUtils.h"
-#include "RelativeSpace.h"
-#include "AnimatedSprite.h"
+#include "Input.hpp"
+#include "MessageDispatch.hpp"
+#include "GameUtils.hpp"
+#include "RelativeSpace.hpp"
+#include "AnimatedSprite.hpp"
 #include "MISC/ItemDrop.hpp"
 #include "Entity.hpp"
-#include "Box.h"
+#include "Box.hpp"
 
 
 

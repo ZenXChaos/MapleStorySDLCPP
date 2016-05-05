@@ -3,11 +3,11 @@
 #include <vector>
 #include <map>
 #include <SDL.h>
-#include "AnimatedSprite.h"
-#include "MessageDispatch.h"
-#include "RelativeSpace.h"
-#include "GameUtils.h"
-#include "Input.h"
+#include "AnimatedSprite.hpp"
+#include "MessageDispatch.hpp"
+#include "RelativeSpace.hpp"
+#include "GameUtils.hpp"
+#include "Input.hpp"
 #include "MISC/ItemDrop.hpp"
 
 enum EntityState {
@@ -72,7 +72,7 @@ public:
 
 	bool alive = true;
 
-	void Draw();
+	void Draw(bool oc = false);
 	void Walk(FlipDirection direction);
 	void WalkAway(SDL_Rect topos);
 	void WalkTowards(SDL_Rect topos);

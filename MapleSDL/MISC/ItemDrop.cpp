@@ -5,13 +5,13 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "../GameDebug.h"
+#include "../GameDebug.hpp"
 
 using namespace std;
 
-#include "../AnimatedSprite.h"
-#include "../RelativeSpace.h"
-#include "../GameUtils.h"
+#include "../AnimatedSprite.hpp"
+#include "../RelativeSpace.hpp"
+#include "../GameUtils.hpp"
 
 #include "ItemDrop.hpp"
 

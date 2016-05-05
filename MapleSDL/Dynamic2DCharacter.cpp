@@ -6,25 +6,25 @@
 #include <map>
 #include <vector>
 #include <Box2D/Box2D.h>
-#include "GameDebug.h"
+#include "GameDebug.hpp"
 #include "Global.h"
 
 using namespace std;
 
 
-#include "Input.h"
-#include "MessageDispatch.h"
-#include "Box.h"
-#include "GameUtils.h"
-#include "RelativeSpace.h"
-#include "AnimatedSprite.h"
+#include "Input.hpp"
+#include "MessageDispatch.hpp"
+#include "Box.hpp"
+#include "GameUtils.hpp"
+#include "RelativeSpace.hpp"
+#include "AnimatedSprite.hpp"
 #include "MISC/ItemDrop.hpp"
 #include "Entity.hpp"
-#include "SpawnManager.h"
-#include "GameMap.h"
-#include "HUD.h"
-#include "Game.h"
-#include "Dynamic2DCharacter.h"
+#include "SpawnManager.hpp"
+#include "GameMap.hpp"
+#include "HUD.hpp"
+#include "Game.hpp"
+#include "Dynamic2DCharacter.hpp"
 #include "Global.h"
 
 

@@ -7,24 +7,24 @@
 #include <vector>
 #include <tinyxml2.h>
 #include <Box2D/Box2D.h>
-#include "GameDebug.h"
+#include "GameDebug.hpp"
 #include "Global.h"
 
 #pragma comment(lib, "tinyxml2.lib")
 
 using namespace std;
 
-#include "Input.h"
-#include "MessageDispatch.h"
-#include "GameUtils.h"
-#include "RelativeSpace.h"
-#include "AnimatedSprite.h"
+#include "Input.hpp"
+#include "MessageDispatch.hpp"
+#include "GameUtils.hpp"
+#include "RelativeSpace.hpp"
+#include "AnimatedSprite.hpp"
 #include "MISC/ItemDrop.hpp"
 #include "Entity.hpp"
-#include "SpawnManager.h"
-#include "Box.h"
-#include "Game.h"
-#include "HUD.h"
+#include "SpawnManager.hpp"
+#include "Box.hpp"
+#include "Game.hpp"
+#include "HUD.hpp"
 
 HUD::HUD()
 {

@@ -4,7 +4,7 @@
 
 using namespace std;
 
-#include "MobExt.h"
+#include "MobExt.hpp"
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -13,16 +13,16 @@ using namespace std;
 #include <string>
 #include <map>
 #include <vector>
-#include "GameDebug.h"
+#include "GameDebug.hpp"
 #include "Global.h"
 
 using namespace std;
 
-#include "Input.h"
-#include "MessageDispatch.h"
-#include "GameUtils.h"
-#include "RelativeSpace.h"
-#include "AnimatedSprite.h"
+#include "Input.hpp"
+#include "MessageDispatch.hpp"
+#include "GameUtils.hpp"
+#include "RelativeSpace.hpp"
+#include "AnimatedSprite.hpp"
 #include "MISC\ItemDrop.hpp"
 #include "Entity.hpp"
 

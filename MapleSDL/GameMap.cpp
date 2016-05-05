@@ -5,14 +5,14 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "GameDebug.h"
+#include "GameDebug.hpp"
 #include "Global.h"
 
 using namespace std;
 
-#include "AnimatedSprite.h"
-#include "GameMap.h"
-#include "HUD.h"
+#include "AnimatedSprite.hpp"
+#include "GameMap.hpp"
+#include "HUD.hpp"
 
 void GameMap::InitMap(std::string initMapFile, SDL_Rect pos, SDL_Renderer* gRenderer) {
 	this->mapSprite.LoadTexture(initMapFile, gRenderer);

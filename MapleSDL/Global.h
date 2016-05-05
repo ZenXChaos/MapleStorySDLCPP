@@ -4,6 +4,7 @@ class Entity;
 class MessageDispatch;
 class Player;
 class AnimatedSprite;
+class SpawnManager;
 
 namespace GLOBAL_MMORPG_GAME {
 
@@ -62,7 +63,7 @@ namespace GLOBAL_MMORPG_GAME {
 	};
 
 	static Player* m_Player;
-	static void* m_SpawnManager;
+	static SpawnManager* m_SpawnManager=nullptr;
 	static void* m_GameMain;
 
 	static SpawnManagerMobs<Entity*> mobs_spawned;
@@ -93,4 +94,10 @@ extern bool MH_clicked;
 int MH_mouseX = 0;
 int MH_mouseY = 0;
 bool MH_clicked = false;
+#endif
+
+#ifndef MAIN_HANDLE
+extern SDL_sem* mainLock;
+extern SDL_sem* mainSpawnMGRLock;
+extern bool mainRunning;
 #endif

@@ -139,13 +139,13 @@
     <ClCompile Include="SpawnManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameMap.h" />
-    <ClInclude Include="GameUtils.h" />
-    <ClInclude Include="HelperFunctions.h" />
-    <ClInclude Include="Input.h" />
+    <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="Game.hpp" />
+    <ClInclude Include="GameMap.hpp" />
+    <ClInclude Include="GameUtils.hpp" />
+    <ClInclude Include="HelperFunctions.hpp" />
+    <ClInclude Include="Input.hpp" />
     <ClInclude Include="ItemDrop.hpp" />
     <ClInclude Include="LFRect.h" />
     <ClInclude Include="LOpenGL.h" />
@@ -154,9 +154,9 @@
     <ClInclude Include="LUtil.h" />
     <ClInclude Include="LVertexData2D.h" />
     <ClInclude Include="LVertexPos2D.h" />
-    <ClInclude Include="MessageDispatch.h" />
-    <ClInclude Include="RelativeSpace.h" />
-    <ClInclude Include="SpawnManager.h" />
+    <ClInclude Include="MessageDispatch.hpp" />
+    <ClInclude Include="RelativeSpace.hpp" />
+    <ClInclude Include="SpawnManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

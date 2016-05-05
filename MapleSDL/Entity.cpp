@@ -5,21 +5,32 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "GameDebug.h"
+#include "GameDebug.hpp"
 #include "Global.h"
 
 using namespace std;
 
-#include "Input.h"
-#include "MessageDispatch.h"
-#include "GameUtils.h"
-#include "RelativeSpace.h"
-#include "AnimatedSprite.h"
+#include "Input.hpp"
+#include "MessageDispatch.hpp"
+#include "GameUtils.hpp"
+#include "RelativeSpace.hpp"
+#include "AnimatedSprite.hpp"
 #include "MISC\ItemDrop.hpp"
-#include "HUD.h"
+#include "HUD.hpp"
 #include "Entity.hpp"
+#include "Camera.hpp"
 
-void Entity::Draw() {
+void Entity::Draw(bool oc) {
+
+	SDL_Rect posCamPos = pos;
+	posCamPos.x -= MainCamera.pos.x;
+	posCamPos.y -= MainCamera.pos.y;
+
+	if (oc) {
+		currentAnimation = &this->animations.at("idle");
+		return;
+	}
+
 	if (this->alive == false) {
 		return;
 	}
@@ -164,6 +175,9 @@ void Entity::Roam() {
 }
 
 void Entity::AI() {
+	if (currentAnimation == nullptr) {
+		return;
+	}
 	tick = static_cast<float>(SDL_GetTicks());
 	if (this->State != EntityState::Death) {
 		switch (this->State) {

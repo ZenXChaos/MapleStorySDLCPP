@@ -156,6 +156,8 @@
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CommandCentral.cpp" />
     <ClCompile Include="Dynamic2DCharacter.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -163,6 +165,7 @@
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="MessageDispatch.cpp" />
     <ClCompile Include="MISC\ItemDrop.cpp" />
     <ClCompile Include="MobExt.cpp" />
@@ -172,24 +175,27 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnimatedSprite.h" />
-    <ClInclude Include="Box.h" />
-    <ClInclude Include="Dynamic2DCharacter.h" />
+    <ClInclude Include="AnimatedSprite.hpp" />
+    <ClInclude Include="Box.hpp" />
+    <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="CommandCentral.h" />
+    <ClInclude Include="Dynamic2DCharacter.hpp" />
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="externdef.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameDebug.h" />
-    <ClInclude Include="GameMap.h" />
-    <ClInclude Include="GameUtils.h" />
+    <ClInclude Include="Game.hpp" />
+    <ClInclude Include="GameDebug.hpp" />
+    <ClInclude Include="GameMap.hpp" />
+    <ClInclude Include="GameUtils.hpp" />
     <ClInclude Include="Global.h" />
-    <ClInclude Include="HelperFunctions.h" />
-    <ClInclude Include="HUD.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="MessageDispatch.h" />
+    <ClInclude Include="HelperFunctions.hpp" />
+    <ClInclude Include="HUD.hpp" />
+    <ClInclude Include="Input.hpp" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="MessageDispatch.hpp" />
     <ClInclude Include="MISC\ItemDrop.hpp" />
-    <ClInclude Include="MobExt.h" />
-    <ClInclude Include="RelativeSpace.h" />
-    <ClInclude Include="SpawnManager.h" />
+    <ClInclude Include="MobExt.hpp" />
+    <ClInclude Include="RelativeSpace.hpp" />
+    <ClInclude Include="SpawnManager.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

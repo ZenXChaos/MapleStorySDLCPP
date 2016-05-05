@@ -8,14 +8,14 @@
 #include <IL/ilu.h>
 #include "LTexture.h"
 
-#include "RelativeSpace.h"
-#include "GameUtils.h"
-#include "MessageDispatch.h"
+#include "RelativeSpace.hpp"
+#include "GameUtils.hpp"
+#include "MessageDispatch.hpp"
 #include "ItemDrop.hpp"
-#include "Input.h"
-#include "Entity.h"
+#include "Input.hpp"
+#include "Entity.hpp"
 
-#include "HelperFunctions.h"
+#include "HelperFunctions.hpp"
 
 void MessageDispatch::RegisterMessage(std::string msg, void(*callback)(Entity *e), Entity *context) {
 	DispatchedMessage dm;

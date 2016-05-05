@@ -5,8 +5,8 @@
 #include <string>
 #include <SDL.h>
 #include "Entity.hpp"
-#include "SpawnManager.h"
-#include "Box.h"
+#include "SpawnManager.hpp"
+#include "Box.hpp"
 
 
 class Game {

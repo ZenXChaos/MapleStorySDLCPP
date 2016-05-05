@@ -8,14 +8,14 @@
 #include <IL/ilu.h>
 #include "LTexture.h"
 
-#include "GameUtils.h"
-#include "RelativeSpace.h"
-#include "MessageDispatch.h"
+#include "GameUtils.hpp"
+#include "RelativeSpace.hpp"
+#include "MessageDispatch.hpp"
 #include "ItemDrop.hpp"
-#include "Input.h"
-#include "Entity.h"
-#include "SpawnManager.h"
-#include "Game.h"
+#include "Input.hpp"
+#include "Entity.hpp"
+#include "SpawnManager.hpp"
+#include "Game.hpp"
 
 using namespace std;
 
