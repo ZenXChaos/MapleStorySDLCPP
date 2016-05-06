@@ -162,6 +162,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMap.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="MessageDispatch.cpp" />
     <ClCompile Include="MISC\ItemDrop.cpp" />
     <ClCompile Include="MobExt.cpp" />
+    <ClCompile Include="Skill.cpp" />
     <ClCompile Include="SpawnManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +187,7 @@
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameDebug.hpp" />
     <ClInclude Include="GameMap.hpp" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameUtils.hpp" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="HelperFunctions.hpp" />
@@ -195,6 +198,7 @@
     <ClInclude Include="MISC\ItemDrop.hpp" />
     <ClInclude Include="MobExt.hpp" />
     <ClInclude Include="RelativeSpace.hpp" />
+    <ClInclude Include="Skill.h" />
     <ClInclude Include="SpawnManager.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

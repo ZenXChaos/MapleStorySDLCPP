@@ -11,7 +11,7 @@
 #include "MISC/ItemDrop.hpp"
 
 enum EntityState {
-	Idle=0, Walking=1, Attacking=3, Recovery=4, Death=5
+	Idle = 0, Walking = 1, Attacking = 3, Recovery = 4, Death = 5, Chasing = 6
 };
 
 enum EntityType {
@@ -24,13 +24,12 @@ public:
 	int Health = 100;
 };
 
-class Entity {
+class Entity : public GAMEObject {
 protected:
 	SDL_Rect pos;
 	SDL_RendererFlip FaceDirection = SDL_FLIP_NONE;
 
 	int walkSpeed = 0;
-	int maxWalkSpeed = 1;
 	int walkSpeedAccel = 1;
 	int minRoamTransit = 100;
 
@@ -39,6 +38,7 @@ protected:
 	bool roaming = false;
 	bool chasing = false;
 	bool attacking = false;
+	bool alert = false;
 
 	SDL_Rect nextTransitLocation = { 0,0,0,0 };
 	SDL_Rect* currFrameData = new SDL_Rect();
@@ -49,7 +49,7 @@ protected:
 	float tick = 0;
 	float recoveryIndex = 0.0f;
 	float lastAttack = 0.0f;
-	float attackRecovery = 0.4f;
+	float attackRecovery = 0.1f;
 
 	AnimatedSprite* currentAnimation;
 
@@ -69,6 +69,8 @@ public:
 	int mesoDropMin = 0;
 	int mesoDropMax = 0;
 	int expGain = 0;
+
+	int maxWalkSpeed = 1;
 
 	bool alive = true;
 
@@ -99,7 +101,7 @@ public:
 	int GetPositionX();
 	int GetPositionY();
 
-	Entity(){
+	Entity() : GAMEObject(){
 		this->FaceDirection = SDL_FLIP_HORIZONTAL;
 		this->birth = SDL_GetTicks()/1000;
 		this->uniq_id = GameUtils::UniqID() + GameUtils::UniqID();

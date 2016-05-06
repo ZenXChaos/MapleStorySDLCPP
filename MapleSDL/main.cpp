@@ -1,5 +1,9 @@
 
 #define MOUSE_HANDLE
+#define M_RENDERER
+#define HUD_ELEMENTS
+#define MAIN_HANDLE
+#define MAIN_CAMERA
 
 #include <SDL.h>
 #include <SDL_thread.h>
@@ -16,10 +20,6 @@
 
 using namespace std;
 
-#define M_RENDERER
-#define HUD_ELEMENTS
-#define MAIN_HANDLE
-#define MAIN_CAMERA
 
 #include "Input.hpp"
 #include "MessageDispatch.hpp"
@@ -28,6 +28,7 @@ using namespace std;
 #include "RelativeSpace.hpp"
 #include "AnimatedSprite.hpp"
 #include "MISC/ItemDrop.hpp"
+#include "GameObject.h"
 #include "Entity.hpp"
 #include "SpawnManager.hpp"
 #include "GameMap.hpp"
@@ -116,6 +117,12 @@ int main(int argc, char* argv) {
 	Input PlayerInput;
 	Player entity(&game.spawn_manager.spawned, &PlayerInput);
 
+	GLOBAL_MMORPG_GAME::m_Player = &entity;
+	
+	GameObject<Player> gameObjects;
+	gameObjects.Instantiate(&entity);
+	gameObjects.Find("default.player");
+
 	HUD_Button okbtn;
 	
 	game.SetMainPlayer(&entity);
@@ -141,6 +148,7 @@ int main(int argc, char* argv) {
 	map.InitMap("content/maps/main.png", mapPos, m_gRenderer);
 	MainCamera.pos.w = mapPos.w;
 	entity.SetPositionY(390);
+	entity.maxWalkSpeed = 2;
 
 	HUD_FlowPanel hudgrid;
 	hudgrid.height = 100;
@@ -261,6 +269,7 @@ int main(int argc, char* argv) {
 
 		map.DrawMap(camMapPos);
 		entity.ManageState();
+		entity.IdentifyMobs();
 		entity.Draw();
 
 		game.ManageMobPool();

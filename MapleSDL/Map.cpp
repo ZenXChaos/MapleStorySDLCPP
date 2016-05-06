@@ -17,6 +17,7 @@ using namespace std;
 #include "AnimatedSprite.hpp"
 #include "MISC\ItemDrop.hpp"
 #include "HUD.hpp"
+#include "GameObject.h"
 #include "Entity.hpp"
 #include "Camera.hpp"
 #include "Map.h"

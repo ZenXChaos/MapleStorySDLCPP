@@ -5,6 +5,7 @@
 #include <vector>
 #include <SDL.h>
 
+#include "GameObject.h"
 #include "Entity.hpp"
 
 

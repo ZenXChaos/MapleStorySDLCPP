@@ -22,6 +22,7 @@ using namespace std;
 #include "RelativeSpace.hpp"
 #include "AnimatedSprite.hpp"
 #include "MISC/ItemDrop.hpp"
+#include "GameObject.h"
 #include "Entity.hpp"
 #include "SpawnManager.hpp"
 #include "Box.hpp"
@@ -198,9 +199,6 @@ void Game::ManageMobPool() {
 	SDL_RenderFillRect(this->mainRenderer, &testBox2D);
 	SDL_RenderDrawRect(this->mainRenderer, &testBox2D);
 	SDL_SetRenderDrawColor(this->mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-
-	mainPlayer->IdentifyMobs();
-
 }
 
 void Game::ManageMapObjects() {

@@ -19,6 +19,7 @@ using namespace std;
 #include "RelativeSpace.hpp"
 #include "AnimatedSprite.hpp"
 #include "MISC/ItemDrop.hpp"
+#include "GameObject.h"
 #include "Entity.hpp"
 #include "SpawnManager.hpp"
 #include "GameMap.hpp"

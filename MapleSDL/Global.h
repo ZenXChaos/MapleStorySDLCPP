@@ -62,7 +62,6 @@ namespace GLOBAL_MMORPG_GAME {
 		bool empty() const { return elems.empty(); }
 	};
 
-	static Player* m_Player;
 	static SpawnManager* m_SpawnManager=nullptr;
 	static void* m_GameMain;
 
@@ -76,11 +75,6 @@ namespace GLOBAL_MMORPG_GAME {
 		m_entities[entity_id] = e;
 
 	}
-
-	static Player* GetMainPlayer() {
-		return static_cast<Player*>(m_Player);
-	}
-
 
 }
 #endif
@@ -100,4 +94,12 @@ bool MH_clicked = false;
 extern SDL_sem* mainLock;
 extern SDL_sem* mainSpawnMGRLock;
 extern bool mainRunning;
+namespace GLOBAL_MMORPG_GAME {
+	extern Player* m_Player;
+}
+#else
+#undef  MAIN_HANDLE
+namespace GLOBAL_MMORPG_GAME {
+	Player* m_Player;
+}
 #endif

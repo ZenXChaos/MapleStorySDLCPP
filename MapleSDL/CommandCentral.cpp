@@ -19,6 +19,7 @@ using namespace std;
 #include "MISC\ItemDrop.hpp"
 #include "HUD.hpp"
 #include "SpawnManager.hpp"
+#include "GameObject.h"
 #include "Entity.hpp"
 #include "Camera.hpp"
 #include "Map.h"

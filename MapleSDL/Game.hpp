@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <SDL.h>
+#include "GameObject.h"
 #include "Entity.hpp"
 #include "SpawnManager.hpp"
 #include "Box.hpp"
