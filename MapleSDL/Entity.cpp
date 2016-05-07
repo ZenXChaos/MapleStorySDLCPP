@@ -20,6 +20,7 @@ using namespace std;
 #include "GameObject.h"
 #include "Entity.hpp"
 #include "Camera.hpp"
+#include "Skill.h"
 
 void Entity::Draw(bool oc) {
 
@@ -398,8 +399,23 @@ void Entity::DrawHealth()
 	expFlowPanel.DrawPanel(this->pos.x, this->pos.y);
 }
 
+void Entity::Core()
+{
+}
+
 void Entity::Kill() {
 	this->alive = false;
+}
+
+void Player::AttackMob() {
+	Entity* tmpE = this->closestMob;
+	tmpE->dispatch_message.RegisterMessage("IsHit", &IsHit, this->closestMob);
+	this->attacking = true;
+
+	Skill *sk = new Skill();
+	(*sk).sprite = HUDElements["mage.skill.mageclaw"];
+	(*sk).BindEntity(tmpE);
+	skillGameObjects.Instantiate(sk);
 }
 
 void Player::ManageState() {
@@ -409,12 +425,10 @@ void Player::ManageState() {
 			this->attacking = false;
 		}else{
 			float pdone = this->currentAnimation->percentComplete();
-			if (this->currentAnimation->percentComplete() >= 10.0f && attacking == false) {
+			if (this->currentAnimation->percentComplete() >= 60.0f && attacking == false) {
 				if (this->closestMob != nullptr) {
 					if ((this->FaceDirection == SDL_FLIP_NONE && this->closestMob->GetPositionX() < this->pos.x) || (this->FaceDirection == SDL_FLIP_HORIZONTAL && this->closestMob->GetPositionX() > this->pos.x + this->pos.w/3)) {
-						Entity* tmpE = this->closestMob;
-						tmpE->dispatch_message.RegisterMessage("IsHit", &IsHit, this->closestMob);
-						this->attacking = true;
+						this->AttackMob();
 					}
 				}
 			}
@@ -438,4 +452,8 @@ void Player::ManageState() {
 	}
 
 	this->tick = static_cast<float>(SDL_GetTicks());
+}
+
+void Player::Core()
+{
 }

@@ -5,6 +5,8 @@ class MessageDispatch;
 class Player;
 class AnimatedSprite;
 class SpawnManager;
+class Skill;
+template<class T> class GameObject;
 
 namespace GLOBAL_MMORPG_GAME {
 
@@ -97,6 +99,7 @@ extern bool mainRunning;
 namespace GLOBAL_MMORPG_GAME {
 	extern Player* m_Player;
 }
+extern GameObject<Skill> skillGameObjects;
 #else
 #undef  MAIN_HANDLE
 namespace GLOBAL_MMORPG_GAME {

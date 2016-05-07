@@ -38,6 +38,7 @@ using namespace std;
 #include "Dynamic2DCharacter.hpp"
 #include "Camera.hpp"
 #include "CommandCentral.h"
+#include "Skill.h"
 
 
 bool mainRunning = true;
@@ -45,6 +46,7 @@ SDL_sem* mainLock = nullptr;
 SDL_sem* mainSpawnMGRLock = nullptr;
 
 SpawnManager* defSpawnManager = nullptr;
+GameObject<Skill> skillGameObjects;
 
 #undef main
 void HUD_ShowPlayerEXP()
@@ -119,7 +121,15 @@ int main(int argc, char* argv) {
 
 	GLOBAL_MMORPG_GAME::m_Player = &entity;
 	
+	AnimatedSprite asSkill;
+	asSkill.LoadTexture("content/skills/mage/mageclaw/scratch01.png", m_gRenderer);
+	asSkill.BuildAnimation(0, 5, 515 / 5, 87, 0.1f);
+	HUDElements["mage.skill.mageclaw"] = asSkill;
+
 	GameObject<Player> gameObjects;
+
+	
+
 	gameObjects.Instantiate(&entity);
 	gameObjects.Find("default.player");
 
@@ -274,6 +284,8 @@ int main(int argc, char* argv) {
 
 		game.ManageMobPool();
 		game.ManageMapObjects();
+
+		skillGameObjects.Manage();
 
 		//HUD
 		//hudgrid.DrawPanel(10, 10);

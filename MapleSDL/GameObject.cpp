@@ -35,15 +35,4 @@ GAMEObject::~GAMEObject()
 
 }
 
-template<class T>
-void GameObject<T>::Manage()
-{
-	std::vector<T>::iterator it;
-
-	for (it = this->objects.begin(); it != this->objects.end(); it++) {
-		it->Core();
-	}
-}
-
-
 

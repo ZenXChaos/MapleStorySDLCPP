@@ -26,7 +26,6 @@ public:
 
 class Entity : public GAMEObject {
 protected:
-	SDL_Rect pos;
 	SDL_RendererFlip FaceDirection = SDL_FLIP_NONE;
 
 	int walkSpeed = 0;
@@ -54,6 +53,8 @@ protected:
 	AnimatedSprite* currentAnimation;
 
 public:
+	SDL_Rect pos;
+
 	EntityState State;
 	EntityType e_Type = EntityType::e_Mob;
 	MessageDispatch dispatch_message;
@@ -85,7 +86,10 @@ public:
 	void Kill();
 	void PrepKill();
 	void GenUniqID();
-	void DrawHealth();
+	void DrawHealth();	
+	void Core() override;
+	void ApplyDamage(int dmg) { this->Life.Health -= dmg; if (this->Life.Health <= 0) { this->PrepKill(); } }
+
 
 	std::string uniq_id;
 
@@ -123,7 +127,10 @@ public:
 	std::vector<Entity*> inRange;
 
 	void IdentifyMobs();
+	void AttackMob();
+
 	void ManageState();
+	void Core() override;
 
 	Player(std::vector<Entity>* sp, Input* pi) : Entity(){
 		spawned = sp;

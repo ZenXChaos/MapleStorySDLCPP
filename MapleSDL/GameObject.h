@@ -7,14 +7,20 @@ enum GAMEObjectType {
 class GAMEObject {
 protected:
 public:
+	bool active = true;
+
 	Uint32 OID = 0;
 	std::string UniqID = "";
+	std::string LayerID = "default";
 
 	GAMEObjectType type = GAMEObjectType::g_Misc;
 	
-	std::string LayerID = "default";
 	GAMEObject();
 	virtual ~GAMEObject();
+
+	virtual void Core() = 0;
+	
+	virtual void OnCreate() {};
 };
 
 template<class T>
@@ -29,6 +35,7 @@ public:
 		obj->OID = this->objects.size() + 1;
 		obj->UniqID = GameUtils::UniqID();
 		obj->LayerID = layer;
+		obj->OnCreate();
 		this->objects.insert(this->objects.end(), obj);
 	}
 
@@ -49,7 +56,21 @@ public:
 		this->objects.erase(obj);
 	}
 
-	void Manage();
+	void GameObject<T>::Manage()
+	{
+		restart:
+		std::vector<T*>::iterator it;
+
+		for (it = this->objects.begin(); it != this->objects.end(); it++) {
+			(*it)->Core();
+
+			if ((*it)->active == false) {
+				this->objects.erase(it);
+				goto restart;
+			}
+		}
+	}
+
 
 	T* Find(std::string UniqID)
 	{
