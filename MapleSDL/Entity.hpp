@@ -49,7 +49,7 @@ protected:
 	float tick = 0;
 	float recoveryIndex = 0.0f;
 	float lastAttack = 0.0f;
-	float attackRecovery = 0.1f;
+	float attackRecovery = 0.05f;
 
 	AnimatedSprite* currentAnimation;
 

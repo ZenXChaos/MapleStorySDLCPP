@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapleSDL", "MapleSDL\MapleS
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapleGLDev", "MapleGLDev\MapleGLDev\MapleGLDev.vcxproj", "{0B76A38F-3374-4D4A-BCF8-15B70827A567}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Entity2.0", "Entity2.0\Entity2.0.vcxproj", "{638D03B8-8F98-426C-9F65-06F9F6EDEDB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{0B76A38F-3374-4D4A-BCF8-15B70827A567}.Release|x64.Build.0 = Release|x64
 		{0B76A38F-3374-4D4A-BCF8-15B70827A567}.Release|x86.ActiveCfg = Release|Win32
 		{0B76A38F-3374-4D4A-BCF8-15B70827A567}.Release|x86.Build.0 = Release|Win32
+		{638D03B8-8F98-426C-9F65-06F9F6EDEDB5}.Debug|x64.ActiveCfg = Debug|x64
+		{638D03B8-8F98-426C-9F65-06F9F6EDEDB5}.Debug|x64.Build.0 = Debug|x64
+		{638D03B8-8F98-426C-9F65-06F9F6EDEDB5}.Debug|x86.ActiveCfg = Debug|Win32
+		{638D03B8-8F98-426C-9F65-06F9F6EDEDB5}.Debug|x86.Build.0 = Debug|Win32
+		{638D03B8-8F98-426C-9F65-06F9F6EDEDB5}.Release|x64.ActiveCfg = Release|x64
+		{638D03B8-8F98-426C-9F65-06F9F6EDEDB5}.Release|x64.Build.0 = Release|x64
+		{638D03B8-8F98-426C-9F65-06F9F6EDEDB5}.Release|x86.ActiveCfg = Release|Win32
+		{638D03B8-8F98-426C-9F65-06F9F6EDEDB5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -24,11 +24,15 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 
 > Roaming
 
+> Player Chasing
+
 > Dynamic loading ( xml; .zenx files )
 
 > Mob Damage
 
 > Mob Health / EXP
+
+> Mob Death
 
 * Player
 
@@ -43,6 +47,10 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 > Exp Points
 
 * Game Logic
+
+> Command Center: Console commands like '/forcespawn' and '/kill'.
+
+> Game Objects (Experimental)
 
 > Basic Map
 
@@ -65,6 +73,16 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 > Grid Layout
 
 > Flow Layout
+
+---
+
+### Command Central
+
+Allows you to send commands to the game from the console window.
+
+`/forcespawn`: Forces a mob to spawn
+
+`/kill`: Quits the game.
 
 ---
 

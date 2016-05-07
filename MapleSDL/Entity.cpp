@@ -33,6 +33,7 @@ void Entity::Draw(bool oc) {
 	}
 	switch (this->State) {
 	case Idle:
+	case Chasing:
 		this->animations.at("idle").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
 		currentAnimation = &this->animations.at("idle");
 		break;
@@ -208,7 +209,24 @@ void Entity::AI() {
 		else if (this->chasing || this->State == EntityState::Chasing) {
 			if (this->recoveryIndex > 0) {
 				this->recoveryIndex -= this->currentAnimation->getDelta();
-				this->WalkTowards(GLOBAL_MMORPG_GAME::m_Player->pos);
+				if (this->pos.x > GLOBAL_MMORPG_GAME::m_Player->pos.x) {
+					if (this->pos.x - 1 != GLOBAL_MMORPG_GAME::m_Player->pos.x) {
+						this->WalkTowards(GLOBAL_MMORPG_GAME::m_Player->pos);
+					}
+					else {
+						this->Station();
+					}
+				}
+				else {
+					if (this->pos.x + 1 != GLOBAL_MMORPG_GAME::m_Player->pos.x) {
+						this->WalkTowards(GLOBAL_MMORPG_GAME::m_Player->pos);
+					}
+					else {
+						this->Station();
+					}
+				}
+
+
 			}
 			else {
 				this->chasing = false;
@@ -304,29 +322,31 @@ void Player::IdentifyMobs() {
 	this->closestMob = nullptr;
 	this->inRange.clear();
 	
-	int dist = -1;
-	size_t i = 0;
-	for (std::vector<Entity>::iterator mob = spawned->begin();mob != spawned->end();mob++) {
-		if (mob->GetPositionX() > this->pos.x && this->FaceDirection == SDL_FLIP_HORIZONTAL) {
-			int mobd = mob->GetPositionX() - this->pos.x;
-			if (mob->GetPositionX() - this->pos.x <= this->attackRange) {
-				this->closestMob = &this->spawned->at(i);
+	int dist = 10000;
+	for (size_t i = 0; i < this->spawned->size(); i++) {
+		Entity* mob = &this->spawned->at(i);
+		if (mob == nullptr) {
+			break;
+		}
+
+		if (mob->GetPositionX() > this->pos.x) {
+			if (mob->GetPositionX() - this->pos.x <= this->attackRange && dist > mob->GetPositionX() - this->pos.x) {
+				this->closestMob = mob;
 				dist = mob->GetPositionX() - this->pos.x;
 			}
 		}else{
-			if (this->pos.x - mob->GetPositionX() <= this->attackRange && this->FaceDirection == SDL_FLIP_NONE) {
-				this->closestMob = &this->spawned->at(i);
+			if (this->pos.x - mob->GetPositionX() <= this->attackRange && dist > this->pos.x - mob->GetPositionX()) {
+				this->closestMob = mob;
 				dist = this->pos.x - mob->GetPositionX();
 			}
 		}
 
-		i++;
 	}
 }
 
 void Entity::TakeHit() {
 	this->State = EntityState::Recovery;
-	this->recoveryIndex = 2.0f;
+	this->recoveryIndex = 1.5f;
 }
 
 void Entity::PrepKill() {
@@ -389,9 +409,9 @@ void Player::ManageState() {
 			this->attacking = false;
 		}else{
 			float pdone = this->currentAnimation->percentComplete();
-			if (this->currentAnimation->percentComplete() >= 50.0f && attacking == false) {
+			if (this->currentAnimation->percentComplete() >= 10.0f && attacking == false) {
 				if (this->closestMob != nullptr) {
-					if ((this->FaceDirection == SDL_FLIP_NONE && this->closestMob->GetPositionX() < this->pos.x) || (this->FaceDirection == SDL_FLIP_HORIZONTAL && this->closestMob->GetPositionX() > this->pos.x + this->pos.w)) {
+					if ((this->FaceDirection == SDL_FLIP_NONE && this->closestMob->GetPositionX() < this->pos.x) || (this->FaceDirection == SDL_FLIP_HORIZONTAL && this->closestMob->GetPositionX() > this->pos.x + this->pos.w/3)) {
 						Entity* tmpE = this->closestMob;
 						tmpE->dispatch_message.RegisterMessage("IsHit", &IsHit, this->closestMob);
 						this->attacking = true;
