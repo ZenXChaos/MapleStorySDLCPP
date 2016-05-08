@@ -26,8 +26,6 @@ class Game {
 public:
 	SpawnManager spawn_manager;
 
-	Entity* IdentifyMob(std::string mobname);
-	Entity* IdentifyMob(int mobid);
 	void LoadMobList(SDL_Renderer* gRenderer);
 	void LoadPlayerAnims(SDL_Renderer* gRenderer, Player* ent);
 	void LoadItemDrops(SDL_Renderer* gRenderer);

@@ -170,6 +170,7 @@
     <ClCompile Include="MessageDispatch.cpp" />
     <ClCompile Include="MISC\ItemDrop.cpp" />
     <ClCompile Include="MobExt.cpp" />
+    <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="SpawnManager.cpp" />
   </ItemGroup>
@@ -197,6 +198,7 @@
     <ClInclude Include="MessageDispatch.hpp" />
     <ClInclude Include="MISC\ItemDrop.hpp" />
     <ClInclude Include="MobExt.hpp" />
+    <ClInclude Include="NPC.h" />
     <ClInclude Include="RelativeSpace.hpp" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="SpawnManager.hpp" />

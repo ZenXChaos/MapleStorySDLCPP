@@ -58,33 +58,33 @@ public:
 
 	void GameObject<T>::Manage()
 	{
-		restart:
-		std::vector<T*>::iterator it;
-
-		for (it = this->objects.begin(); it != this->objects.end(); it++) {
-			(*it)->Core();
-
-			if ((*it)->active == false) {
-				this->objects.erase(it);
-				goto restart;
+		std::for_each(begin(this->objects), end(this->objects), [&](T* object) {
+			if (!object->active) {
+				this->objects.erase(std::remove(this->objects.begin(), this->objects.end(), object));
+				return;
 			}
-		}
+			object->Core();
+
+
+		});
 	}
 
+	int distanceFrom(T* obj) {
+		return this->pos->x > obj->pos-> ? this->pos->x - obj->pos->x : obj->pos->x - this->pos->x;
+	}
 
 	T* Find(std::string UniqID)
 	{
-		std::vector<T*>::iterator it;
-
-		it = this->objects.begin();
-		for (it = this->objects.begin(); it != this->objects.end(); it++) {
-			if ((*it)->UniqID == UniqID) {
-				return (*it);
-				
+		T* found = nullptr;
+		std::for_each(begin(this->objects), end(this->objects), [&](T* object) {
+			if (!object->active) {
+				this->objects.erase(std::remove(this->objects.begin(), this->objects.end(), object));
+				found = object;
 			}
-		}
+		});
 
-		return nullptr;
+
+		return found;
 	}
 };
 #endif

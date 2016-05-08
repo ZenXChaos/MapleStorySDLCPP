@@ -39,6 +39,7 @@ using namespace std;
 #include "Camera.hpp"
 #include "CommandCentral.h"
 #include "Skill.h"
+#include "NPC.h"
 
 
 bool mainRunning = true;
@@ -126,12 +127,15 @@ int main(int argc, char* argv) {
 	asSkill.BuildAnimation(0, 5, 515 / 5, 87, 0.1f);
 	HUDElements["mage.skill.mageclaw"] = asSkill;
 
-	GameObject<Player> gameObjects;
+	GameObject<Player> playerGameObjects;
+	GameObject<NPC> npcGameObjects;
+
+	npcGameObjects.Instantiate(new NPC);
 
 	
 
-	gameObjects.Instantiate(&entity);
-	gameObjects.Find("default.player");
+	playerGameObjects.Instantiate(&entity);
+	playerGameObjects.Find("default.player");
 
 	HUD_Button okbtn;
 	
@@ -278,13 +282,14 @@ int main(int argc, char* argv) {
 
 
 		map.DrawMap(camMapPos);
-		entity.ManageState();
 		entity.IdentifyMobs();
 		entity.Draw();
+		playerGameObjects.Manage();
 
 		game.ManageMobPool();
 		game.ManageMapObjects();
 
+		npcGameObjects.Manage();
 		skillGameObjects.Manage();
 
 		//HUD

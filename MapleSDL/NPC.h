@@ -5,35 +5,37 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <algorithm>
-#include <tinyxml2.h>
-#include <Box2D/Box2D.h>
 #include "GameDebug.hpp"
 #include "Global.h"
 
-#pragma comment(lib, "tinyxml2.lib")
-
 using namespace std;
 
-#include "SpawnManager.hpp"
 #include "Input.hpp"
 #include "MessageDispatch.hpp"
-#include "Box.hpp"
 #include "GameUtils.hpp"
 #include "RelativeSpace.hpp"
 #include "AnimatedSprite.hpp"
-#include "MISC/ItemDrop.hpp"
-#include "Game.hpp"
+#include "MISC\ItemDrop.hpp"
+#include "HUD.hpp"
 #include "GameObject.h"
+#include "Entity.hpp"
+#include "Camera.hpp"
+#include "Skill.h"
+#include "Entity.hpp"
 
-GAMEObject::GAMEObject()
+
+class NPC : public Entity
 {
+public:
+	bool interactable = true;
 
-}
+	void Draw(bool oc = false);
 
-GAMEObject::~GAMEObject()
-{
+	std::map<std::string, AnimatedSprite> animations;
 
-}
+	void Core() override;
 
+	NPC();
+	virtual ~NPC();
+};
 

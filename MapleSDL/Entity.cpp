@@ -32,9 +32,12 @@ void Entity::Draw(bool oc) {
 	if (this->alive == false) {
 		return;
 	}
+
+	// Play animation according to current state.
 	switch (this->State) {
 	case Idle:
 	case Chasing:
+		// Chasing state is a temporary transition state. Plays Idle animation
 		this->animations.at("idle").Animate(pos, 0, NULL, this->FaceDirection, currFrameData);
 		currentAnimation = &this->animations.at("idle");
 		break;
@@ -65,34 +68,44 @@ void Entity::Draw(bool oc) {
 }
 
 void Entity::SetPositionY(int y) {
+	// Manually set position Y
 	this->pos.y = y;
 }
 
 void Entity::SetPositionX(int x) {
+	// Manually set position X
 	this->pos.x = x;
 }
 
 SDL_Rect Entity::GetPosition() {
+	// Return current XY position
 	return this->pos;
 }
 
-int Entity::GetPositionY() {
-	return this->pos.y;
-}
-
 int Entity::GetPositionX() {
+	// Return current Y position
 	return this->pos.x;
 }
 
+int Entity::GetPositionY() {
+	// Return current Y position
+	return this->pos.y;
+}
+
+
 int Entity::GetWidth() {
+	// Return current animation width
 	return this->currFrameData->w;
 }
 
 int Entity::GetHeight() {
+	// Return current animation height
 	return this->currFrameData->h;
 }
 
 void Entity::Station() {
+
+	//If entity is walking, force it to idle.
 	if (this->State == Walking) {
 		this->State = Idle;
 	}
@@ -107,15 +120,12 @@ void Entity::Roam() {
 #endif
 
 #ifdef DEBUG_MOBTRANSIT_RAYCAST
+			//If debug option set, show squares leading up to the target location entity is roaming to.
 			SDL_Rect fillRect = nextTransitLocation;
 			fillRect.y = this->pos.y;
 			fillRect.w = this->currFrameData->w;
 			fillRect.h = this->currFrameData->h;
-			/*SDL_SetRenderDrawColor(this->animations.at("idle").getRenderer(), 0xFF, 0xF2, 0x00, 0xFF);
-			//SDL_RenderFillRect(gRenderer, &fillRect);
-			SDL_RenderDrawRect(this->animations.at("idle").getRenderer(), &fillRect);
-			SDL_SetRenderDrawColor(this->animations.at("idle").getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
-			*/
+
 			if (this->pos.x < nextTransitLocation.x) {
 				for (int i = this->pos.x + ((this->currFrameData->w / 2) + (this->currFrameData->w / 4)); i < nextTransitLocation.x-5; i += 12) {
 					SDL_Rect tmpPos;
@@ -145,6 +155,7 @@ void Entity::Roam() {
 				}
 			}
 #endif
+
 		}
 		else {
 			this->roaming = false;
@@ -156,14 +167,23 @@ void Entity::Roam() {
 		}
 	}
 	else {
+
+		// If the last time the mob roamed is greater than or equal to the delay
 		if(this->age() - this->roamDelayIndex >= this->roamDelay ){
+
+			// Set new roam index
 			this->roamDelayIndex = this->age();
+
+			// Generate a random x location to move to
 			nextTransitLocation.x = GameUtils::RandomIntegerRange(0, 900);
+
+			// If the generated location is less than the minimum transit value, regenerate location
  			while (nextTransitLocation.x < this->pos.x + this->minRoamTransit && nextTransitLocation.x > pos.x) {
  
  				nextTransitLocation.x = GameUtils::RandomIntegerRange(0, 900);
  			}
 
+			// If the generated location is greater than the maximum transit value, regenerate location
 			while (nextTransitLocation.x > this->pos.x - this->minRoamTransit && nextTransitLocation.x < pos.x) {
 
 				nextTransitLocation.x = GameUtils::RandomIntegerRange(0, 900);
@@ -173,86 +193,9 @@ void Entity::Roam() {
 	}
 }
 
-void Entity::AI() {
-	if (currentAnimation == nullptr) {
-		return;
-	}
-	tick = static_cast<float>(SDL_GetTicks());
-	if (this->alert == true) {
-		this->State = EntityState::Chasing;
-	}
-
-	if (this->State != EntityState::Death) {
-		switch (this->State) {
-		case EntityState::Recovery:
-			if (this->recoveryIndex > 0) {
-				this->recoveryIndex -= this->currentAnimation->getDelta();
-			}
-			else {
-				this->chasing = true;
-				this->State = EntityState::Chasing;
-				this->recoveryIndex = 120.0f;
-			}
-
-			break;
-
-		case EntityState::Death:
-			if (this->currentAnimation->percentComplete() >= 90) {
-				this->Kill();
-			}
-			break;
-		}
-
-
-		if (this->State == EntityState::Recovery) {
-
-		}
-		else if (this->chasing || this->State == EntityState::Chasing) {
-			if (this->recoveryIndex > 0) {
-				this->recoveryIndex -= this->currentAnimation->getDelta();
-				if (this->pos.x > GLOBAL_MMORPG_GAME::m_Player->pos.x) {
-					if (this->pos.x - 1 != GLOBAL_MMORPG_GAME::m_Player->pos.x) {
-						this->WalkTowards(GLOBAL_MMORPG_GAME::m_Player->pos);
-					}
-					else {
-						this->Station();
-					}
-				}
-				else {
-					if (this->pos.x + 1 != GLOBAL_MMORPG_GAME::m_Player->pos.x) {
-						this->WalkTowards(GLOBAL_MMORPG_GAME::m_Player->pos);
-					}
-					else {
-						this->Station();
-					}
-				}
-
-
-			}
-			else {
-				this->chasing = false;
-				this->State = EntityState::Idle;
-			}
-		}
-
-		else			{
-			if (!chasing) {
-				if (State == Idle || roaming) {
-					Roam();
-				}
-			}
-		}
-	}
-	else {
-		if (this->currentAnimation->percentComplete() >= 95 || this->currentAnimation->isFinishedPlaying() == true&& this->alive == true) {
-			this->alive = false;
-		}
-	}
-}
-
 void Entity::WalkTowards(SDL_Rect topos) {
 
-
+	// Walk towards topos X
 	if (this->State == Attacking || topos.x < 0) {
 		return;
 	}
@@ -271,7 +214,7 @@ void Entity::WalkTowards(SDL_Rect topos) {
 }
 
 void Entity::WalkAway(SDL_Rect frompos) {
-
+	// Walk opposite direction of frompos X
 	if (this->State == Attacking || frompos.x < 0) {
 		return;
 	}
@@ -290,14 +233,19 @@ void Entity::WalkAway(SDL_Rect frompos) {
 }
 
 void Entity::Walk(FlipDirection direction) {
+
+	// Walk
+
 	Direction = direction;
 	if (this->State == Attacking) {
+		// Prevent entity from walking while attacking
 		return;
 	}
 	else {
 		State = Walking;
 	}
 
+	// If uses acceleration, gradully increase speed.
 	if (this->usesAccel) {
 		if (this->walkSpeed < this->maxWalkSpeed) {
 			this->walkSpeed += this->walkSpeedAccel;
@@ -307,10 +255,13 @@ void Entity::Walk(FlipDirection direction) {
 		this->walkSpeed = maxWalkSpeed;
 	}
 
+	// If facing right
 	if (direction == Right) {
 		this->pos.x += this->walkSpeed;
 		this->FaceDirection = SDL_FLIP_HORIZONTAL;
 	}
+
+	// If facing left
 	else {
 		this->pos.x -= this->walkSpeed;
 		this->FaceDirection = SDL_FLIP_NONE;
@@ -320,6 +271,8 @@ void Entity::Walk(FlipDirection direction) {
 }
 
 void Player::IdentifyMobs() {
+
+	// Identify which mobs are in range
 	this->closestMob = nullptr;
 	this->inRange.clear();
 	
@@ -330,15 +283,30 @@ void Player::IdentifyMobs() {
 			break;
 		}
 
+		// If Entity is on the right of player
 		if (mob->GetPositionX() > this->pos.x) {
+			// If the entity is in range from the right and is the closest mob, set closestMob
 			if (mob->GetPositionX() - this->pos.x <= this->attackRange && dist > mob->GetPositionX() - this->pos.x) {
 				this->closestMob = mob;
 				dist = mob->GetPositionX() - this->pos.x;
 			}
-		}else{
+			
+			// If the entity is in range from the right, add to inRange
+			if (mob->GetPositionX() - this->pos.x <= this->attackRange) {
+				this->inRange.insert(this->inRange.end(), mob);
+			}
+		}
+		// If Entity is on the left of player
+		else{
+			// If the entity is in range from the left and is the closest mob, set closestMob
 			if (this->pos.x - mob->GetPositionX() <= this->attackRange && dist > this->pos.x - mob->GetPositionX()) {
 				this->closestMob = mob;
 				dist = this->pos.x - mob->GetPositionX();
+			}
+
+			// If the entity is in range from the left, add to inRange
+			if (this->pos.x - mob->GetPositionX() <= this->attackRange) {
+				this->inRange.insert(this->inRange.end(), mob);
 			}
 		}
 
@@ -346,16 +314,19 @@ void Player::IdentifyMobs() {
 }
 
 void Entity::TakeHit() {
+	// Take damage
 	this->State = EntityState::Recovery;
 	this->recoveryIndex = 1.5f;
 }
 
 void Entity::PrepKill() {
+	// Death transition state
 	this->State = EntityState::Death;
 }
 
 void Entity::GenUniqID()
 {
+	// Generate a unique ID for the entity to be identified
 	this->uniq_id = GameUtils::UniqID() + GameUtils::UniqID();
 }
 
@@ -401,6 +372,112 @@ void Entity::DrawHealth()
 
 void Entity::Core()
 {
+	// Main Entity HANDLE
+
+	// If current animation not set, return to prevent issues
+	if (currentAnimation == nullptr) {
+		return;
+	}
+	
+	// Get the time in milliseconds since running (convert to float).
+	tick = static_cast<float>(SDL_GetTicks());
+
+	//If entity has become alert, chase player
+	if (this->alert == true) {
+		this->State = EntityState::Chasing;
+	}
+
+	// If not dead
+	if (this->State != EntityState::Death) {
+		switch (this->State) {
+		case EntityState::Recovery:
+			// Recovery : Shock from being hit
+			if (this->recoveryIndex > 0) {
+				this->recoveryIndex -= this->currentAnimation->getDelta();
+			}
+			else {
+
+				// After recovery from a hit, set to transitional state, EntityState::Chasing
+				// Chase for 120 seconds
+				this->chasing = true;
+				this->State = EntityState::Chasing;
+				this->recoveryIndex = 120.0f;
+			}
+
+			break;
+
+		// If dead
+		case EntityState::Death:
+
+			// If the death animation is at least 90% complete, kill the entity
+			if (this->currentAnimation->percentComplete() >= 90) {
+				this->Kill();
+			}
+			break;
+		}
+
+
+		if (this->State == EntityState::Recovery) {
+			// Do nothing
+		}
+
+		// If entity is chasing
+		else if (this->chasing || this->State == EntityState::Chasing) {
+
+			// If chase time has not run up, count new time
+			if (this->recoveryIndex > 0) {
+				this->recoveryIndex -= this->currentAnimation->getDelta();
+
+				// If on the left of player, WalkTowards player until 1 pixel away
+				if (this->pos.x > GLOBAL_MMORPG_GAME::m_Player->pos.x) {
+					if (this->pos.x - 1 != GLOBAL_MMORPG_GAME::m_Player->pos.x) {
+						this->WalkTowards(GLOBAL_MMORPG_GAME::m_Player->pos);
+					}
+					else {
+						this->Station();
+					}
+				}
+
+				// If on the right of player, WalkTowards player until 1 pixel away
+				else {
+
+					if (this->pos.x + 1 != GLOBAL_MMORPG_GAME::m_Player->pos.x) {
+						this->WalkTowards(GLOBAL_MMORPG_GAME::m_Player->pos);
+					}
+					else {
+						this->Station();
+					}
+				}
+
+
+			}
+			// If chase time has run up, set chasing = false, State = EntityState::Idle
+			else {
+				this->chasing = false;
+				this->State = EntityState::Idle;
+			}
+		}
+
+		else {
+
+			// If not chasing a player, roam around
+			if (!chasing) {
+
+				// Only if in idle or already roaming
+				// Prevent entity from roaming while in the middle of an attack or some custom state
+				if (State == Idle || roaming) {
+					Roam();
+				}
+			}
+		}
+	}
+	else {
+
+		// If dead, and animation 95% complete, set alive to false. Entity will be destroyed next frame.
+		if (this->currentAnimation->percentComplete() >= 95 || this->currentAnimation->isFinishedPlaying() == true && this->alive == true) {
+			this->alive = false;
+		}
+	}
 }
 
 void Entity::Kill() {
@@ -408,26 +485,37 @@ void Entity::Kill() {
 }
 
 void Player::AttackMob() {
+	// Atack the closest mob
 	Entity* tmpE = this->closestMob;
 	tmpE->dispatch_message.RegisterMessage("IsHit", &IsHit, this->closestMob);
 	this->attacking = true;
 
+	// Use a skill : mageclaw
 	Skill *sk = new Skill();
 	(*sk).sprite = HUDElements["mage.skill.mageclaw"];
 	(*sk).BindEntity(tmpE);
 	skillGameObjects.Instantiate(sk);
 }
 
-void Player::ManageState() {
+
+void Player::Core()
+{
+	// MAIN PLAYER HANDLE
+
+	// If player is attacking.
 	if (this->State == EntityState::Attacking) {
+
+		// If the attack animation is finished, set state to EntityState::Idle and attacking = false
 		if (this->currentAnimation->isFinishedPlaying()) {
 			this->State = EntityState::Idle;
 			this->attacking = false;
-		}else{
-			float pdone = this->currentAnimation->percentComplete();
+		}
+		else {
+
+			// After animation is at least 60% complete, attack the mob.
 			if (this->currentAnimation->percentComplete() >= 60.0f && attacking == false) {
 				if (this->closestMob != nullptr) {
-					if ((this->FaceDirection == SDL_FLIP_NONE && this->closestMob->GetPositionX() < this->pos.x) || (this->FaceDirection == SDL_FLIP_HORIZONTAL && this->closestMob->GetPositionX() > this->pos.x + this->pos.w/3)) {
+					if ((this->FaceDirection == SDL_FLIP_NONE && this->closestMob->GetPositionX() < this->pos.x) || (this->FaceDirection == SDL_FLIP_HORIZONTAL && this->closestMob->GetPositionX() > this->pos.x + this->pos.w / 3)) {
 						this->AttackMob();
 					}
 				}
@@ -435,25 +523,28 @@ void Player::ManageState() {
 		}
 	}
 
-	
+	// If attack key pressed, set to attack mode
 	if (playerInput->IsKeyPressed(SDL_SCANCODE_C) && this->State != EntityState::Attacking) {
 		float age = this->age();
+
+		// If last attack time greater than delay time
 		if (this->age() - this->lastAttack >= this->attackRecovery) {
 
 			this->State = EntityState::Attacking;
+
+			// Set last attack index
 			this->lastAttack = this->age();
-		}else{
+		}
+		else {
 
 #ifdef DEBUG_DENIED_PLAYERACTION
-			printf("Player count not attack! Last attack `%F` < `%F\n",this->age() - this->lastAttack, this->attackRecovery);
+			printf("Player count not attack! Last attack `%F` < `%F\n", this->age() - this->lastAttack, this->attackRecovery);
 #endif
-		
+
 		}
 	}
 
-	this->tick = static_cast<float>(SDL_GetTicks());
-}
 
-void Player::Core()
-{
+	// Track time
+	this->tick = static_cast<float>(SDL_GetTicks());
 }

@@ -26,23 +26,27 @@ using namespace std;
 
 void Skill::Draw(SDL_Rect pos)
 {
+	// Always add bindedPos position offset to skill local position.
 	pos.x += this->bindedEffectPos->x;
 	pos.y += this->bindedEffectPos->y;
-	//pos.w += this->bindedEffectPos->w;
-	//pos.h += this->bindedEffectPos->h;
 
+	// Animate the Skill's sprite
 	this->sprite.Animate(pos, 0, NULL, SDL_FLIP_NONE, nullptr);
+
+	// Set GAMEObject::active = false if animation finished playing
 	if (this->sprite.isFinishedPlaying() == true) {
-		//delete this;
 		this->active = false;
 	}
 }
 
 void Skill::OnCreate() {
+	// Apply damage to the target
 	this->target->ApplyDamage(this->healthEffector*-1);
 }
 
 void Skill::Core() {
+	// Main Skill Handle
+	// Return and do nothing if GAMEObject not active.
 	if (!this->active) {
 		return;
 	}

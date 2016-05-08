@@ -129,46 +129,26 @@ void Game::LoadItemDrops(SDL_Renderer* gRenderer) {
 
 }
 
-Entity* Game::IdentifyMob(std::string mobname) {
-
-	std::map<std::string, Entity> moblist = MobList;
-	std::map<std::string, int>::iterator it = MOBS_MAPPINGSTRING.find(mobname);
-	if (it != MOBS_MAPPINGSTRING.end()) {
-		return &MOBS_LIST[it->first];
-	}
-
-	printf("Could not identify MOB `%s`!\n", mobname.c_str());
-	return nullptr;
-}
-
 void Game::InitSpawnManager() {
 	//Initialize spawn_manager mob list with list from Game.
 	spawn_manager.MobList = new std::map<std::string, Entity>(this->MobList);
 }
 
-Entity* Game::IdentifyMob(int mobid) {
-
-	std::map<std::string, Entity> moblist = MobList;
-	std::map<int, std::string>::iterator it = MOBS_MAPPING.find(mobid);
-	if (it != MOBS_MAPPING.end()) {
-		return &MOBS_LIST[it->second];
-	}
-
-	printf("Could not identify MOB with ID `%i`!\n", mobid);
-
-	Entity *nullentity = NULL;
-	return nullptr;
-}
-
 void Game::ManageMobPool() {
 
+	// Loop through all spawned mobs
 	for (size_t i = 0; i < spawn_manager.spawned.size(); i++) {
 		if (i >= spawn_manager.spawned.size()) {
 			break; //just in case?
 		}
+
+		//If the entity is dead
 		if (this->spawn_manager.spawned[i].alive == false) {
 			SDL_Rect tmpPos = this->spawn_manager.spawned.at(i).GetPosition();
 			tmpPos.y += 30;
+
+			// Remove it from the spawn list
+			//Drop an item
 			this->spawn_manager.spawned.at(i).ItemDrops.DropItems(&this->mapItemDrops, tmpPos);
 			this->spawn_manager.spawned.erase(this->spawn_manager.spawned.begin()+i);
 			break;
@@ -176,12 +156,16 @@ void Game::ManageMobPool() {
 
 		else{
 			if (&spawn_manager.spawned[i].Life != nullptr) {
+				
+				// If within camera view, draw to the screen. Otherwise just set animation data
 				if (spawn_manager.spawned[i].GetPositionX() < MainCamera.pos.w+MainCamera.pos.x) {
 					spawn_manager.spawned[i].Draw();
 				}else{
 					spawn_manager.spawned[i].Draw(true);
 				}
-				spawn_manager.spawned[i].AI();
+
+				//Run the mobs CORE HANDLE
+				spawn_manager.spawned[i].Core();
 			}
 		}
 	}

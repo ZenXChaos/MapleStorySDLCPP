@@ -81,7 +81,6 @@ public:
 	void WalkTowards(SDL_Rect topos);
 	void Station();
 	void Roam();
-	void AI();
 	void TakeHit();
 	void Kill();
 	void PrepKill();
@@ -129,7 +128,6 @@ public:
 	void IdentifyMobs();
 	void AttackMob();
 
-	void ManageState();
 	void Core() override;
 
 	Player(std::vector<Entity>* sp, Input* pi) : Entity(){
