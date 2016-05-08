@@ -224,3 +224,72 @@ HUD_Button::~HUD_Button()
 {
 
 }
+
+void HUD_TextBlock::AddWObject(std::string word)
+{
+	//Convert word to objects, add them to elements
+	size_t i = 0;
+	for (i = 0; i < word.length(); i++) {
+		std::string itemNo = "UILetter.";
+		itemNo += word[i];
+
+		HUDObject hObj;
+		hObj.sprites = &HUDElements[itemNo];
+		this->elements.insert(this->elements.end(), hObj);
+	}
+
+	this->mapping_wordcount[this->mapping_wordcount.size()] = i;
+}
+
+void HUD_TextBlock::DrawPanel(int x, int y)
+{
+	int posx = 0, posy = 0;
+	std::vector<HUDObject>::iterator collection;
+
+	int tallestObject = 0;
+	int indexX = x;
+	int indexY = 0;
+	int wcIndex = 0;
+	int wcLIndex = 0;
+	int indexa = 0;
+	bool tooBig = false;
+	for (collection = this->elements.begin(); collection != this->elements.end(); collection++) {
+		SDL_Rect pos = { 0,0,0,0 };
+
+		if (wcLIndex >= this->mapping_wordcount[wcIndex]) {
+			wcLIndex = 0;
+			wcIndex++;
+			indexX += this->wordSpacing;
+			int wordwidth = (indexX + ((this->letterSpacing + collection->sprites->animclips[0].w) * this->mapping_wordcount[wcIndex]));
+			tooBig = wordwidth > x + this->width;
+		}
+		
+		if (tooBig) {
+			indexY += tallestObject + this->lineSpacing;
+			indexX = x;
+			pos.x = x + this->letterSpacing+indexX;
+
+			if (tooBig) {
+				tooBig = false;
+			}
+		}
+		else {
+
+			pos.x = x + indexX + this->letterSpacing;
+		}
+		indexX += collection->sprites->animclips[0].w + letterSpacing;
+		if (tallestObject < collection->sprites->animclips[0].h) {
+			tallestObject = collection->sprites->animclips[0].h;
+		}
+		pos.x += collection->localX;
+		pos.y = y + indexY + collection->localY;
+		pos.w = collection->sprites->animclips[0].w;
+		pos.h = collection->sprites->animclips[0].h;
+
+		collection->sprites->Animate(pos, 0, NULL, SDL_FLIP_NONE, NULL);
+
+
+		wcLIndex++;
+		indexa++;
+	}
+}

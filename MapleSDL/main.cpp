@@ -138,6 +138,13 @@ int main(int argc, char* argv) {
 	playerGameObjects.Find("default.player");
 
 	HUD_Button okbtn;
+	HUD_TextBlock tb;
+	tb.width = 250;
+
+	tb.AddWObject("Thank");
+	tb.AddWObject("you");
+	tb.AddWObject("for");
+	tb.AddWObject("playing!");
 	
 	game.SetMainPlayer(&entity);
 	game.LoadItemDrops(m_gRenderer);
@@ -291,6 +298,8 @@ int main(int argc, char* argv) {
 
 		npcGameObjects.Manage();
 		skillGameObjects.Manage();
+
+		tb.DrawPanel(200,10);
 
 		//HUD
 		//hudgrid.DrawPanel(10, 10);

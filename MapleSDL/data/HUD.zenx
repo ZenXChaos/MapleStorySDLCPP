@@ -1,29 +1,110 @@
 <HUD>
-    <HUDSprite name="ItemNo.0" sprite="content\misc\itemNo\itemNo.0.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.1" sprite="content\misc\itemNo\itemNo.1.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.2" sprite="content\misc\itemNo\ItemNo.2.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.3" sprite="content\misc\itemNo\ItemNo.3.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.4" sprite="content\misc\itemNo\ItemNo.4.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.5" sprite="content\misc\itemNo\ItemNo.5.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.6" sprite="content\misc\itemNo\ItemNo.6.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.7" sprite="content\misc\itemNo\ItemNo.7.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.8" sprite="content\misc\itemNo\ItemNo.8.png" sprite_width="8" sprite_height="11" />
-    <HUDSprite name="ItemNo.9" sprite="content\misc\itemNo\ItemNo.9.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.0" sprite="content/misc/itemNo/itemNo.0.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.1" sprite="content/misc/itemNo/itemNo.1.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.2" sprite="content/misc/itemNo/ItemNo.2.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.3" sprite="content/misc/itemNo/ItemNo.3.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.4" sprite="content/misc/itemNo/ItemNo.4.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.5" sprite="content/misc/itemNo/ItemNo.5.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.6" sprite="content/misc/itemNo/ItemNo.6.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.7" sprite="content/misc/itemNo/ItemNo.7.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.8" sprite="content/misc/itemNo/ItemNo.8.png" sprite_width="8" sprite_height="11" />
+    <HUDSprite name="ItemNo.9" sprite="content/misc/itemNo/ItemNo.9.png" sprite_width="8" sprite_height="11" />
     
-    <HUDSprite name="DamageNo.0" sprite="content\misc\damageNo\DamageNo.0.png" sprite_width="54" sprite_height="60" />
-    <HUDSprite name="DamageNo.1" sprite="content\misc\damageNo\DamageNo.1.png" sprite_width="54" sprite_height="60" />
-    <HUDSprite name="DamageNo.2" sprite="content\misc\damageNo\DamageNo.2.png" sprite_width="54" sprite_height="60" />
-    <HUDSprite name="DamageNo.3" sprite="content\misc\damageNo\DamageNo.3.png" sprite_width="54" sprite_height="60" />
-    <HUDSprite name="DamageNo.4" sprite="content\misc\damageNo\DamageNo.4.png" sprite_width="54" sprite_height="60" />
-    <HUDSprite name="DamageNo.5" sprite="content\misc\damageNo\DamageNo.5.png" sprite_width="54" sprite_height="60" />
-    <HUDSprite name="DamageNo.6" sprite="content\misc\damageNo\DamageNo.6.png" sprite_width="54" sprite_height="60" />
-    <HUDSprite name="DamageNo.7" sprite="content\misc\damageNo\DamageNo.7.png" sprite_width="54" sprite_height="60" />
-    <HUDSprite name="DamageNo.8" sprite="content\misc\damageNo\DamageNo.8.png" sprite_width="54" sprite_height="60" />
-    <HUDSprite name="DamageNo.9" sprite="content\misc\damageNo\DamageNo.9.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.0" sprite="content/misc/damageNo/DamageNo.0.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.1" sprite="content/misc/damageNo/DamageNo.1.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.2" sprite="content/misc/damageNo/DamageNo.2.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.3" sprite="content/misc/damageNo/DamageNo.3.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.4" sprite="content/misc/damageNo/DamageNo.4.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.5" sprite="content/misc/damageNo/DamageNo.5.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.6" sprite="content/misc/damageNo/DamageNo.6.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.7" sprite="content/misc/damageNo/DamageNo.7.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.8" sprite="content/misc/damageNo/DamageNo.8.png" sprite_width="54" sprite_height="60" />
+    <HUDSprite name="DamageNo.9" sprite="content/misc/damageNo/DamageNo.9.png" sprite_width="54" sprite_height="60" />
     
-    <HUDSprite name="UtilDlgEx.BtOK.mouseOver.0" sprite="content\misc\btn\UtilDlgEx.BtOK.mouseOver.0.png" sprite_width="46" sprite_height="18" />
-    <HUDSprite name="UtilDlgEx.BtOK.normal.0" sprite="content\misc\btn\UtilDlgEx.BtOK.normal.0.png" sprite_width="46" sprite_height="18" />
-    <HUDSprite name="UtilDlgEx.BtOK.pressed.0" sprite="content\misc\btn\UtilDlgEx.BtOK.pressed.0.png" sprite_width="46" sprite_height="18" />
-    <HUDSprite name="UtilDlgEx.BtPrev.disabled.0" sprite="content\misc\btn\UtilDlgEx.BtPrev.disabled.0.png" sprite_width="46" sprite_height="18" />
+    <HUDSprite name="UILetter.A" sprite="content/misc/uiLtr/a.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.a" sprite="content/misc/uiLtr/a.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.B" sprite="content/misc/uiLtr/b.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.b" sprite="content/misc/uiLtr/b.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.C" sprite="content/misc/uiLtr/c.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.c" sprite="content/misc/uiLtr/c.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.D" sprite="content/misc/uiLtr/d.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.d" sprite="content/misc/uiLtr/d.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.E" sprite="content/misc/uiLtr/e.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.e" sprite="content/misc/uiLtr/e.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.F" sprite="content/misc/uiLtr/f.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.f" sprite="content/misc/uiLtr/f.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.G" sprite="content/misc/uiLtr/g.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.g" sprite="content/misc/uiLtr/g.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.H" sprite="content/misc/uiLtr/h.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.h" sprite="content/misc/uiLtr/h.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.I" sprite="content/misc/uiLtr/i.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.i" sprite="content/misc/uiLtr/i.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.J" sprite="content/misc/uiLtr/j.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.j" sprite="content/misc/uiLtr/j.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.K" sprite="content/misc/uiLtr/k.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.k" sprite="content/misc/uiLtr/k.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.L" sprite="content/misc/uiLtr/l.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.l" sprite="content/misc/uiLtr/l.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.M" sprite="content/misc/uiLtr/m.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.m" sprite="content/misc/uiLtr/m.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.N" sprite="content/misc/uiLtr/n.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.n" sprite="content/misc/uiLtr/n.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.O" sprite="content/misc/uiLtr/o.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.o" sprite="content/misc/uiLtr/o.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.P" sprite="content/misc/uiLtr/p.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.p" sprite="content/misc/uiLtr/p.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.Q" sprite="content/misc/uiLtr/q.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.q" sprite="content/misc/uiLtr/q.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.R" sprite="content/misc/uiLtr/r.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.r" sprite="content/misc/uiLtr/r.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.S" sprite="content/misc/uiLtr/s.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.s" sprite="content/misc/uiLtr/s.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.T" sprite="content/misc/uiLtr/t.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.t" sprite="content/misc/uiLtr/t.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.U" sprite="content/misc/uiLtr/u.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.u" sprite="content/misc/uiLtr/u.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.V" sprite="content/misc/uiLtr/v.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.v" sprite="content/misc/uiLtr/v.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.W" sprite="content/misc/uiLtr/w.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.w" sprite="content/misc/uiLtr/w.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.X" sprite="content/misc/uiLtr/x.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.x" sprite="content/misc/uiLtr/x.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.Y" sprite="content/misc/uiLtr/y.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.y" sprite="content/misc/uiLtr/y.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.Z" sprite="content/misc/uiLtr/z.png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.z" sprite="content/misc/uiLtr/z.png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UILetter.." sprite="content/misc/uiLtr/..png" sprite_width="10" sprite_height="11" />
+    <HUDSprite name="UILetter.!" sprite="content/misc/uiLtr/..png" sprite_width="10" sprite_height="11" />
+    
+    <HUDSprite name="UtilDlgEx.BtOK.mouseOver.0" sprite="content/misc/btn/UtilDlgEx.BtOK.mouseOver.0.png" sprite_width="46" sprite_height="18" />
+    <HUDSprite name="UtilDlgEx.BtOK.normal.0" sprite="content/misc/btn/UtilDlgEx.BtOK.normal.0.png" sprite_width="46" sprite_height="18" />
+    <HUDSprite name="UtilDlgEx.BtOK.pressed.0" sprite="content/misc/btn/UtilDlgEx.BtOK.pressed.0.png" sprite_width="46" sprite_height="18" />
+    <HUDSprite name="UtilDlgEx.BtPrev.disabled.0" sprite="content/misc/btn/UtilDlgEx.BtPrev.disabled.0.png" sprite_width="46" sprite_height="18" />
     
 </HUD>

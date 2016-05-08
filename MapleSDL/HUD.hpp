@@ -94,6 +94,30 @@ public:
 	void DrawPanel(int x, int y);
 };
 
+class HUD_TextBlock {
+	std::map<int, int> mapping_wordcount; // So we know how many letters each word has in it.
+public:
+	enum TextWrapping {
+		WrapLetter, WrapWord
+	};
+
+	TextWrapping TextWrapMode = TextWrapping::WrapWord;
+	std::vector<std::string> words;
+
+	int width = 0, height = 0;
+	int letterSpacing = 2, lineSpacing = 5, wordSpacing = 10;
+	int localX = 0, localY = 0;
+
+	std::vector<HUDObject> elements;
+
+	std::string e_ID = "0"; //Effector ID
+
+	void AddWObject(std::string word);
+
+	void DrawPanel(int x, int y);
+};
+
+
 #ifndef HUD_EFFECTS
 extern void HUD_ANIM_TransitionDown(HUDObject* h_Obj);
 extern void HUD_ANIM_DMGNO_TransitionUp(HUDObject* h_Obj);
