@@ -100,6 +100,7 @@ namespace GLOBAL_MMORPG_GAME {
 	extern Player* m_Player;
 }
 extern GameObject<Skill> skillGameObjects;
+extern GameObject<Entity> gameEntities;
 #else
 #undef  MAIN_HANDLE
 namespace GLOBAL_MMORPG_GAME {

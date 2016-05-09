@@ -332,15 +332,20 @@ void Entity::GenUniqID()
 
 void Entity::DrawHealth()
 {
+	//Draw Entity Health
 	HUD_FlowPanel expFlowPanel;
 	expFlowPanel.width = 400;
 	expFlowPanel.spacingX = -2;
+
+	//Convert the health (from int) to string
 	char *entityHealth_S = (char*)malloc(sizeof(char) * 80);
 	_itoa_s(this->Life.Health, entityHealth_S, 80, 10);
 	int sp = strlen(entityHealth_S);
 
+	//Loop through all characters
 	for (int i = 0; i < sp; i++) {
 
+		//Assign a unique id to HUDObject based on character index
 		char *tName = (char*)malloc(sizeof(char) * 80);
 		_itoa_s(i, tName, 80, 10);
 
@@ -353,13 +358,16 @@ void Entity::DrawHealth()
 		objename += lHit_S;
 		objename += ".";
 
-
+		//Create a HUDObject
+		//Assign DamageNo.x
 		HUDObject ItemNo;
 		std::string itemno = "DamageNo.";
 		itemno += entityHealth_S[i];
 		ItemNo.sprites = &HUDElements[itemno];
 		objename += itemno;
 		ItemNo.e_ID = objename;
+
+		//Apply transitionUp animation
 		HUD_Animation<HUDObject> hanim;
 		hanim.RegisterHUDEffect(&ItemNo);
 		hanim.ApplyEffect(&ItemNo, HUD_ANIM_DMGNO_TransitionUp);

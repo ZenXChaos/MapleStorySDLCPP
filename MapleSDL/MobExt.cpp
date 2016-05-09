@@ -28,8 +28,8 @@ using namespace std;
 #include "Entity.hpp"
 
 
-	template<class T>
-	MOB_EXT::MobExt<T>* MOB_EXT::MobExt<T>::push(T e)
-	{
-		this->entities.insert(this->entities.end(), e);
-	}
+template<class T>
+MOB_EXT::MobExt<T>* MOB_EXT::MobExt<T>::push(T e)
+{
+	this->entities.insert(this->entities.end(), e);
+}

@@ -25,10 +25,8 @@ using namespace std;
 #include "Game.hpp"
 
 void SpawnManager::ManagePool(Uint32 tick) {
-	if (this->overridebusy == false)
-		SDL_SemWait(mainSpawnMGRLock);
+	if (this->overridebusy == false) {
 		this->lastSpawn = (tick / 1000) - lastSpawnIndex;
-		std::vector<Entity> mobl = this->spawned;
 		if (static_cast<size_t>(this->lastSpawn) > this->SpawnEvery && this->spawned.size() < this->maxSpawn || this->overridespawn) {
 			this->lastSpawnIndex = (tick / 1000);
 			this->SpawnMob();
@@ -37,8 +35,8 @@ void SpawnManager::ManagePool(Uint32 tick) {
 		else if (this->spawned.size() >= this->maxSpawn) {
 			this->lastSpawnIndex = (tick / 1000);
 		}
-		SDL_SemPost(mainSpawnMGRLock);
 	}
+}
 
 void SpawnManager::SpawnMob()
 {

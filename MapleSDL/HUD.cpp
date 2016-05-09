@@ -239,6 +239,7 @@ void HUD_TextBlock::AddWObject(std::string word)
 	}
 
 	this->mapping_wordcount[this->mapping_wordcount.size()] = i;
+	this->changed = true;
 }
 
 void HUD_TextBlock::DrawPanel(int x, int y)

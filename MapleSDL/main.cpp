@@ -44,6 +44,7 @@ using namespace std;
 
 bool mainRunning = true;
 SDL_sem* mainLock = nullptr;
+SDL_sem* gThread = nullptr;
 SDL_sem* mainSpawnMGRLock = nullptr;
 
 SpawnManager* defSpawnManager = nullptr;
@@ -88,6 +89,29 @@ void test4(void* context) {
 	printf("mouse leave\n");
 }
 
+		
+HUD_TextBlock tb;
+int HUDObjects(void* data) {
+	while (1) {
+		SDL_SemWait(gThread);
+		if (tb.changed) {
+			tb.width = 250;
+
+			tb.AddWObject("Thank");
+			tb.AddWObject("you");
+			tb.AddWObject("for");
+			tb.AddWObject("playing!");
+			tb.changed = false;
+		}
+		SDL_SemPost(gThread);
+
+		SDL_Delay(250);
+	}
+
+	return 1;
+}
+
+GameObject<Entity> gameEntities;
 int main(int argc, char* argv) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -105,10 +129,9 @@ int main(int argc, char* argv) {
 	bool running = true;
 	float frame = 0.0f;
 
-
 	//Initialize renderer color
 	SDL_SetRenderDrawColor(m_gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-
+	
 	//Initialize PNG loading
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags))
@@ -138,13 +161,6 @@ int main(int argc, char* argv) {
 	playerGameObjects.Find("default.player");
 
 	HUD_Button okbtn;
-	HUD_TextBlock tb;
-	tb.width = 250;
-
-	tb.AddWObject("Thank");
-	tb.AddWObject("you");
-	tb.AddWObject("for");
-	tb.AddWObject("playing!");
 	
 	game.SetMainPlayer(&entity);
 	game.LoadItemDrops(m_gRenderer);
@@ -224,13 +240,17 @@ int main(int argc, char* argv) {
 	okbtn.BindAction("mouseEnter", test3, nullptr);
 	okbtn.BindAction("mouseLeave", test4, nullptr);
 
+	gThread = SDL_CreateSemaphore(1);
+
 	SDL_CreateThread(CommandCentral::CommandMain, "LazyThread", nullptr);
+	SDL_CreateThread(HUDObjects, "LazyThread", nullptr);
 
 	SDL_ShowCursor(SDL_DISABLE);
 	mainLock = SDL_CreateSemaphore(1);
 	while (mainRunning) {
 		//Lock
 		SDL_SemWait(mainLock);
+		SDL_SemWait(gThread);
 		tick = SDL_GetTicks();
 		SDL_Event event;
 
@@ -257,7 +277,6 @@ int main(int argc, char* argv) {
 
 		//Clear screen
 		SDL_RenderClear(m_gRenderer);
-
 		SDL_Rect camMapPos = mapPos;
 		camMapPos.x -= MainCamera.pos.x;
 
@@ -299,7 +318,7 @@ int main(int argc, char* argv) {
 		npcGameObjects.Manage();
 		skillGameObjects.Manage();
 
-		tb.DrawPanel(200,10);
+		tb.DrawPanel(200, 10);
 
 		//HUD
 		//hudgrid.DrawPanel(10, 10);
@@ -316,6 +335,11 @@ int main(int argc, char* argv) {
 		SDL_Rect h_MousePose = mousePos;
 		h_MousePose.x += 35;
 		HumanoidPlayer.DrawParts(h_MousePose);
+
+		SDL_SemPost(gThread);
+		//SDL_Delay(50);
+		SDL_SemWait(gThread);
+		SDL_SemPost(gThread);
 		//Update screen
 		SDL_RenderPresent(m_gRenderer);
 

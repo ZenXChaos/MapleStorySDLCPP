@@ -32,6 +32,9 @@ public:
 	std::vector<std::string> layers;
 
 	void Instantiate(T* obj = nullptr, std::string layer = "default") {
+		if (obj == nullptr) {
+			return;
+		}
 		obj->OID = this->objects.size() + 1;
 		obj->UniqID = GameUtils::UniqID();
 		obj->LayerID = layer;
@@ -59,28 +62,45 @@ public:
 	void GameObject<T>::Manage()
 	{
 		std::for_each(begin(this->objects), end(this->objects), [&](T* object) {
+
+			if (object == nullptr) {
+				return;
+			}
 			if (!object->active) {
 				this->objects.erase(std::remove(this->objects.begin(), this->objects.end(), object));
 				return;
 			}
 			object->Core();
 
-
+			return;
 		});
 	}
 
 	int distanceFrom(T* obj) {
+		if (obj == nullptr) {
+			return -1;
+		}
 		return this->pos->x > obj->pos-> ? this->pos->x - obj->pos->x : obj->pos->x - this->pos->x;
 	}
 
 	T* Find(std::string UniqID)
 	{
+		//Search for an entity
+		//Loop through all objects
 		T* found = nullptr;
 		std::for_each(begin(this->objects), end(this->objects), [&](T* object) {
-			if (!object->active) {
-				this->objects.erase(std::remove(this->objects.begin(), this->objects.end(), object));
+			if (object == nullptr) {
+				return nullptr;
+				//Just in case?
+			}
+
+			//If the object is active
+			//If object UniqID is equal to searched ID
+			if (!object->active && object->uniq_id == UniqID) {
 				found = object;
 			}
+
+			return object;
 		});
 
 

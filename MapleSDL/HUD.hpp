@@ -97,6 +97,8 @@ public:
 class HUD_TextBlock {
 	std::map<int, int> mapping_wordcount; // So we know how many letters each word has in it.
 public:
+	bool changed = true;
+
 	enum TextWrapping {
 		WrapLetter, WrapWord
 	};

@@ -58,8 +58,11 @@ void AnimatedSprite::Animate(SDL_Rect pos, double angle, SDL_Point* center, SDL_
 	//Set clip rendering dimensions
 	if (this->texture != NULL)
 	{
+		//Set width of quad equal to animation frame size
 		renderQuad.w = this->animclips[static_cast<int>(this->current_frame)].w;
 		renderQuad.h = this->animclips[static_cast<int>(this->current_frame)].h;
+		
+		//Set animation (X,Y) offsets.
 		renderQuad.x = pos.x + xfactor;
 		renderQuad.y = pos.y + yfactor;
 
@@ -87,6 +90,7 @@ void AnimatedSprite::Animate(SDL_Rect pos, double angle, SDL_Point* center, SDL_
 
 void AnimatedSprite::BuildAnimation(int row, int cnt, int w, int h, float d = 0.1f)
 {
+	//Create sprite rects
 	for (int i = 0; i < cnt; i += 1) {
 		this->animclips[i].x = 0 + i * w;
 		this->animclips[i].y = row * h;
