@@ -46,6 +46,8 @@ Disclaimer: All content has been downloaded from MapleSimulator, and is perfectl
 
 > Exp Points
 
+> ItemDrop pickups / Inventory
+
 * Game Logic
 
 > Command Center: Console commands like '/forcespawn' and '/kill'.
