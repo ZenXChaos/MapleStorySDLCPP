@@ -6,6 +6,7 @@ class Player;
 class AnimatedSprite;
 class SpawnManager;
 class Skill;
+class GameItemDrop;
 template<class T> class GameObject;
 
 namespace GLOBAL_MMORPG_GAME {
@@ -101,6 +102,8 @@ namespace GLOBAL_MMORPG_GAME {
 }
 extern GameObject<Skill> skillGameObjects;
 extern GameObject<Entity> gameEntities;
+extern GameObject<GameItemDrop> gameItems; // Items dropped in map
+extern GameObject<GameItemDrop> gameItemDrops; // Items dropped in map
 #else
 #undef  MAIN_HANDLE
 namespace GLOBAL_MMORPG_GAME {

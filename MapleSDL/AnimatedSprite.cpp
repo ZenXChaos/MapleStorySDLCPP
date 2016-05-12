@@ -50,7 +50,7 @@ bool AnimatedSprite::LoadTexture(std::string path, SDL_Renderer* gRenderer)
 	return true;
 }
 
-void AnimatedSprite::Animate(SDL_Rect pos, double angle, SDL_Point* center, SDL_RendererFlip flip, SDL_Rect* frameData = nullptr)
+void AnimatedSprite::Animate(SDL_Rect pos, double angle, SDL_Point* center, SDL_RendererFlip flip, SDL_Rect* frameData)
 {
 	//Set rendering space and render to screen
 	SDL_Rect renderQuad = this->animclips[static_cast<int>(this->current_frame)];

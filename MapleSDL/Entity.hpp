@@ -8,7 +8,8 @@
 #include "RelativeSpace.hpp"
 #include "GameUtils.hpp"
 #include "Input.hpp"
-#include "MISC/ItemDrop.hpp"
+#include "ItemDrop.hpp"
+#include "Inventory.h"
 
 enum EntityState {
 	Idle = 0, Walking = 1, Attacking = 3, Recovery = 4, Death = 5, Chasing = 6
@@ -48,7 +49,7 @@ protected:
 	float tick = 0;
 	float recoveryIndex = 0.0f;
 	float lastAttack = 0.0f;
-	float attackRecovery = 0.05f;
+	float attackRecovery = 0.5f;
 
 	AnimatedSprite* currentAnimation;
 
@@ -125,7 +126,10 @@ public:
 	std::vector<Entity>* spawned;
 	std::vector<Entity*> inRange;
 
+	Inventory InventoryManager;
+
 	void IdentifyMobs();
+	void IdentifyItemDrops();
 	void AttackMob();
 
 	void Core() override;

@@ -17,9 +17,6 @@ class Game {
 	std::map<int, std::string> MOBS_MAPPING;
 	std::map<std::string, int> MOBS_MAPPINGSTRING;
 
-	std::map<std::string, GameItemDrop> gameItemDrops;
-	std::vector<GameItemDrop> mapItemDrops; // Items dropped in map
-
 	SDL_Renderer* mainRenderer;
 
 	Player* mainPlayer;

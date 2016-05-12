@@ -27,8 +27,8 @@ using namespace std;
 #include "GameUtils.hpp"
 #include "RelativeSpace.hpp"
 #include "AnimatedSprite.hpp"
-#include "MISC/ItemDrop.hpp"
 #include "GameObject.h"
+#include "ItemDrop.hpp"
 #include "Entity.hpp"
 #include "SpawnManager.hpp"
 #include "GameMap.hpp"
@@ -49,6 +49,8 @@ SDL_sem* mainSpawnMGRLock = nullptr;
 
 SpawnManager* defSpawnManager = nullptr;
 GameObject<Skill> skillGameObjects;
+GameObject<GameItemDrop> gameItems;
+GameObject<GameItemDrop> gameItemDrops;
 
 #undef main
 void HUD_ShowPlayerEXP()
@@ -335,11 +337,10 @@ int main(int argc, char* argv) {
 		SDL_Rect h_MousePose = mousePos;
 		h_MousePose.x += 35;
 		HumanoidPlayer.DrawParts(h_MousePose);
-
+		gameItemDrops.Manage();
 		SDL_SemPost(gThread);
 		//SDL_Delay(50);
-		SDL_SemWait(gThread);
-		SDL_SemPost(gThread);
+
 		//Update screen
 		SDL_RenderPresent(m_gRenderer);
 

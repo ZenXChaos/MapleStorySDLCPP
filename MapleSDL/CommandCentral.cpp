@@ -16,10 +16,10 @@ using namespace std;
 #include "GameUtils.hpp"
 #include "RelativeSpace.hpp"
 #include "AnimatedSprite.hpp"
-#include "MISC\ItemDrop.hpp"
+#include "GameObject.h"
+#include "ItemDrop.hpp"
 #include "HUD.hpp"
 #include "SpawnManager.hpp"
-#include "GameObject.h"
 #include "Entity.hpp"
 #include "Camera.hpp"
 #include "Map.h"
@@ -32,19 +32,17 @@ int CommandCentral::CommandMain(void* data)
 {
 	std::string cmmnd;
 	while (1) {
+		// Get console input
 		cin >> cmmnd;
 
+		//If command entered in console
 		if (cmmnd == "/kill") {
-			//Lock
-			SDL_SemWait(mainLock);
+			//Kill the game
 			mainRunning = false;
-			SDL_SemPost(mainLock);
 		}
 		else if (cmmnd == "/forcespawn") {
-
-			SDL_SemWait(mainSpawnMGRLock);
+			//Force a mob to spawn
 			defSpawnManager->SpawnMob_Safe();
-			SDL_SemPost(mainSpawnMGRLock);
 		}
 	}
 	return 1;

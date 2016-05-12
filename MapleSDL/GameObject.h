@@ -10,6 +10,7 @@ public:
 	bool active = true;
 
 	Uint32 OID = 0;
+
 	std::string UniqID = "";
 	std::string LayerID = "default";
 
@@ -90,17 +91,65 @@ public:
 		T* found = nullptr;
 		std::for_each(begin(this->objects), end(this->objects), [&](T* object) {
 			if (object == nullptr) {
-				return nullptr;
+				return 0;
 				//Just in case?
 			}
 
 			//If the object is active
 			//If object UniqID is equal to searched ID
-			if (!object->active && object->uniq_id == UniqID) {
+			if (object->active && object->uniq_id == UniqID) {
 				found = object;
 			}
 
-			return object;
+			return 0;
+		});
+
+
+		return found;
+	}
+
+	T* FindByID(Uint32 ID)
+	{
+		//Search for an entity
+		//Loop through all objects
+		T* found = nullptr;
+		std::for_each(begin(this->objects), end(this->objects), [&](T* object) {
+			if (object == nullptr) {
+				return 0;
+				//Just in case?
+			}
+
+			//If the object is active
+			//If object UniqID is equal to searched ID
+			if (object->active && object->i_ID == ID) {
+				found = object;
+			}
+
+			return 0;
+		});
+
+
+		return found;
+	}
+
+	T* FindByName(std::string name)
+	{
+		//Search for an entity
+		//Loop through all objects
+		T* found = nullptr;
+		std::for_each(begin(this->objects), end(this->objects), [&](T* object) {
+			if (object == nullptr) {
+				return 0;
+				//Just in case?
+			}
+
+			//If the object is active
+			//If object UniqID is equal to searched ID
+			if (object->active && object->i_Name == name) {
+				found = object;
+			}
+
+			return 0;
 		});
 
 

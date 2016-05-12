@@ -165,10 +165,11 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="ItemDrop.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MessageDispatch.cpp" />
-    <ClCompile Include="MISC\ItemDrop.cpp" />
     <ClCompile Include="MobExt.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Skill.cpp" />
@@ -194,9 +195,10 @@
     <ClInclude Include="HelperFunctions.hpp" />
     <ClInclude Include="HUD.hpp" />
     <ClInclude Include="Input.hpp" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="ItemDrop.hpp" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MessageDispatch.hpp" />
-    <ClInclude Include="MISC\ItemDrop.hpp" />
     <ClInclude Include="MobExt.hpp" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="RelativeSpace.hpp" />

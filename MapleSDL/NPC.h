@@ -15,7 +15,7 @@ using namespace std;
 #include "GameUtils.hpp"
 #include "RelativeSpace.hpp"
 #include "AnimatedSprite.hpp"
-#include "MISC\ItemDrop.hpp"
+#include "ItemDrop.hpp"
 #include "HUD.hpp"
 #include "GameObject.h"
 #include "Entity.hpp"

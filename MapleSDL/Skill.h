@@ -1,7 +1,7 @@
 #pragma once
 class Skill : public GAMEObject
 {
-	SDL_Rect* bindedEffectPos = nullptr;
+	SDL_Rect bindedEffectPos = { 0 };
 public:
 	Entity* target;
 	AnimatedSprite sprite;
@@ -10,15 +10,15 @@ public:
 
 	void BindEntity(Player* p) {
 		target = &(*p);
-		this->BindEffectPos(&this->target->pos);
+		this->BindEffectPos(this->target->pos);
 	}
 
 	void BindEntity(Entity* e) {
 		target = e;
-		this->BindEffectPos(&this->target->pos);
+		this->BindEffectPos(this->target->pos);
 	}
 
-	void BindEffectPos(SDL_Rect* pos) {
+	void BindEffectPos(SDL_Rect pos) {
 		this->bindedEffectPos = pos;
 	}
 

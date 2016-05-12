@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <algorithm>
 #include "GameDebug.hpp"
 #include "Global.h"
 
@@ -15,7 +16,8 @@ using namespace std;
 #include "GameUtils.hpp"
 #include "RelativeSpace.hpp"
 #include "AnimatedSprite.hpp"
-#include "MISC\ItemDrop.hpp"
+#include "GameObject.h"
+#include "ItemDrop.hpp"
 #include "HUD.hpp"
 #include "GameObject.h"
 #include "Entity.hpp"
@@ -313,6 +315,14 @@ void Player::IdentifyMobs() {
 	}
 }
 
+void Player::IdentifyItemDrops() {
+	//for(size_t i = 0; i < )
+
+	std::for_each(begin(gameItemDrops.objects), begin(gameItemDrops.objects), [&](auto& drop) {
+
+	});
+}
+
 void Entity::TakeHit() {
 	// Take damage
 	this->State = EntityState::Recovery;
@@ -495,6 +505,9 @@ void Entity::Kill() {
 void Player::AttackMob() {
 	// Atack the closest mob
 	Entity* tmpE = this->closestMob;
+	if (tmpE == nullptr) {
+		return;
+	}
 	tmpE->dispatch_message.RegisterMessage("IsHit", &IsHit, this->closestMob);
 	this->attacking = true;
 
@@ -503,6 +516,9 @@ void Player::AttackMob() {
 	(*sk).sprite = HUDElements["mage.skill.mageclaw"];
 	(*sk).BindEntity(tmpE);
 	skillGameObjects.Instantiate(sk);
+
+	printf("Mob hit with claw: %s\n", tmpE->uniq_id.c_str());
+	this->closestMob = nullptr;
 }
 
 
@@ -521,10 +537,11 @@ void Player::Core()
 		else {
 
 			// After animation is at least 60% complete, attack the mob.
-			if (this->currentAnimation->percentComplete() >= 60.0f && attacking == false) {
+			if (attacking == false) {
 				if (this->closestMob != nullptr) {
 					if ((this->FaceDirection == SDL_FLIP_NONE && this->closestMob->GetPositionX() < this->pos.x) || (this->FaceDirection == SDL_FLIP_HORIZONTAL && this->closestMob->GetPositionX() > this->pos.x + this->pos.w / 3)) {
 						this->AttackMob();
+						this->closestMob = nullptr;
 					}
 				}
 			}

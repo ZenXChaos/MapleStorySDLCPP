@@ -21,7 +21,7 @@ using namespace std;
 #include "GameUtils.hpp"
 #include "RelativeSpace.hpp"
 #include "AnimatedSprite.hpp"
-#include "MISC/ItemDrop.hpp"
+#include "ItemDrop.hpp"
 #include "Game.hpp"
 
 void SpawnManager::ManagePool(Uint32 tick) {

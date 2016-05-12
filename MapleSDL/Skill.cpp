@@ -15,7 +15,8 @@ using namespace std;
 #include "GameUtils.hpp"
 #include "RelativeSpace.hpp"
 #include "AnimatedSprite.hpp"
-#include "MISC\ItemDrop.hpp"
+#include "GameObject.h"
+#include "ItemDrop.hpp"
 #include "HUD.hpp"
 #include "GameObject.h"
 #include "Entity.hpp"
@@ -27,8 +28,8 @@ using namespace std;
 void Skill::Draw(SDL_Rect pos)
 {
 	// Always add bindedPos position offset to skill local position.
-	pos.x += this->bindedEffectPos->x;
-	pos.y += this->bindedEffectPos->y;
+	pos.x += this->bindedEffectPos.x;
+	pos.y += this->bindedEffectPos.y;
 
 	// Animate the Skill's sprite
 	this->sprite.Animate(pos, 0, NULL, SDL_FLIP_NONE, nullptr);
