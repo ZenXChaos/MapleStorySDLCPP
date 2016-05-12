@@ -318,9 +318,23 @@ void Player::IdentifyMobs() {
 void Player::IdentifyItemDrops() {
 	//for(size_t i = 0; i < )
 
-	std::for_each(begin(gameItemDrops.objects), begin(gameItemDrops.objects), [&](auto& drop) {
+	std::vector<GameItemDrop> itemsInRange;
+	for (size_t i = 0; i < gameItems.objects.size(); i++) {
+		GameItemDrop* drop = new GameItemDrop();
+		if (i >= gameItems.objects.size()) {
+			return;
+		}
+		else {
+			if (playerInput->IsKeyPressed(SDL_SCANCODE_Z) && gameItems.objects.at(i)->active == true) {
+				memcpy(drop, gameItems.objects.at(i), sizeof(gameItems.objects.at(i)));
+				drop->sprite = gameItems.objects.at(i)->sprite;
 
-	});
+				this->InventoryManager.Items.insert(this->InventoryManager.Items.end(), *drop);
+				gameItems.objects.erase(gameItems.objects.begin()+i);
+			}
+			drop->active = true;
+		}
+	}
 }
 
 void Entity::TakeHit() {
@@ -526,6 +540,7 @@ void Player::Core()
 {
 	// MAIN PLAYER HANDLE
 
+	IdentifyItemDrops();
 	// If player is attacking.
 	if (this->State == EntityState::Attacking) {
 

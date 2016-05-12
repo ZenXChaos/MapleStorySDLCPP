@@ -202,7 +202,7 @@ void Game::ManageMobPool() {
 
 void Game::ManageMapObjects() {
 	//Show Drops
-	std::for_each(begin(gameItemDrops.objects), end(gameItemDrops.objects), [](auto& drop) -> void {
+	std::for_each(begin(gameItems.objects), end(gameItems.objects), [](auto& drop) -> void {
 		GameItemDrop* dp = drop;
 
 		if (dp == nullptr) {

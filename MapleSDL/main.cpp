@@ -51,6 +51,7 @@ SpawnManager* defSpawnManager = nullptr;
 GameObject<Skill> skillGameObjects;
 GameObject<GameItemDrop> gameItems;
 GameObject<GameItemDrop> gameItemDrops;
+GameObject<GameItemDrop> mapItemDrops;
 
 #undef main
 void HUD_ShowPlayerEXP()
@@ -155,7 +156,10 @@ int main(int argc, char* argv) {
 	GameObject<Player> playerGameObjects;
 	GameObject<NPC> npcGameObjects;
 
-	npcGameObjects.Instantiate(new NPC);
+	NPC* nPC = new NPC();
+	nPC->pos.y = 210;
+
+	npcGameObjects.Instantiate(nPC);
 
 	
 

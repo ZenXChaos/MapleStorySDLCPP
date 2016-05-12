@@ -43,7 +43,8 @@ void GameItemDropProvider::DropItems(SDL_Rect pos) {
 
 		//Generate random number, if less than chance rate, drop item
 		if (GameUtils::RandomIntegerRange(0, 100) <= rate) {
-			gameItemDrops.Instantiate(gid);
+			gameItems.Instantiate(gid);
+
 		}
 	}
 }
